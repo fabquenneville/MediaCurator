@@ -52,7 +52,9 @@ def main():
                 folder = str(video)[:str(video).rindex("/") + 1]
                 oldfilename = str(video)[str(video).rindex("/") + 1:]
                 newfilename = oldfilename[:-4] + ".mkv"
-
+                if oldfilename == newfilename:
+                    newfilename = oldfilename[:-4] + " - new.mkv"
+                
                 print(f"***********   converting {oldfilename} to {newfilename}   ***********")
                 try:
                     if convert(folder + oldfilename, folder + newfilename):
@@ -69,6 +71,8 @@ def main():
                     folder = str(video)[:str(video).rindex("/") + 1]
                     oldfilename = str(video)[str(video).rindex("/") + 1:]
                     newfilename = oldfilename[:-4] + ".mkv"
+                    if oldfilename == newfilename:
+                        newfilename = oldfilename[:-4] + " - new.mkv"
 
                     counter += 1
                     print(f"***********   convert {counter} of {len(videolist)}   ***********")
