@@ -127,7 +127,7 @@ def get_codec(filename):
 
 def convert(oldfilename, newfilename):
     oldsize = size(Path(oldfilename).stat().st_size)
-    print(f"Starting conversion of {oldfilename}({oldsize}) ...")
+    print(f"Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} ...")
 
     # Preparing ffmpeg command and input file
     args = ['/usr/bin/ffmpeg', '-i', oldfilename]
