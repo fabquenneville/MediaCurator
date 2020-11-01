@@ -109,6 +109,9 @@ def get_videolist(parentdir):
         videolist += get_mkv_list(path)
     if "-all_mp4" in sys.argv or "-any" in sys.argv:
         videolist += get_mp4_list(path)
+    if "-all_mp4" in sys.argv or "-any" in sys.argv:
+        videolist += get_mp4_list(path)
+    
     
     videolist_tmp = videolist
     videolist = [video for video in videolist_tmp if video.is_file()]
@@ -146,7 +149,10 @@ def convert(oldfilename, newfilename):
 
     #args = ['/usr/bin/ffmpeg', '-i', oldfilename, newfilename]
     try:
-        txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        if "-verbose" in sys.argv:
+            subprocess.call(args)
+        else:
+            txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
         print(f"Conversion failed {e}")
         return False
