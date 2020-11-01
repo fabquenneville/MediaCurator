@@ -7,11 +7,11 @@
 
 import sys
 import os
+import subprocess
 from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
 
-from subprocess import check_output, STDOUT, CalledProcessError
 
 
 
@@ -58,6 +58,7 @@ def main():
                 print(f"***********   converting {oldfilename} to {newfilename}   ***********")
                 try:
                     if convert(folder + oldfilename, folder + newfilename):
+                        subprocess.call(['chmod', '777', folder + newfilename])
                         if "-del" in sys.argv:
                             delete(folder + oldfilename)
                 except:
@@ -123,8 +124,8 @@ def get_old(videolist_temp):
 def get_codec(filename):
     try:
         args = ["/usr/bin/ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
-        output = check_output(args, stderr=STDOUT)
-    except CalledProcessError:
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
         print(f"There seams to be an error with {filename}")
         return False
     return output.decode().strip()
@@ -145,8 +146,8 @@ def convert(oldfilename, newfilename):
 
     #args = ['/usr/bin/ffmpeg', '-i', oldfilename, newfilename]
     try:
-        txt = check_output(args, stderr=STDOUT)
-    except CalledProcessError as e:
+        txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
         print(f"Conversion failed {e}")
         return False
     else:
