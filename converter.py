@@ -53,7 +53,7 @@ def main():
                 oldfilename = str(video)[str(video).rindex("/") + 1:]
                 newfilename = oldfilename[:-4] + ".mkv"
                 if oldfilename == newfilename:
-                    newfilename = oldfilename[:-4] + " - new.mkv"
+                    newfilename = oldfilename[:-4] + "[HEVC]"
                 
                 print(f"***********   converting {oldfilename} to {newfilename}   ***********")
                 try:
@@ -72,7 +72,7 @@ def main():
                     oldfilename = str(video)[str(video).rindex("/") + 1:]
                     newfilename = oldfilename[:-4] + ".mkv"
                     if oldfilename == newfilename:
-                        newfilename = oldfilename[:-4] + " - new.mkv"
+                        newfilename = oldfilename[:-4] + "[HEVC]"
 
                     counter += 1
                     print(f"***********   convert {counter} of {len(videolist)}   ***********")
