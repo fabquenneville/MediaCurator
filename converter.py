@@ -98,6 +98,12 @@ def get_mkv_list(path):
 def get_mp4_list(path):
     return list(path.rglob("*.[mM][pP]4"))
 
+def get_m4v_list(path):
+    return list(path.rglob("*.[mM]4[vV]"))
+
+def get_flv_list(path):
+    return list(path.rglob("*.[fF][lL][vV]"))
+
 def get_videolist(parentdir):
     videolist = []
     path = Path(parentdir)
@@ -109,8 +115,10 @@ def get_videolist(parentdir):
         videolist += get_mkv_list(path)
     if "-all_mp4" in sys.argv or "-any" in sys.argv:
         videolist += get_mp4_list(path)
-    if "-all_mp4" in sys.argv or "-any" in sys.argv:
-        videolist += get_mp4_list(path)
+    if "-all_m4v" in sys.argv or "-any" in sys.argv:
+        videolist += get_m4v_list(path)
+    if "-all_flv" in sys.argv or "-any" in sys.argv:
+        videolist += get_flv_list(path)
     
     
     videolist_tmp = videolist
@@ -118,11 +126,20 @@ def get_videolist(parentdir):
 
     if "-old" in sys.argv:
         videolist = get_old(videolist)
+
+    if "-mpeg4" in sys.argv:
+        videolist = get_mpeg4(videolist)
         
     return videolist
 
 def get_old(videolist_temp):
     return [video for video in videolist_temp if get_codec(video) not in ["hevc", "av1"]]
+
+def get_mpeg4(videolist_temp):
+    return [video for video in videolist_temp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
+
+def get_mpeg4(videolist_temp):
+    return [video for video in videolist_temp if get_codec(video) in ["mpeg4"]]
 
 def get_codec(filename):
     try:
