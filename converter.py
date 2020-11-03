@@ -129,6 +129,12 @@ def get_videolist(parentdir):
 
     if "-mpeg4" in sys.argv:
         videolist = get_mpeg4(videolist)
+
+    if "-wmv3" in sys.argv:
+        videolist = get_wmv3(videolist)
+
+    if "-x264" in sys.argv:
+        videolist = get_x264(videolist)
         
     return videolist
 
@@ -138,8 +144,11 @@ def get_old(videolist_temp):
 def get_mpeg4(videolist_temp):
     return [video for video in videolist_temp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
 
-def get_mpeg4(videolist_temp):
-    return [video for video in videolist_temp if get_codec(video) in ["mpeg4"]]
+def get_wmv3(videolist_temp):
+    return [video for video in videolist_temp if get_codec(video) in ["wmv3"]]
+
+def get_x264(videolist_temp):
+    return [video for video in videolist_temp if get_codec(video) in ["x264"]]
 
 def get_codec(filename):
     try:
