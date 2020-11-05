@@ -8,14 +8,19 @@
 import sys
 import os
 import subprocess
+import distro
 from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
 
 
-
-
 def main():
+    ffmpeg_version = detect_ffmpeg()
+    if not ffmpeg_version:
+        print("No ffmpeg version detected")
+        exit()
+    print(f"ffmpeg installed: {ffmpeg_version}")
+    
     if len(sys.argv) >= 2:
         if sys.argv[1] == "list":
             if "-file" in sys.argv:
@@ -85,74 +90,51 @@ def main():
                         delete(folder + newfilename)
                         return False
 
-
-def get_wmv_list(path):
-    return list(path.rglob("*.[wW][mM][vV]"))
-
-def get_avi_list(path):
-    return list(path.rglob("*.[aA][vV][iI]"))
-
-def get_mkv_list(path):
-    return list(path.rglob("*.[mM][kK][vV]"))
-
-def get_mp4_list(path):
-    return list(path.rglob("*.[mM][pP]4"))
-
-def get_m4v_list(path):
-    return list(path.rglob("*.[mM]4[vV]"))
-
-def get_flv_list(path):
-    return list(path.rglob("*.[fF][lL][vV]"))
-
 def get_videolist(parentdir):
+    print(f"Scanning files in {parentdir} for videos")
     videolist = []
     path = Path(parentdir)
     if "-all_wmv" in sys.argv or "-any" in sys.argv:
-        videolist += get_wmv_list(path)
+        videolist += list(path.rglob("*.[wW][mM][vV]"))
     if "-all_avi" in sys.argv or "-any" in sys.argv:
-        videolist += get_avi_list(path)
+        videolist += list(path.rglob("*.[aA][vV][iI]"))
     if "-all_mkv" in sys.argv or "-any" in sys.argv:
-        videolist += get_mkv_list(path)
+        videolist += list(path.rglob("*.[mM][kK][vV]"))
     if "-all_mp4" in sys.argv or "-any" in sys.argv:
-        videolist += get_mp4_list(path)
+        videolist += list(path.rglob("*.[mM][pP]4"))
     if "-all_m4v" in sys.argv or "-any" in sys.argv:
-        videolist += get_m4v_list(path)
+        videolist += list(path.rglob("*.[mM]4[vV]"))
     if "-all_flv" in sys.argv or "-any" in sys.argv:
-        videolist += get_flv_list(path)
+        videolist += list(path.rglob("*.[fF][lL][vV]"))
     
     
+    # Remove folders
     videolist_tmp = videolist
     videolist = [video for video in videolist_tmp if video.is_file()]
 
+    # Filter the list for specifi codecs
+    videolist_tmp = videolist
+    print(f"Filtering {len(videolist)} videos for the requested parameters")
+
     if "-old" in sys.argv:
-        videolist = get_old(videolist)
+        videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
 
     if "-mpeg4" in sys.argv:
-        videolist = get_mpeg4(videolist)
+        videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
 
     if "-wmv3" in sys.argv:
-        videolist = get_wmv3(videolist)
+        videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]
 
     if "-x264" in sys.argv:
-        videolist = get_x264(videolist)
+        videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
+    print(f"Found {len(videolist)} videos for the requested parameters")
     return videolist
 
-def get_old(videolist_temp):
-    return [video for video in videolist_temp if get_codec(video) not in ["hevc", "av1"]]
-
-def get_mpeg4(videolist_temp):
-    return [video for video in videolist_temp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
-
-def get_wmv3(videolist_temp):
-    return [video for video in videolist_temp if get_codec(video) in ["wmv3"]]
-
-def get_x264(videolist_temp):
-    return [video for video in videolist_temp if get_codec(video) in ["x264"]]
 
 def get_codec(filename):
     try:
-        args = ["/usr/bin/ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
+        args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         print(f"There seams to be an error with {filename}")
@@ -164,7 +146,7 @@ def convert(oldfilename, newfilename):
     print(f"Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} ...")
 
     # Preparing ffmpeg command and input file
-    args = ['/usr/bin/ffmpeg', '-i', oldfilename]
+    args = ['ffmpeg', '-i', oldfilename]
 
     # conversion options
     args += ['-c:v', 'libx265']
@@ -173,7 +155,7 @@ def convert(oldfilename, newfilename):
     # conversion output
     args += [newfilename]
 
-    #args = ['/usr/bin/ffmpeg', '-i', oldfilename, newfilename]
+    #args = ['ffmpeg', '-i', oldfilename, newfilename]
     try:
         if "-verbose" in sys.argv:
             subprocess.call(args)
@@ -198,6 +180,13 @@ def delete(filename):
 
     print(f"Deleted {filename}")
     return True
+
+def detect_ffmpeg():
+    try:
+        txt = subprocess.check_output(['ffmpeg', '-version'], stderr=subprocess.STDOUT).decode()
+        return txt.partition('\n')[0]
+    except:
+        return False
 
 if __name__ == '__main__':
     main()
