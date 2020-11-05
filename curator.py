@@ -22,9 +22,9 @@ from hurry.filesize import size
 def main():
     ffmpeg_version = detect_ffmpeg()
     if not ffmpeg_version:
-        print("No ffmpeg version detected")
+        print(f"{bcolors.FAIL}No ffmpeg version detected{bcolors.ENDC}")
         exit()
-    print(f"ffmpeg installed: {ffmpeg_version}")
+    print(f"{bcolors.OKBLUE}ffmpeg installed: {ffmpeg_version}{bcolors.ENDC}")
     
     if len(sys.argv) >= 2:
         # Get command parameters
@@ -54,7 +54,7 @@ def main():
                 for video in videolist:
                     print(f"{get_codec(video)} - {video}")
             else:
-                print("Missing directory: ")
+                print(f"{bcolors.FAIL}Missing directory: {bcolors.ENDC}")
         elif sys.argv[1] == "test":
             if any("-file" in argv for argv in sys.argv):
                 pass
@@ -62,21 +62,34 @@ def main():
                 print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
                 exit()
             else:
-                print("Missing directory: ")
+                print("{bcolors.FAIL}Missing directory: {bcolors.ENDC}")
 
             
         elif sys.argv[1] == "convert":
+            if "av1" in outputs:
+                codec = "av1"
+            else:
+                codec = "x265"
             if any("-file" in argv for argv in sys.argv):
                 video = sys.argv[sys.argv.index("-file") + 1]
                 folder = str(video)[:str(video).rindex("/") + 1]
                 oldfilename = str(video)[str(video).rindex("/") + 1:]
-                newfilename = oldfilename[:-4] + ".mkv"
+
+                # Setting new filename
+                if "mp4" in outputs:
+                    newfilename = oldfilename[:-4] + ".mp4"
+                else:
+                    newfilename = oldfilename[:-4] + ".mkv"
+                
+                # Modding the filename if same as original
                 if oldfilename == newfilename:
                     newfilename = oldfilename[:-4] + "[HEVC]"
                 
-                print(f"***********   converting {oldfilename} to {newfilename}   ***********")
+
+                
+                print(f"{bcolors.OKBLUE}***********   converting {oldfilename} to {newfilename} ({codec})  ***********{bcolors.ENDC}")
                 try:
-                    if convert(folder + oldfilename, folder + newfilename):
+                    if convert(folder + oldfilename, folder + newfilename, codec):
                         subprocess.call(['chmod', '777', folder + newfilename])
                         if "-del" in sys.argv:
                             delete(folder + oldfilename)
@@ -96,9 +109,9 @@ def main():
                         newfilename = oldfilename[:-4] + "[HEVC]"
 
                     counter += 1
-                    print(f"***********   convert {counter} of {len(videolist)}   ***********")
+                    print(f"{bcolors.OKBLUE}***********   convert {counter} of {len(videolist)}   ***********{bcolors.ENDC}")
                     try:
-                        if convert(folder + oldfilename, folder + newfilename):
+                        if convert(folder + oldfilename, folder + newfilename, codec):
                             if "-del" in sys.argv:
                                 delete(folder + oldfilename)
                     except:
@@ -106,7 +119,7 @@ def main():
                         return False
 
 def get_videolist(parentdir, inputs = ["any"], filters = []):
-    print(f"Scanning files in {parentdir} for videos")
+    print(f"{bcolors.OKGREEN}Scanning files in {parentdir} for videos{bcolors.ENDC}")
     videolist = []
 
     path = Path(parentdir)
@@ -132,7 +145,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
 
     # Filter the list for specifi codecs
     videolist_tmp = videolist
-    print(f"Filtering {len(videolist)} videos for the requested parameters")
+    print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     if len(filters) > 0:
         videolist = []
 
@@ -151,7 +164,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
         if "x264" in filters:
             videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
-    print(f"Found {len(videolist)} videos for the requested parameters")
+    print(f"{bcolors.OKGREEN}Found {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     return videolist
 
 
@@ -160,20 +173,23 @@ def get_codec(filename):
         args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
-        print(f"There seams to be an error with {filename}")
+        print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
     return output.decode().strip()
 
-def convert(oldfilename, newfilename):
+def convert(oldfilename, newfilename, codec = "x265"):
     oldsize = size(Path(oldfilename).stat().st_size)
-    print(f"Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} ...")
+    print(f"{bcolors.OKBLUE}Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} to {codec}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
     args = ['ffmpeg', '-i', oldfilename]
 
     # conversion options
-    args += ['-c:v', 'libx265']
-    args += ['-max_muxing_queue_size', '1000']
+    if codec == "av1":
+        args += ['-c:v', 'libaom-av1', '-strict', 'experimental']
+    else:
+        args += ['-c:v', 'libx265']
+        args += ['-max_muxing_queue_size', '1000']
 
     # conversion output
     args += [newfilename]
@@ -185,23 +201,23 @@ def convert(oldfilename, newfilename):
         else:
             txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
-        print(f"Conversion failed {e}")
+        print(f"{bcolors.FAIL}Conversion failed {e}{bcolors.ENDC}")
         return False
     else:
         newsize = size(Path(newfilename).stat().st_size)
         oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
         newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-        print(f"Converted {oldfilename}({oldsize}) to {newfilename}({newsize}) successfully")
+        print(f"{bcolors.OKGREEN}Converted {oldfilename}({oldsize}) to {newfilename}({newsize}) successfully{bcolors.ENDC}")
         return True
 
 def delete(filename):
     try:
         os.remove(filename)
     except OSError:
-        print(f"Error deleting {filename}")
+        print(f"{bcolors.FAIL}Error deleting {filename}{bcolors.ENDC}")
         return False
 
-    print(f"Deleted {filename}")
+    print(f"{bcolors.OKGREEN}Deleted {filename}{bcolors.ENDC}")
     return True
 
 def detect_ffmpeg():
@@ -211,5 +227,16 @@ def detect_ffmpeg():
     except:
         return False
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    
 if __name__ == '__main__':
     main()

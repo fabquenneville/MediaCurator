@@ -17,12 +17,18 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-./converter.py [list,convert] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv] [-filters:old,mpeg,mpeg4,x264,wmv3,wmv] [-dir/-file:/mnt/media/]
+./curator.py [list,convert] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv] [-filters:old,mpeg,mpeg4,x264,wmv3,wmv] [-out:mkv/mp4,x265/av1] [-dir/-file:/mnt/media/]
+default options are:
+-in:any
+-filters:
+-out:mkv,x265
+
 ```bash
-./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
-./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
-./converter.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
+./curator.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
+./curator.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
+./curator.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
 ```
+
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
