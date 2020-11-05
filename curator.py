@@ -115,12 +115,16 @@ def get_videolist(parentdir):
     # Filter the list for specifi codecs
     videolist_tmp = videolist
     print(f"Filtering {len(videolist)} videos for the requested parameters")
+    videolist = []
 
     if "-old" in sys.argv:
         videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
 
-    if "-mpeg4" in sys.argv:
+    if "-mpeg4" in sys.argv or "-mpeg" in sys.argv:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
+
+    if "-mpeg" in sys.argv:
+        videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg1video"]]
 
     if "-wmv3" in sys.argv:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]

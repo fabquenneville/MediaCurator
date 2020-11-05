@@ -6,7 +6,7 @@ MediaCurator is a Python command line tool to manage a media database.
 
 ## Installation
 
-This package will only work on Linux and requires FFMPEG installed. For now it will be distributed on github on [GitHub](https://github.com/fabquenneville/MediaCurator.git)
+This package will only work on Linux and requires FFMPEG installed. For now it will be distributed on [GitHub](https://github.com/fabquenneville/MediaCurator.git)
 
 Installation:
 ```bash
