@@ -130,7 +130,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     print(f"Filtering {len(videolist)} videos for the requested parameters")
     videolist = []
 
-    if "old" in filters:
+    if "old" in filters or len(filters) < 1:
         videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
 
     if "mpeg4" in filters or "mpeg" in filters:
