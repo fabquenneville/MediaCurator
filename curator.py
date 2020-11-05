@@ -128,22 +128,23 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     # Filter the list for specifi codecs
     videolist_tmp = videolist
     print(f"Filtering {len(videolist)} videos for the requested parameters")
-    videolist = []
+    if len(filters) > 0:
+        videolist = []
 
-    if "old" in filters or len(filters) < 1:
-        videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
+        if "old" in filters:
+            videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
 
-    if "mpeg4" in filters or "mpeg" in filters:
-        videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
+        if "mpeg4" in filters or "mpeg" in filters:
+            videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
 
-    if "mpeg" in filters:
-        videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg1video"]]
+        if "mpeg" in filters:
+            videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg1video"]]
 
-    if "wmv3" in filters or "wmv" in filters:
-        videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]
+        if "wmv3" in filters or "wmv" in filters:
+            videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]
 
-    if "x264" in filters:
-        videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
+        if "x264" in filters:
+            videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
     print(f"Found {len(videolist)} videos for the requested parameters")
     return videolist
