@@ -22,37 +22,46 @@ def main():
     print(f"ffmpeg installed: {ffmpeg_version}")
     
     if len(sys.argv) >= 2:
+        # Get command parameters
+        directories = []
+        inputs = []
+        filters = []
+        outputs = []
+        for arg in sys.argv:
+            if "-in:" in arg:
+                inputs += arg[4:].split(",")
+            elif "-filters:" in arg:
+                filters += arg[9:].split(",")
+            elif "-out:" in arg:
+                outputs += arg[5:].split(",")
+            elif "-dir:" in arg:
+                directories += arg[5:].split(",")
+        
+
         if sys.argv[1] == "list":
-            if "-file" in sys.argv:
+            if any("-file" in argv for argv in sys.argv):
                 pass
-            elif "-dir" in sys.argv:
-                directory = sys.argv[sys.argv.index("-dir") + 1]
-                videolist = get_videolist(directory)
+            elif any("-dir" in argv for argv in sys.argv):
+                videolist = []
+                #directory = sys.argv[sys.argv.index("-dir") + 1]
+                for directory in directories:
+                    videolist += get_videolist(directory, inputs, filters)
                 for video in videolist:
                     print(f"{get_codec(video)} - {video}")
             else:
                 print("Missing directory: ")
         elif sys.argv[1] == "test":
-            if "-file" in sys.argv:
+            if any("-file" in argv for argv in sys.argv):
                 pass
-            elif "-dir" in sys.argv:
-                directory = sys.argv[sys.argv.index("-dir") + 1]
-                videolist = get_videolist(directory)
-                video = videolist[0]
-
-                folder = str(video)[:str(video).rindex("/") + 1]
-                oldfilename = str(video)[str(video).rindex("/") + 1:]
-                newfilename = oldfilename[:-4] + ".mkv"
-
-                if convert(folder + oldfilename, folder + newfilename):
-                    if "-del" in sys.argv:
-                        delete(folder + oldfilename)
+            elif any("-dir" in argv for argv in sys.argv):
+                print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
+                exit()
             else:
                 print("Missing directory: ")
 
             
         elif sys.argv[1] == "convert":
-            if "-file" in sys.argv:
+            if any("-file" in argv for argv in sys.argv):
                 video = sys.argv[sys.argv.index("-file") + 1]
                 folder = str(video)[:str(video).rindex("/") + 1]
                 oldfilename = str(video)[str(video).rindex("/") + 1:]
@@ -69,9 +78,10 @@ def main():
                 except:
                     delete(folder + newfilename)
                     return False
-            elif "-dir" in sys.argv:
-                directory = sys.argv[sys.argv.index("-dir") + 1]
-                videolist = get_videolist(directory)
+            elif any("-dir" in argv for argv in sys.argv):
+                videolist = []
+                for directory in directories:
+                    videolist += get_videolist(directory, inputs, filters)
                 counter = 0
                 for video in videolist:
                     folder = str(video)[:str(video).rindex("/") + 1]
@@ -90,22 +100,25 @@ def main():
                         delete(folder + newfilename)
                         return False
 
-def get_videolist(parentdir):
+def get_videolist(parentdir, inputs = ["any"], filters = []):
     print(f"Scanning files in {parentdir} for videos")
     videolist = []
+
     path = Path(parentdir)
-    if "-all_wmv" in sys.argv or "-any" in sys.argv:
+    if "wmv" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[wW][mM][vV]"))
-    if "-all_avi" in sys.argv or "-any" in sys.argv:
+    if "avi" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[aA][vV][iI]"))
-    if "-all_mkv" in sys.argv or "-any" in sys.argv:
+    if "mkv" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[mM][kK][vV]"))
-    if "-all_mp4" in sys.argv or "-any" in sys.argv:
+    if "mp4" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[mM][pP]4"))
-    if "-all_m4v" in sys.argv or "-any" in sys.argv:
+    if "m4v" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[mM]4[vV]"))
-    if "-all_flv" in sys.argv or "-any" in sys.argv:
+    if "flv" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[fF][lL][vV]"))
+    if "mpg" in inputs or "any" in inputs or len(inputs) < 1:
+        videolist += list(path.rglob("*.[mM][pP][gG]"))
     
     
     # Remove folders
@@ -117,19 +130,19 @@ def get_videolist(parentdir):
     print(f"Filtering {len(videolist)} videos for the requested parameters")
     videolist = []
 
-    if "-old" in sys.argv:
+    if "old" in filters:
         videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
 
-    if "-mpeg4" in sys.argv or "-mpeg" in sys.argv:
+    if "mpeg4" in filters or "mpeg" in filters:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
 
-    if "-mpeg" in sys.argv:
+    if "mpeg" in filters:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg1video"]]
 
-    if "-wmv3" in sys.argv:
+    if "wmv3" in filters or "wmv" in filters:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]
 
-    if "-x264" in sys.argv:
+    if "x264" in filters:
         videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
     print(f"Found {len(videolist)} videos for the requested parameters")
