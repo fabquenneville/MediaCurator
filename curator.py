@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
-'''Its a script!
-    ./converter.py list -dir "/"
-    ./converter.py convert -del -dir "/mnt/media/"
+'''
+    MediaCurator is a Python command line tool to manage a media database.
+        * List all the video's and their codecs with or without filters
+        * Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs ...
+    ex:
+    ./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
+    ./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
+    ./converter.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
 
 '''
 
