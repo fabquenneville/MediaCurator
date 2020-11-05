@@ -17,10 +17,10 @@ pip install -r requirements.txt
 ```
 
 ## Usage
-./converter.py [list,convert] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv] [-filter:old,mpeg,mpeg4,x264,wmv3,wmv] [-dir/-file:/mnt/media/]
+./converter.py [list,convert] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv] [-filters:old,mpeg,mpeg4,x264,wmv3,wmv] [-dir/-file:/mnt/media/]
 ```bash
-./converter.py list -in:any -filter:old -dir:/mnt/media/ >> ../medlist.txt
-./converter.py convert -del -in:any -filter:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
+./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
+./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
 ./converter.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
 ```
 
