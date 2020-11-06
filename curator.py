@@ -13,7 +13,6 @@
 import sys
 import os
 import subprocess
-import distro
 from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
