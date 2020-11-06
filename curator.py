@@ -24,7 +24,7 @@ def main():
     if not ffmpeg_version:
         print(f"{bcolors.FAIL}No ffmpeg version detected{bcolors.ENDC}")
         exit()
-    print(f"{bcolors.OKBLUE}ffmpeg installed: {ffmpeg_version}{bcolors.ENDC}")
+    print(f"{bcolors.OKBLUE}ffmpeg detected: {ffmpeg_version}{bcolors.ENDC}")
     
     if len(sys.argv) >= 2:
         # Get command parameters
@@ -87,7 +87,7 @@ def main():
                 
 
                 
-                print(f"{bcolors.OKBLUE}***********   converting {oldfilename} to {newfilename} ({codec})  ***********{bcolors.ENDC}")
+                print(f"{bcolors.OKCYAN}***********   converting {oldfilename} to {newfilename} ({codec})  ***********{bcolors.ENDC}")
                 try:
                     if convert(folder + oldfilename, folder + newfilename, codec):
                         subprocess.call(['chmod', '777', folder + newfilename])
@@ -109,7 +109,7 @@ def main():
                         newfilename = oldfilename[:-4] + "[HEVC]"
 
                     counter += 1
-                    print(f"{bcolors.OKBLUE}***********   convert {counter} of {len(videolist)}   ***********{bcolors.ENDC}")
+                    print(f"{bcolors.OKCYAN}***********   convert {counter} of {len(videolist)}   ***********{bcolors.ENDC}")
                     try:
                         if convert(folder + oldfilename, folder + newfilename, codec):
                             if "-del" in sys.argv:
@@ -179,7 +179,7 @@ def get_codec(filename):
 
 def convert(oldfilename, newfilename, codec = "x265"):
     oldsize = size(Path(oldfilename).stat().st_size)
-    print(f"{bcolors.OKBLUE}Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} to {codec}...{bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} to {codec}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
     args = ['ffmpeg', '-i', oldfilename]
