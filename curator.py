@@ -136,6 +136,8 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
         videolist += list(path.rglob("*.[fF][lL][vV]"))
     if "mpg" in inputs or "any" in inputs or len(inputs) < 1:
         videolist += list(path.rglob("*.[mM][pP][gG]"))
+    if "vid" in inputs or "any" in inputs or len(inputs) < 1:
+        videolist += list(path.rglob("*.[vV][iI][dD]"))
     
     
     # Remove folders
