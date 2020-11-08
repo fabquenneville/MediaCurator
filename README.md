@@ -18,6 +18,7 @@ pip install -r requirements.txt
 
 ## Usage
 ./curator.py [list,convert] [-del] [-verbose] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid] [-filters:old,mpeg,mpeg4,x264,wmv3,wmv] [-out:mkv/mp4,x265/av1] [-dir/-file:/mnt/media/]
+
 default options are:
 -in:any
 -filters:
