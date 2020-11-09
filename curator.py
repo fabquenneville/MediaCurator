@@ -77,12 +77,12 @@ def main():
                 # Setting new filename
                 if "mp4" in outputs:
                     newfilename = oldfilename[:-4] + ".mp4"
+                    if oldfilename == newfilename:
+                        newfilename = oldfilename[:-4] + "[HEVC]" + ".mp4"
                 else:
                     newfilename = oldfilename[:-4] + ".mkv"
-                
-                # Modding the filename if same as original
-                if oldfilename == newfilename:
-                    newfilename = oldfilename[:-4] + "[HEVC]"
+                    if oldfilename == newfilename:
+                        newfilename = oldfilename[:-4] + "[HEVC]" + ".mkv"
                 
 
                 
@@ -99,13 +99,20 @@ def main():
                 videolist = []
                 for directory in directories:
                     videolist += get_videolist(directory, inputs, filters)
+                videolist.sort()
                 counter = 0
                 for video in videolist:
                     folder = str(video)[:str(video).rindex("/") + 1]
                     oldfilename = str(video)[str(video).rindex("/") + 1:]
-                    newfilename = oldfilename[:-4] + ".mkv"
-                    if oldfilename == newfilename:
-                        newfilename = oldfilename[:-4] + "[HEVC]" + ".mkv"
+
+                    if "mp4" in outputs:
+                        newfilename = oldfilename[:-4] + ".mp4"
+                        if oldfilename == newfilename:
+                            newfilename = oldfilename[:-4] + "[HEVC]" + ".mp4"
+                    else:
+                        newfilename = oldfilename[:-4] + ".mkv"
+                        if oldfilename == newfilename:
+                            newfilename = oldfilename[:-4] + "[HEVC]" + ".mkv"
 
                     counter += 1
                     print(f"{bcolors.OKCYAN}***********   convert {counter} of {len(videolist)}   ***********{bcolors.ENDC}")
