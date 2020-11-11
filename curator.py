@@ -215,7 +215,7 @@ def convert(oldfilename, newfilename, codec = "x265"):
         newsize = size(Path(newfilename).stat().st_size)
         oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
         newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-        print(f"{bcolors.OKGREEN}Converted {oldfilename}({oldsize}) to {newfilename}({newsize}) successfully{bcolors.ENDC}")
+        print(f"{bcolors.OKGREEN}Converted {oldfilename}{bcolors.OKCYAN}({oldsize}){bcolors.OKGREEN} to {newfilename}{bcolors.OKCYAN}({newsize}){bcolors.OKGREEN} successfully{bcolors.ENDC}")
         return True
 
 def delete(filename):
