@@ -39,7 +39,7 @@ def main():
             elif "-out:" in arg:
                 outputs += arg[5:].split(",")
             elif "-dir:" in arg:
-                directories += arg[5:].split(",")
+                directories += arg[5:].split(",,")
         
 
         if sys.argv[1] == "list":
@@ -150,7 +150,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     # Remove folders
     videolist_tmp = videolist
     videolist = [video for video in videolist_tmp if video.is_file()]
-
+    
     # Filter the list for specifi codecs
     videolist_tmp = videolist
     print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
