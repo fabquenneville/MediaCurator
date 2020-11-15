@@ -92,7 +92,7 @@ def main():
                 try:
                     if convert(folder + oldfilename, folder + newfilename, codec):
                         subprocess.call(['chown', f"{getuser()}:{getuser()}", folder + newfilename])
-                        subprocess.call(['chmod', '777', folder + newfilename])
+                        subprocess.call(['chmod', '666', folder + newfilename])
                         if "-del" in sys.argv:
                             delete(folder + oldfilename)
                 except:
@@ -122,7 +122,7 @@ def main():
                     try:
                         if convert(folder + oldfilename, folder + newfilename, codec):
                             subprocess.call(['chown', f"{getuser()}:{getuser()}", folder + newfilename])
-                            subprocess.call(['chmod', '777', folder + newfilename])
+                            subprocess.call(['chmod', '666', folder + newfilename])
                             if "-del" in sys.argv:
                                 delete(folder + oldfilename)
                     except:
