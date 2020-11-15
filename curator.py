@@ -189,12 +189,18 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
 
 def get_resolution(filename):
     try:
-        args = ["ffprobe","-v","error","-select_streams","v:0", "-ignore_chapters", "1", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
+        #args = ["ffprobe","-v","error","-select_streams","v:0", "-ignore_chapters", "1", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
+        args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode().strip()
+        if "Referenced QT chapter track not found" in output:
+            args = ["ffprobe","-v","error","-select_streams","v:0", "-ignore_chapters", "1", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
+            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+            output = output.decode().strip()
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
-    return [int(output.decode().strip().split("x")[1]), int(output.decode().strip().split("x")[0])]
+    return [int(output.split("x")[1]), int(output.split("x")[0])]
 
 def get_size(filename):
     try:
@@ -206,17 +212,24 @@ def get_size(filename):
 
 def get_codec(filename):
     try:
-        args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-ignore_chapters", "1", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
+        #args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-ignore_chapters", "1", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
+        args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode().strip()
+        if "Referenced QT chapter track not found" in output:
+            args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-ignore_chapters", "1", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
+            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+            output = output.decode().strip()
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
-    return output.decode().strip()
+    return output
 
 def convert(oldfilename, newfilename, codec = "x265"):
     oldsize = get_size(oldfilename)
     resolution = get_resolution(oldfilename)
-    
+    #print(resolution)
+    #print(get_codec(oldfilename))
     print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize}mb)({resolution[0]}p){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
