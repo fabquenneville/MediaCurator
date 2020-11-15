@@ -13,6 +13,7 @@
 import sys
 import os
 import subprocess
+from getpass import getuser
 from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
@@ -90,6 +91,7 @@ def main():
                 print(f"{bcolors.OKCYAN}***********   converting {oldfilename} to {newfilename} ({codec})  ***********{bcolors.ENDC}")
                 try:
                     if convert(folder + oldfilename, folder + newfilename, codec):
+                        subprocess.call(['chown', f"{getuser()}:{getuser()}", folder + newfilename])
                         subprocess.call(['chmod', '777', folder + newfilename])
                         if "-del" in sys.argv:
                             delete(folder + oldfilename)
@@ -152,7 +154,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     videolist_tmp = videolist
     videolist = [video for video in videolist_tmp if video.is_file()]
     
-    # Filter the list for specifi codecs
+    # Filter the list for specific codecs
     videolist_tmp = videolist
     print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     if len([filt for filt in filters if filt not in ["lowres"]]) > 0:
@@ -236,9 +238,10 @@ def convert(oldfilename, newfilename, codec = "x265"):
         print(f"{bcolors.FAIL}Conversion failed {e}{bcolors.ENDC}")
         return False
     else:
+        newsize = get_size(newfilename)
         oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
         newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-        print(f"{bcolors.OKGREEN}Converted {oldfilename}{bcolors.OKCYAN}({oldsize}mb){bcolors.OKGREEN} to {newfilename}{bcolors.OKCYAN}({get_size(newfilename)}mb){bcolors.OKGREEN} successfully{bcolors.ENDC}")
+        print(f"{bcolors.OKGREEN}Converted {oldfilename}{bcolors.OKCYAN}({oldsize}mb){bcolors.OKGREEN} to {newfilename}{bcolors.OKCYAN}({newsize}mb){bcolors.OKGREEN} successfully{bcolors.ENDC}")
         return True
 
 def delete(filename):
