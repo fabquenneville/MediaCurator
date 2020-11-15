@@ -50,8 +50,10 @@ def main():
                 #directory = sys.argv[sys.argv.index("-dir") + 1]
                 for directory in directories:
                     videolist += get_videolist(directory, inputs, filters)
+                videolist.sort()
                 for video in videolist:
-                    print(f"{get_codec(video)} - {video}")
+                    resolution = get_resolution(video)
+                    print(f"{get_codec(video)} - {resolution[0]}p - {video}")
             else:
                 print(f"{bcolors.FAIL}Missing directory: {bcolors.ENDC}")
         elif sys.argv[1] == "test":
@@ -154,7 +156,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     # Filter the list for specifi codecs
     videolist_tmp = videolist
     print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
-    if len(filters) > 0:
+    if len([filt for filt in filters if filt not in ["lowres"]]) > 0:
         videolist = []
 
         if "old" in filters:
@@ -172,8 +174,23 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
         if "x264" in filters:
             videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
+    if len(filters) > 0 and "lowres" in filters:
+        #print("here")
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] < 720]
+
     print(f"{bcolors.OKGREEN}Found {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     return videolist
+
+
+def get_resolution(filename):
+    try:
+        args = ["ffprobe","-v","error","-select_streams","v:0","-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
+        return False
+    return [int(output.decode().strip().split("x")[1]), int(output.decode().strip().split("x")[0])]
 
 
 def get_codec(filename):
@@ -187,7 +204,8 @@ def get_codec(filename):
 
 def convert(oldfilename, newfilename, codec = "x265"):
     oldsize = size(Path(oldfilename).stat().st_size)
-    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}({oldsize}) from {get_codec(oldfilename)} to {codec}...{bcolors.ENDC}")
+    resolution = get_resolution(oldfilename)
+    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize})({resolution[0]}p){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
     args = ['ffmpeg', '-i', oldfilename]
