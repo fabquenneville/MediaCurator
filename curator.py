@@ -52,8 +52,7 @@ def main():
                     videolist += get_videolist(directory, inputs, filters)
                 videolist.sort()
                 for video in videolist:
-                    resolution = get_resolution(video)
-                    print(f"{get_codec(video)} - {resolution[0]}p - {video}")
+                    print(f"{get_codec(video)} - {get_resolution(video)[0]}p - {get_size(video)}mb - {video}")
             else:
                 print(f"{bcolors.FAIL}Missing directory: {bcolors.ENDC}")
         elif sys.argv[1] == "test":
@@ -192,6 +191,13 @@ def get_resolution(filename):
         return False
     return [int(output.decode().strip().split("x")[1]), int(output.decode().strip().split("x")[0])]
 
+def get_size(filename):
+    try:
+        size = int(os.path.getsize(filename) / 1024 / 1024)
+    except subprocess.CalledProcessError:
+        print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
+        return False
+    return size
 
 def get_codec(filename):
     try:
@@ -203,9 +209,9 @@ def get_codec(filename):
     return output.decode().strip()
 
 def convert(oldfilename, newfilename, codec = "x265"):
-    oldsize = size(Path(oldfilename).stat().st_size)
+    oldsize = get_size(oldfilename)
     resolution = get_resolution(oldfilename)
-    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize})({resolution[0]}p){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize}mb)({resolution[0]}p){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
     args = ['ffmpeg', '-i', oldfilename]
@@ -230,10 +236,9 @@ def convert(oldfilename, newfilename, codec = "x265"):
         print(f"{bcolors.FAIL}Conversion failed {e}{bcolors.ENDC}")
         return False
     else:
-        newsize = size(Path(newfilename).stat().st_size)
         oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
         newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-        print(f"{bcolors.OKGREEN}Converted {oldfilename}{bcolors.OKCYAN}({oldsize}){bcolors.OKGREEN} to {newfilename}{bcolors.OKCYAN}({newsize}){bcolors.OKGREEN} successfully{bcolors.ENDC}")
+        print(f"{bcolors.OKGREEN}Converted {oldfilename}{bcolors.OKCYAN}({oldsize}mb){bcolors.OKGREEN} to {newfilename}{bcolors.OKCYAN}({get_size(newfilename)}mb){bcolors.OKGREEN} successfully{bcolors.ENDC}")
         return True
 
 def delete(filename):
