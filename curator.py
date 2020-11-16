@@ -184,10 +184,10 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
         videolist = [video for video in videolist_tmp if get_resolution(video)[0] >= 720]
     elif len(filters) > 0 and "720" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] = 720]
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] == 720]
     elif len(filters) > 0 and "1080" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] = 720]
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] == 720]
 
     print(f"{bcolors.OKGREEN}Found {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     return videolist
