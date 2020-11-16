@@ -201,9 +201,9 @@ def get_resolution(filename):
 
         # Dealing with malformed video chapters
         if "Referenced QT chapter track not found" in output:
-            args = ["ffprobe","-v","error","-select_streams","v:0", "-ignore_chapters", "1", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
-            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-            output = output.decode().strip()
+            output = output.splitlines()[-1]
+        elif "Error, header damaged or not MPEG-4 header" in output:
+            output = output.splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
@@ -225,9 +225,9 @@ def get_codec(filename):
 
         # Dealing with malformed video chapters
         if "Referenced QT chapter track not found" in output:
-            args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-ignore_chapters", "1", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
-            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-            output = output.decode().strip()
+            output = output.splitlines()[-1]
+        elif "Error, header damaged or not MPEG-4 header" in output:
+            output = output.splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
