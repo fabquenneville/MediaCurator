@@ -208,6 +208,13 @@ def get_resolution(filename):
             output = output.splitlines()[-1]
         elif "SEI type" in output:
             output = output.splitlines()[-1]
+        elif "no frame!" in output:
+            output = output.splitlines()[-1]
+        # elif "no frame" in output:
+        #     print(str(filename))
+        #     print(output)
+        #     output = output.splitlines()[-1]
+        #     exit()
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
@@ -235,6 +242,8 @@ def get_codec(filename):
         elif "Header missing" in output:
             output = output.splitlines()[-1]
         elif "SEI type" in output:
+            output = output.splitlines()[-1]
+        elif "no frame!" in output:
             output = output.splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
