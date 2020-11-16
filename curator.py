@@ -7,7 +7,6 @@
     ./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
     ./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
     ./converter.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
-
 '''
 
 import sys
@@ -17,7 +16,6 @@ from getpass import getuser
 from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
-
 
 def main():
     ffmpeg_version = detect_ffmpeg()
@@ -160,7 +158,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     # Filter the list for specific codecs
     videolist_tmp = videolist
     print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
-    if len([filt for filt in filters if filt not in ["lowres"]]) > 0:
+    if len([filt for filt in filters if filt not in ["lowres", "hd"]]) > 0:
         videolist = []
 
         if "old" in filters:
@@ -179,9 +177,17 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
             videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
         
     if len(filters) > 0 and "lowres" in filters:
-        #print("here")
         videolist_tmp = videolist
         videolist = [video for video in videolist_tmp if get_resolution(video)[0] < 720]
+    elif len(filters) > 0 and "hd" in filters:
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] >= 720]
+    elif len(filters) > 0 and "720" in filters:
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] = 720]
+    elif len(filters) > 0 and "1080" in filters:
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_resolution(video)[0] = 720]
 
     print(f"{bcolors.OKGREEN}Found {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
     return videolist
