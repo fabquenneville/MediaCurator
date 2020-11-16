@@ -206,6 +206,8 @@ def get_resolution(filename):
             output = output.splitlines()[-1]
         elif "Header missing" in output:
             output = output.splitlines()[-1]
+        elif "SEI type" in output:
+            output = output.splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
@@ -231,6 +233,8 @@ def get_codec(filename):
         elif "Error, header damaged or not MPEG-4 header" in output:
             output = output.splitlines()[-1]
         elif "Header missing" in output:
+            output = output.splitlines()[-1]
+        elif "SEI type" in output:
             output = output.splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
