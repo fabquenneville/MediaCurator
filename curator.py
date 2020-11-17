@@ -17,6 +17,8 @@ from pathlib import Path
 from pprint import pprint
 from hurry.filesize import size
 
+
+
 def main():
     ffmpeg_version = detect_ffmpeg()
     if not ffmpeg_version:
@@ -31,7 +33,12 @@ def main():
         filters = []
         outputs = []
         for arg in sys.argv:
-            if "-in:" in arg:
+            if "-del" in arg:
+                print(f"{bcolors.WARNING}WARNING: Delete option selected!{bcolors.ENDC}")
+                if not user_confirm(f"{bcolors.WARNING}Are you sure you wish to delete all found results after selected operations [Y/N] ?{bcolors.ENDC}"):
+                    print(f"{bcolors.OKGREEN}Exiting!{bcolors.ENDC}")
+                    exit()
+            elif "-in:" in arg:
                 inputs += arg[4:].split(",")
             elif "-filters:" in arg:
                 filters += arg[9:].split(",")
@@ -51,7 +58,10 @@ def main():
                     videolist += get_videolist(directory, inputs, filters)
                 videolist.sort()
                 for video in videolist:
-                    print(f"{get_codec(video)} - {get_resolution(video)[0]}p - {get_size(video)}mb - {video}")
+                    print(f"{get_codec(video)} - {get_print_resolution(video)} - {get_size(video)}mb - {video}")
+                    if len(filters) > 0 and "fferror" in filters:
+                        print(f"{bcolors.WARNING}WARNING: {get_fferror(video)}{bcolors.ENDC}")
+                    
             else:
                 print(f"{bcolors.FAIL}Missing directory: {bcolors.ENDC}")
         elif sys.argv[1] == "test":
@@ -93,6 +103,9 @@ def main():
                         subprocess.call(['chmod', '777', folder + newfilename])
                         if "-del" in sys.argv:
                             delete(folder + oldfilename)
+                    else:
+                        delete(folder + newfilename)
+                        return False
                 except:
                     delete(folder + newfilename)
                     return False
@@ -158,7 +171,7 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
     # Filter the list for specific codecs
     videolist_tmp = videolist
     print(f"{bcolors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
-    if len([filt for filt in filters if filt not in ["lowres", "hd"]]) > 0:
+    if len([filt for filt in filters if filt not in ["lowres", "hd", "720p", "1080p", "uhd", "fferror"]]) > 0:
         videolist = []
 
         if "old" in filters:
@@ -178,47 +191,80 @@ def get_videolist(parentdir, inputs = ["any"], filters = []):
         
     if len(filters) > 0 and "lowres" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] < 720]
+        videolist = [video for video in videolist_tmp if get_resolution(video)[1] < 1280 or get_resolution(video)[0] <= 480]
     elif len(filters) > 0 and "hd" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] >= 720]
-    elif len(filters) > 0 and "720" in filters:
+        videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 1280 or get_resolution(video)[0] >= 720]
+    elif len(filters) > 0 and "720p" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] == 720]
-    elif len(filters) > 0 and "1080" in filters:
+        videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 1280 or get_resolution(video)[0] == 720]
+    elif len(filters) > 0 and "1080p" in filters:
         videolist_tmp = videolist
-        videolist = [video for video in videolist_tmp if get_resolution(video)[0] == 720]
+        videolist = [video for video in videolist_tmp if (get_resolution(video)[1] >= 1440 and get_resolution(video)[1] < 3840) or get_resolution(video)[0] == 1080]
+    elif len(filters) > 0 and "uhd" in filters:
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 3840 or get_resolution(video)[0] >= 2160]
+
+    if len(filters) > 0 and "fferror" in filters:
+        videolist_tmp = videolist
+        videolist = [video for video in videolist_tmp if get_fferror(video)]
 
     print(f"{bcolors.OKGREEN}Found {len(videolist)} videos for the requested parameters{bcolors.ENDC}")
-    return videolist
 
+    # remove doubles and return
+    return list(dict.fromkeys(videolist))
+
+#     know_errors = [
+#         "Referenced QT chapter track not found",
+#         "Error, header damaged or not MPEG-4 header",
+#         "Header missing",
+#         "SEI type",
+#         "no frame!",
+#         "Error while decoding MPEG audio frame.",
+#         "big_values too big"
+#     ]
+def get_fferror(filename):
+    try:
+        args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
+        output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        output = output.decode().strip().splitlines()
+        if len(output) > 1:
+            return output[0:-1]
+    except subprocess.CalledProcessError:
+        return f'{bcolors.FAIL}There seams to be a "subprocess.CalledProcessError" error with {filename}{bcolors.ENDC}'
+    return False
+
+
+
+
+
+
+
+def get_print_resolution(filename):
+    resolution = get_resolution(filename)
+    if resolution[1] >= 2160 or resolution[0] >= 2160:
+        return f"UHD ({resolution[0]})"
+    elif resolution[1] >= 1440 or resolution[0] >= 1080:
+        return f"1080p ({resolution[0]})"
+    elif resolution[1] >= 1280 or resolution[0] >= 720:
+        return f"720p ({resolution[0]})"
+    return f"SD ({resolution[0]})"
 
 def get_resolution(filename):
     try:
         args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-        output = output.decode().strip()
+        
+        # decoding from binary, stripping whitespace, keep only last line
+        # in case ffmprobe added error messages over the requested information
+        output = output.decode().strip().splitlines()[-1]
 
-        # Dealing with malformed video chapters
-        if "Referenced QT chapter track not found" in output:
-            output = output.splitlines()[-1]
-        elif "Error, header damaged or not MPEG-4 header" in output:
-            output = output.splitlines()[-1]
-        elif "Header missing" in output:
-            output = output.splitlines()[-1]
-        elif "SEI type" in output:
-            output = output.splitlines()[-1]
-        elif "no frame!" in output:
-            output = output.splitlines()[-1]
-        # elif "no frame" in output:
-        #     print(str(filename))
-        #     print(output)
-        #     output = output.splitlines()[-1]
-        #     exit()
+        # See if we got convertable data
+        output = [int(output.split("x")[1]), int(output.split("x")[0])]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
-    return [int(output.split("x")[1]), int(output.split("x")[0])]
+    return output
 
 def get_size(filename):
     try:
@@ -232,19 +278,10 @@ def get_codec(filename):
     try:
         args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filename)]
         output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-        output = output.decode().strip()
-
-        # Dealing with malformed video chapters
-        if "Referenced QT chapter track not found" in output:
-            output = output.splitlines()[-1]
-        elif "Error, header damaged or not MPEG-4 header" in output:
-            output = output.splitlines()[-1]
-        elif "Header missing" in output:
-            output = output.splitlines()[-1]
-        elif "SEI type" in output:
-            output = output.splitlines()[-1]
-        elif "no frame!" in output:
-            output = output.splitlines()[-1]
+        
+        # decoding from binary, stripping whitespace, keep only last line
+        # in case ffmprobe added error messages over the requested information
+        output = output.decode().strip().splitlines()[-1]
     except subprocess.CalledProcessError:
         print(f"{bcolors.FAIL}There seams to be an error with {filename}{bcolors.ENDC}")
         return False
@@ -252,9 +289,7 @@ def get_codec(filename):
 
 def convert(oldfilename, newfilename, codec = "x265"):
     oldsize = get_size(oldfilename)
-    resolution = get_resolution(oldfilename)
-    
-    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize}mb)({resolution[0]}p){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
+    print(f"{bcolors.OKGREEN}Starting conversion of {oldfilename}{bcolors.OKCYAN}({oldsize}mb)({get_print_resolution(oldfilename)}){bcolors.OKGREEN} from {bcolors.OKCYAN}{get_codec(oldfilename)}{bcolors.OKGREEN} to {bcolors.OKCYAN}{codec}{bcolors.OKGREEN}...{bcolors.ENDC}")
 
     # Preparing ffmpeg command and input file
     args = ['ffmpeg', '-i', oldfilename]
@@ -301,6 +336,15 @@ def detect_ffmpeg():
         return txt.partition('\n')[0]
     except:
         return False
+    
+def user_confirm(question):
+    answer = input(question)
+    if answer.lower() in ["y","yes"]:
+        return True
+    elif answer.lower() in ["n","no"]:
+        return False
+    print("Please answer with yes (Y) or no (N)...")
+    return user_confirm(question)
 
 class bcolors:
     HEADER = '\033[95m'
