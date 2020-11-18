@@ -68,29 +68,35 @@ def main():
 
     # Actions
     if sys.argv[1] == "list":
-        if any("-files" in argv for argv in sys.argv):
-            pass
-        elif any("-dir" in argv for argv in sys.argv):
-            videolist = []
-            for directory in directories:
-                videolist += get_videolist(directory, inputs, filters)
-            videolist.sort()
-            for video in videolist:
-                print(f"{get_codec(video)} - {get_print_resolution(video)} - {get_size(video)}mb - {video}")
-                if len(filters) > 0 and "fferror" in filters:
-                    print(f"{BColors.WARNING}WARNING: {get_fferror(video)}{BColors.ENDC}")
+
+        for filepath in medialibrary.videos:
+            if medialibrary.videos[filepath].useful:
+                print(medialibrary.videos[filepath])
+            #print(self.videos[filepath])
+        # if any("-files" in argv for argv in sys.argv):
+        #     pass
+        # elif any("-dir" in argv for argv in sys.argv):
+        #     videolist = []
+        #     for directory in directories:
+        #         videolist += get_videolist(directory, inputs, filters)
+        #     videolist.sort()
+        #     for video in videolist:
+        #         print(f"{get_codec(video)} - {get_print_resolution(video)} - {get_size(video)}mb - {video}")
+        #         if len(filters) > 0 and "fferror" in filters:
+        #             print(f"{BColors.WARNING}WARNING: {get_fferror(video)}{BColors.ENDC}")
                 
-        else:
-            print(f"{BColors.FAIL}Missing directory: {BColors.ENDC}")
+        # else:
+        #     print(f"{BColors.FAIL}Missing directory: {BColors.ENDC}")
     elif sys.argv[1] == "test":
-        if any("-files" in argv for argv in sys.argv):
-            pass
-        elif any("-dir" in argv for argv in sys.argv):
-            print(medialibrary)
-            #print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
-            exit()
-        else:
-            print("{BColors.FAIL}Missing directory: {BColors.ENDC}")
+        pass
+        # if any("-files" in argv for argv in sys.argv):
+        #     pass
+        # elif any("-dir" in argv for argv in sys.argv):
+        #     print(medialibrary)
+        #     #print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
+        #     exit()
+        # else:
+        #     print("{BColors.FAIL}Missing directory: {BColors.ENDC}")
 
         
     elif sys.argv[1] == "convert":

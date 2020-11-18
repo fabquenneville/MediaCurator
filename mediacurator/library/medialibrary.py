@@ -25,8 +25,9 @@ class MediaLibrary():
             This is the library object who holds the information about the workspace and all the videos in it.
         '''
         if files:
-            pass
-            # self.files = files
+            for filepath in files:
+                self.videos[filepath] = Video(filepath)
+
         elif directories:
             self.directories    = directories
         else:
@@ -38,11 +39,6 @@ class MediaLibrary():
         self.load_videos()
 
         self.filter_videos()
-
-        for filepath in self.videos:
-            if self.videos[filepath].useful:
-                print(self.videos[filepath])
-            #print(self.videos[filepath])
 
 
         
