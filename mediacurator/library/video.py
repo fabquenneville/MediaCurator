@@ -4,6 +4,7 @@
 from .bcolors import BColors
 import subprocess
 import os
+import sys
 
 class Video():
     '''
@@ -37,10 +38,18 @@ class Video():
         self.filesize_origin    = self.detect_filesize(filepath)
         self.error              = self.detect_fferror(filepath)
         self.codec              = self.detect_codec(filepath)
-        self.width, self.height = self.detect_resolution(filepath)
-        self.definition         = self.detect_definition(
-                                        width = self.width, 
-                                        height = self.height )
+        try:
+            self.width, self.height = self.detect_resolution(filepath)
+            self.definition         = self.detect_definition(
+                                            width = self.width, 
+                                            height = self.height )
+        except:
+            self.width, self.height = False, False
+            self.definition         = False
+        
+        if self.error and "-verbose" in sys.argv:
+            print(f"{BColors.FAIL}There seams to be an error with \"{filepath}\"{BColors.ENDC}")
+            print(f"{BColors.FAIL}    {self.error}{BColors.ENDC}")
 
     def __str__(self):
         '''
@@ -48,6 +57,7 @@ class Video():
         '''
 
         text = f"{self.path + self.filename_origin}\n"
+        text += f"    Useful:         {self.useful}\n"
 
         # If the first character of the definition is not a number (ie UHD and not 720p) upper it
         if self.definition[0] and not self.definition[0].isnumeric():
@@ -64,9 +74,8 @@ class Video():
             text += f"    size:           {self.filesize_origin} mb"
 
         if self.error:
-            text += f"\n    Errors:         {self.error}"
+            text += f"{BColors.FAIL}\n    Errors:         {', '.join(map(str, self.error))}{BColors.ENDC}"
         
-        text += f"\n    Useful:         {self.useful}"
 
         return text
 
@@ -82,8 +91,7 @@ class Video():
             # decoding from binary, stripping whitespace, keep only last line
             # in case ffmprobe added error messages over the requested information
             output = output.decode().strip().splitlines()[-1]
-        except subprocess.CalledProcessError:
-            print(f"{BColors.FAIL}There seams to be an error with {filepath}{BColors.ENDC}")
+        except (subprocess.CalledProcessError, IndexError):
             return False
         return output
 
@@ -96,8 +104,8 @@ class Video():
             output = output.decode().strip().splitlines()
             if len(output) > 1:
                 return output[0:-1]
-        except subprocess.CalledProcessError:
-            return f'{BColors.FAIL}There seams to be a "subprocess.CalledProcessError" error with {filepath}{BColors.ENDC}'
+        except (subprocess.CalledProcessError, IndexError):
+            return f'{BColors.FAIL}There seams to be a "subprocess.CalledProcessError" error with \"{filepath}\"{BColors.ENDC}'
         return False
 
 
@@ -113,8 +121,7 @@ class Video():
 
             # See if we got convertable data
             output = [int(output.split("x")[0]), int(output.split("x")[1])]
-        except subprocess.CalledProcessError:
-            print(f"{BColors.FAIL}There seams to be an error with {filepath}{BColors.ENDC}")
+        except (subprocess.CalledProcessError, IndexError):
             return False
         return output[0], output[1]
 
@@ -138,7 +145,6 @@ class Video():
         try:
             size = int(os.path.getsize(filepath) / 1024 / 1024)
         except subprocess.CalledProcessError:
-            print(f"{BColors.FAIL}There seams to be an error with {filepath}{BColors.ENDC}")
             return False
         return size
 

@@ -4,6 +4,7 @@
 '''
 
 from pathlib import Path
+import sys
 
 from .bcolors import BColors
 from .video import Video
@@ -39,9 +40,9 @@ class MediaLibrary():
         self.filter_videos()
 
         for filepath in self.videos:
-            # if self.videos[filepath].useful:
-            #     print(self.videos[filepath])
-            print(self.videos[filepath])
+            if self.videos[filepath].useful:
+                print(self.videos[filepath])
+            #print(self.videos[filepath])
 
 
         
@@ -90,10 +91,9 @@ class MediaLibrary():
         print(f"{BColors.OKGREEN}Analazing {len(videolist)} videos in {', '.join(map(str, self.directories))}{BColors.ENDC}")
         iteration = 0
         for video in videolist:
-            iteration += 1
-            #print(int(iteration / len(videolist)))
-            #print(f'{iteration} / {len(videolist)}% complete    {int(iteration / len(videolist))}% complete', end='\r')
-            print(f'{int((iteration / len(videolist )* 100))}% complete', end='\r')
+            if "-verbose" in sys.argv:
+                iteration += 1
+                print(f'{int((iteration / len(videolist )* 100))}% complete', end='\r')
             self.videos[video] = Video(video)
 
     def filter_videos(self):
@@ -103,19 +103,23 @@ class MediaLibrary():
         
         print(f"{BColors.OKGREEN}Filtering {len(self.videos)} videos for the requested parameters{BColors.ENDC}")
 
+
         iteration = 0
         for filepath in self.videos:
-            iteration += 1
-            print(f'{int((iteration / len(self.videos)* 100))}% complete', end='\r')
+            if "-verbose" in sys.argv:
+                iteration += 1
+                print(f'{int((iteration / len(self.videos)* 100))}% complete', end='\r')
 
-            # Filter for codecs if codec filter passed by user
-            if len([filt for filt in self.filters if filt not in ["lowres", "hd", "720p", "1080p", "uhd", "fferror"]]) > 0:
+
+            if len([filtr for filtr in self.filters if filtr in ["old", "mpeg4", "mpeg", "wmv3", "wmv", "h264", "hevc", "x265", "av1"]]) > 0:
                 useful = False
+
                 if "old" in self.filters and self.videos[filepath].codec not in ["hevc", "av1"]:
                     useful = True
 
                 if ("mpeg4" in self.filters or "mpeg" in self.filters) and self.videos[filepath].codec in ["mpeg4", "msmpeg4v3"]:
                     useful = True
+
 
                 if "mpeg" in self.filters and self.videos[filepath].codec in ["mpeg1video"]:
                     useful = True
@@ -123,12 +127,45 @@ class MediaLibrary():
                 if ("wmv3" in self.filters or "wmv" in self.filters) and self.videos[filepath].codec in ["wmv3"]:
                     useful = True
 
-                if "x264" in self.filters and self.videos[filepath].codec in ["x264"]:
+                if "h264" in self.filters and self.videos[filepath].codec in ["h264"]:
+                    useful = True
+
+                if ("hevc" in self.filters or "x265" in self.filters) and self.videos[filepath].codec in ["hevc"]:
+                    useful = True
+
+                if "av1" in self.filters and self.videos[filepath].codec in ["av1"]:
                     useful = True
                 
                 self.videos[filepath].useful = useful
+            
+            
 
+            # keep video if useful and user wants to also filter by selected resolutions
+            if self.videos[filepath].useful and len([filtr for filtr in self.filters if filtr in ["lowres", "hd", "720p", "1080p", "uhd"]]) > 0:
+                useful = False
 
+                if "lowres" in self.filters and self.videos[filepath].definition in ["sd"]:
+                    useful = True
+                if "hd" in self.filters and self.videos[filepath].definition in ["720p", "1080p", "uhd"]:
+                    useful = True
+                if "720p" in self.filters and self.videos[filepath].definition in ["720p"]:
+                    useful = True
+                if "1080p" in self.filters and self.videos[filepath].definition in ["1080p"]:
+                    useful = True
+                if "uhd" in self.filters and self.videos[filepath].definition in ["uhd"]:
+                    useful = True
 
+                self.videos[filepath].useful = useful
 
+            # keep video if useful and user wants to also filter when there is an ffmpeg errors
+            if self.videos[filepath].useful and len([filtr for filtr in self.filters if filtr in ["fferror"]]) > 0:
+                
+                useful = False
 
+                if self.videos[filepath].error:
+                    useful = True
+
+                self.videos[filepath].useful = useful
+
+            
+        print(f"{BColors.OKGREEN}Found {len([filepath for filepath in self.videos if self.videos[filepath].useful])} videos for the requested parameters{BColors.ENDC}")
