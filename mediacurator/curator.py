@@ -65,7 +65,6 @@ def main():
     else:
         print(f"{BColors.FAIL}ERROR: No files or directories selected.{BColors.FAIL}")
         
-    print(medialibrary)
 
     # Actions
     if sys.argv[1] == "list":
@@ -87,7 +86,8 @@ def main():
         if any("-files" in argv for argv in sys.argv):
             pass
         elif any("-dir" in argv for argv in sys.argv):
-            print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
+            print(medialibrary)
+            #print(f"directories = {directories}, inputs = {inputs}, filters = {filters}, outputs = {outputs}")
             exit()
         else:
             print("{BColors.FAIL}Missing directory: {BColors.ENDC}")

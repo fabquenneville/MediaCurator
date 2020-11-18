@@ -38,8 +38,19 @@ class Video():
                                         width = self.width, 
                                         height = self.height )
 
-    @classmethod
-    def detect_codec(Video, filepath):
+    def __str__(self):
+        text = f"{self.path + self.filename_origin}\n"
+        text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
+        text += f"    Codec:          {self.codec}\n"
+        text += f"    size:           {self.filesize_origin}mb"
+        if self.error:
+            text += f"\n    Errors:         {self.error}"
+        return text
+
+
+
+    @staticmethod
+    def detect_codec(filepath):
         try:
             args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -53,8 +64,8 @@ class Video():
         return output
 
 
-    @classmethod
-    def detect_fferror(Video, filepath):
+    @staticmethod
+    def detect_fferror(filepath):
         try:
             args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -66,8 +77,8 @@ class Video():
         return False
 
 
-    @classmethod
-    def detect_resolution(Video, filepath):
+    @staticmethod
+    def detect_resolution(filepath):
         try:
             args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -83,8 +94,8 @@ class Video():
             return False
         return output[0], output[1]
 
-    @classmethod
-    def detect_definition(Video, filepath = False, width = False, height = False):
+    @staticmethod
+    def detect_definition(filepath = False, width = False, height = False):
         if filepath:
             width, height = Video.detect_resolution(filepath)
         if not width and not height:
@@ -98,8 +109,8 @@ class Video():
             return "720p"
         return "SD"
 
-    @classmethod
-    def detect_filesize(Video, filepath):
+    @staticmethod
+    def detect_filesize(filepath):
         try:
             size = int(os.path.getsize(filepath) / 1024 / 1024)
         except subprocess.CalledProcessError:
@@ -107,7 +118,7 @@ class Video():
             return False
         return size
 
-    # @classmethod
+    # @staticmethod
     # def convert(oldfilename, newfilename, codec = "x265"):
     #     oldsize = get_size(oldfilename)
     #     print(f"{BColors.OKGREEN}Starting conversion of {oldfilename}{BColors.OKCYAN}({oldsize}mb)({get_print_resolution(oldfilename)}){BColors.OKGREEN} from {BColors.OKCYAN}{get_codec(oldfilename)}{BColors.OKGREEN} to {BColors.OKCYAN}{codec}{BColors.OKGREEN}...{BColors.ENDC}")

@@ -4,6 +4,7 @@
 '''
 
 import subprocess
+from .bcolors import BColors
 
 
 def detect_ffmpeg():
@@ -21,3 +22,13 @@ def user_confirm(question):
         return False
     print("Please answer with yes (Y) or no (N)...")
     return user_confirm(question)
+
+def delete(filename):
+    try:
+        os.remove(filename)
+    except OSError:
+        print(f"{BColors.FAIL}Error deleting {filename}{BColors.ENDC}")
+        return False
+
+    print(f"{BColors.OKGREEN}Deleted {filename}{BColors.ENDC}")
+    return True
