@@ -46,9 +46,11 @@ class MediaLibrary():
 
     def __str__(self):
         ''' print '''
-        text = f"MediaCurator watching: "
         if self.directories:
-            text += f"{', '.join(map(str, self.directories))}"
+            text = f"MediaCurator is watching the following directories: "
+            text += '\n    '.join(map(str, self.directories)) + '\n'
+        text += f"MediaCurator is tracking {len(self.videos)} video files"
+
         return text
 
     def load_videos(self):
