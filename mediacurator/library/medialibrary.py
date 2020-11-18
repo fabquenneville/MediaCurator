@@ -27,14 +27,23 @@ class MediaLibrary():
             pass
             # self.files = files
         elif directories:
-            self.directories = directories
+            self.directories    = directories
         else:
             return
         
-        self.inputs = inputs
-        self.filters = filters
+        self.inputs             = inputs
+        self.filters            = filters
         
-        self.load_videolist()
+        self.load_videos()
+
+        self.filter_videos()
+
+        for filepath in self.videos:
+            # if self.videos[filepath].useful:
+            #     print(self.videos[filepath])
+            print(self.videos[filepath])
+
+
         
 
 
@@ -45,8 +54,12 @@ class MediaLibrary():
             text += f"{', '.join(map(str, self.directories))}"
         return text
 
+    def load_videos(self):
+        '''
+            Scan folders for video files respecting the inputs requested by the user
+            Save them to the videos dictionary
+        '''
 
-    def load_videolist(self):
         print(f"{BColors.OKGREEN}Scanning files in {', '.join(map(str, self.directories))} for videos{BColors.ENDC}")
         videolist = []
         
@@ -73,62 +86,49 @@ class MediaLibrary():
         videolist_tmp = videolist
         videolist = [video for video in videolist_tmp if video.is_file()]
 
-        video = Video(videolist[0])
+        # Map it all to the videos dictionary as initiated Video objects
+        print(f"{BColors.OKGREEN}Analazing {len(videolist)} videos in {', '.join(map(str, self.directories))}{BColors.ENDC}")
+        iteration = 0
+        for video in videolist:
+            iteration += 1
+            #print(int(iteration / len(videolist)))
+            #print(f'{iteration} / {len(videolist)}% complete    {int(iteration / len(videolist))}% complete', end='\r')
+            print(f'{int((iteration / len(videolist )* 100))}% complete', end='\r')
+            self.videos[video] = Video(video)
 
-
-
-
-
-        #videolist = list(dict.fromkeys(videolist))
-        print(video)
-        exit()
-
-
-
+    def filter_videos(self):
+        '''
+            Mark useless videos in the videos dictionary
+        '''
         
-        # # Filter the list for specific codecs
-        # videolist_tmp = videolist
-        # print(f"{BColors.OKGREEN}Filtering {len(videolist)} videos for the requested parameters{BColors.ENDC}")
-        # if len([filt for filt in self.filters if filt not in ["lowres", "hd", "720p", "1080p", "uhd", "fferror"]]) > 0:
-        #     videolist = []
+        print(f"{BColors.OKGREEN}Filtering {len(self.videos)} videos for the requested parameters{BColors.ENDC}")
 
-        #     if "old" in self.filters:
-        #         videolist += [video for video in videolist_tmp if get_codec(video) not in ["hevc", "av1"]]
+        iteration = 0
+        for filepath in self.videos:
+            iteration += 1
+            print(f'{int((iteration / len(self.videos)* 100))}% complete', end='\r')
 
-        #     if "mpeg4" in self.filters or "mpeg" in self.filters:
-        #         videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg4", "msmpeg4v3"]]
+            # Filter for codecs if codec filter passed by user
+            if len([filt for filt in self.filters if filt not in ["lowres", "hd", "720p", "1080p", "uhd", "fferror"]]) > 0:
+                useful = False
+                if "old" in self.filters and self.videos[filepath].codec not in ["hevc", "av1"]:
+                    useful = True
 
-        #     if "mpeg" in self.filters:
-        #         videolist += [video for video in videolist_tmp if get_codec(video) in ["mpeg1video"]]
+                if ("mpeg4" in self.filters or "mpeg" in self.filters) and self.videos[filepath].codec in ["mpeg4", "msmpeg4v3"]:
+                    useful = True
 
-        #     if "wmv3" in self.filters or "wmv" in self.filters:
-        #         videolist += [video for video in videolist_tmp if get_codec(video) in ["wmv3"]]
+                if "mpeg" in self.filters and self.videos[filepath].codec in ["mpeg1video"]:
+                    useful = True
 
-        #     if "x264" in self.filters:
-        #         videolist += [video for video in videolist_tmp if get_codec(video) in ["x264"]]
-            
-        # if len(self.filters) > 0 and "lowres" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if get_resolution(video)[1] < 1280 or get_resolution(video)[0] <= 480]
-        # elif len(self.filters) > 0 and "hd" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 1280 or get_resolution(video)[0] >= 720]
-        # elif len(self.filters) > 0 and "720p" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 1280 or get_resolution(video)[0] == 720]
-        # elif len(self.filters) > 0 and "1080p" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if (get_resolution(video)[1] >= 1440 and get_resolution(video)[1] < 3840) or get_resolution(video)[0] == 1080]
-        # elif len(self.filters) > 0 and "uhd" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if get_resolution(video)[1] >= 3840 or get_resolution(video)[0] >= 2160]
+                if ("wmv3" in self.filters or "wmv" in self.filters) and self.videos[filepath].codec in ["wmv3"]:
+                    useful = True
 
-        # if len(self.filters) > 0 and "fferror" in self.filters:
-        #     videolist_tmp = videolist
-        #     videolist = [video for video in videolist_tmp if get_fferror(video)]
+                if "x264" in self.filters and self.videos[filepath].codec in ["x264"]:
+                    useful = True
+                
+                self.videos[filepath].useful = useful
 
-        # print(f"{BColors.OKGREEN}Found {len(videolist)} videos for the requested parameters{BColors.ENDC}")
 
-        # # remove doubles and return
-        # return list(dict.fromkeys(videolist))
+
+
 

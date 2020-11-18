@@ -15,19 +15,23 @@ class Video():
     filesize_origin = ""
     filename_new = ""
     filename_tmp = ""
+    useful = True
     codec= ""
     error = ""
     definition = ""
     width = int()
     height = int()
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, useful = True):
         '''
         '''
 
         #Breaking down the full path in its components
-        self.path = str(filepath)[:str(filepath).rindex("/") + 1]
-        self.filename_origin = str(filepath)[str(filepath).rindex("/") + 1:]
+        self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
+        self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
+
+        # Marking useful is user manually set it.
+        self.useful             = useful
 
         #Gathering information on the video
         self.filesize_origin    = self.detect_filesize(filepath)
@@ -39,15 +43,35 @@ class Video():
                                         height = self.height )
 
     def __str__(self):
+        '''
+            Building and returning formated information about the video file
+        '''
+
         text = f"{self.path + self.filename_origin}\n"
-        text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
+
+        # If the first character of the definition is not a number (ie UHD and not 720p) upper it
+        if self.definition[0] and not self.definition[0].isnumeric():
+            text += f"    Definition:     {self.definition.upper()}: ({self.width}x{self.height})\n"
+        else:
+            text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
+
         text += f"    Codec:          {self.codec}\n"
-        text += f"    size:           {self.filesize_origin}mb"
+
+        # Return the size in mb or gb if more than 1024 mb
+        if self.filesize_origin >= 1024:
+            text += f"    size:           {self.filesize_origin / 1024 :.2f} gb"
+        else:
+            text += f"    size:           {self.filesize_origin} mb"
+
         if self.error:
             text += f"\n    Errors:         {self.error}"
+        
+        text += f"\n    Useful:         {self.useful}"
+
         return text
 
 
+    __repr__ = __str__
 
     @staticmethod
     def detect_codec(filepath):
@@ -102,12 +126,12 @@ class Video():
             return False
         
         if width >= 2160 or height >= 2160:
-            return "UHD"
+            return "uhd"
         elif width >= 1440 or height >= 1080:
             return "1080p"
         elif width >= 1280 or height >= 720:
             return "720p"
-        return "SD"
+        return "sd"
 
     @staticmethod
     def detect_filesize(filepath):

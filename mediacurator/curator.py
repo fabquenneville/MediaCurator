@@ -59,9 +59,9 @@ def main():
 
     # Loading the media library
     if len(files) > 0:
-        medialibrary = MediaLibrary(files = files)
+        medialibrary = MediaLibrary(files = files, inputs = inputs, filters = filters)
     elif len(directories) > 0:
-        medialibrary = MediaLibrary(directories = directories)
+        medialibrary = MediaLibrary(directories = directories, inputs = inputs, filters = filters)
     else:
         print(f"{BColors.FAIL}ERROR: No files or directories selected.{BColors.FAIL}")
         
