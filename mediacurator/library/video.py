@@ -73,6 +73,7 @@ class Video():
             self.filename_tmp = ""
             exit()
         else:
+            subprocess.call(['chmod', '777', self.path + self.filename_tmp])
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True
