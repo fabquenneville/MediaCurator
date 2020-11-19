@@ -4,6 +4,7 @@
 '''
 
 import subprocess
+import os
 from .bcolors import BColors
 
 
@@ -23,7 +24,7 @@ def user_confirm(question):
     print("Please answer with yes (Y) or no (N)...")
     return user_confirm(question)
 
-def delete(filename):
+def deletefile(filename):
     try:
         os.remove(filename)
     except OSError:

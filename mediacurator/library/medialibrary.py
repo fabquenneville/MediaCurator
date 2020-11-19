@@ -8,6 +8,7 @@ import sys
 
 from .bcolors import BColors
 from .video import Video
+from .tools import deletefile
 
 class MediaLibrary():
     '''
@@ -167,3 +168,16 @@ class MediaLibrary():
 
             
         print(f"{BColors.OKGREEN}Found {len([filepath for filepath in self.videos if self.videos[filepath].useful])} videos for the requested parameters{BColors.ENDC}")
+
+    def unwatch(self, filepath, delete = False):
+        ''' remove a video from the index and delete it if requested'''
+        # If the user wanted to delete the film and 
+        if delete:
+            deletefile(filepath)
+        try:
+            video = self.videos.pop(filepath)
+            if video:
+                return video
+        except KeyError:
+            pass
+        return False

@@ -77,72 +77,32 @@ def main():
         exit()
         
     elif sys.argv[1] == "convert":
-        pass
-        # if "av1" in outputs:
-        #     codec = "av1"
-        # else:
-        #     codec = "x265"
-        # if any("-files" in argv for argv in sys.argv):
-        #     video = sys.argv[sys.argv.index("-files") + 1]
-        #     folder = str(video)[:str(video).rindex("/") + 1]
-        #     oldfilename = str(video)[str(video).rindex("/") + 1:]
+        counter = 0
+        nbuseful = len([filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful])
+        for filepath in medialibrary.videos:
+            if medialibrary.videos[filepath].useful:
+                counter += 1
+                # Setting required variables
+                if "av1" in outputs:
+                    vcodec = "av1"
+                else:
+                    vcodec = "x265"
 
-        #     # Setting new filename
-        #     if "mp4" in outputs:
-        #         newfilename = oldfilename[:-4] + ".mp4"
-        #         if oldfilename == newfilename:
-        #             newfilename = oldfilename[:-4] + "[HEVC]" + ".mp4"
-        #     else:
-        #         newfilename = oldfilename[:-4] + ".mkv"
-        #         if oldfilename == newfilename:
-        #             newfilename = oldfilename[:-4] + "[HEVC]" + ".mkv"
-            
+                # Verbosing
+                print(f"{BColors.OKCYAN}******  Starting conversion {counter} of {nbuseful}: '{BColors.OKGREEN}{medialibrary.videos[filepath].filename_origin}{BColors.OKCYAN}' from {BColors.OKGREEN}{medialibrary.videos[filepath].codec}{BColors.OKCYAN} to {BColors.OKGREEN}{vcodec}{BColors.OKCYAN}...{BColors.ENDC}")
+                print(f"{BColors.OKGREEN}Original file:{BColors.ENDC}")
+                print(medialibrary.videos[filepath])
+                print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}")
 
-            
-        #     print(f"{BColors.OKCYAN}***********   converting {oldfilename} to {newfilename} ({codec})  ***********{BColors.ENDC}")
-        #     try:
-        #         if convert(folder + oldfilename, folder + newfilename, codec):
-        #             #subprocess.call(['chown', f"{getuser()}:{getuser()}", folder + newfilename])
-        #             subprocess.call(['chmod', '777', folder + newfilename])
-        #             if "-del" in sys.argv:
-        #                 delete(folder + oldfilename)
-        #         else:
-        #             delete(folder + newfilename)
-        #             return False
-        #     except:
-        #         delete(folder + newfilename)
-        #         return False
-        # elif any("-dir" in argv for argv in sys.argv):
-        #     videolist = []
-        #     for directory in directories:
-        #         videolist += get_videolist(directory, inputs, filters)
-        #     videolist.sort()
-        #     counter = 0
-        #     for video in videolist:
-        #         folder = str(video)[:str(video).rindex("/") + 1]
-        #         oldfilename = str(video)[str(video).rindex("/") + 1:]
+                # Converting
+                if medialibrary.videos[filepath].convert():
+                    newvid = Video(medialibrary.videos[filepath].path + medialibrary.videos[filepath].filename_new)
+                    print(f"{BColors.OKGREEN}Converted {medialibrary.videos[filepath].filename_origin}{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to {newvid.filename_origin}{BColors.OKCYAN}({newvid.filesize}mb){BColors.OKGREEN} successfully, new file:{BColors.ENDC}")
+                    print(newvid)
 
-        #         if "mp4" in outputs:
-        #             newfilename = oldfilename[:-4] + ".mp4"
-        #             if oldfilename == newfilename:
-        #                 newfilename = oldfilename[:-4] + "[HEVC]" + ".mp4"
-        #         else:
-        #             newfilename = oldfilename[:-4] + ".mkv"
-        #             if oldfilename == newfilename:
-        #                 newfilename = oldfilename[:-4] + "[HEVC]" + ".mkv"
+            # TODO delete file when -del
+        
 
-        #         counter += 1
-        #         print(f"{BColors.OKCYAN}***********   convert {counter} of {len(videolist)}   ***********{BColors.ENDC}")
-        #         try:
-        #             if convert(folder + oldfilename, folder + newfilename, codec):
-        #                 #output = (['chown', f"{getuser()}:{getuser()}", folder + newfilename], stderr=subprocess.STDOUT)
-        #                 #output = (['chown', f"{getuser()}:{getuser()}", folder + newfilename], stderr=subprocess.STDOUT)
-        #                 subprocess.call(['chmod', '777', folder + newfilename])
-        #                 if "-del" in sys.argv:
-        #                     delete(folder + oldfilename)
-        #         except:
-        #             delete(folder + newfilename)
-        #             return False
-    
+
 if __name__ == '__main__':
     main()

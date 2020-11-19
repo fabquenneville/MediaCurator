@@ -13,7 +13,7 @@ class Video():
 
     path = ""
     filename_origin = ""
-    filesize_origin = ""
+    filesize = ""
     filename_new = ""
     filename_tmp = ""
     useful = True
@@ -22,6 +22,59 @@ class Video():
     definition = ""
     width = int()
     height = int()
+
+    def convert(self, vcodec = "x265", acodec = False, extension = "mkv"):
+        '''
+            Convert to original file to the requested format / codec
+        '''
+
+
+        # Setting new filename
+        if "mp4" in extension:
+            newfilename = self.filename_origin[:-4] + ".mp4"
+            if self.filename_origin == newfilename:
+                newfilename = self.filename_origin[:-4] + "[HEVC]" + ".mp4"
+        else:
+            newfilename = self.filename_origin[:-4] + ".mkv"
+            if self.filename_origin == newfilename:
+                newfilename = self.filename_origin[:-4] + "[HEVC]" + ".mkv"
+        self.filename_tmp = newfilename
+
+
+
+        # Settting ffmpeg
+        args = ['ffmpeg', '-i', self.path + self.filename_origin]
+
+        # conversion options
+        if vcodec == "av1":
+            args += ['-c:v', 'libaom-av1', '-strict', 'experimental']
+        elif vcodec == "x265" or vcodec == "hevc":
+            args += ['-c:v', 'libx265']
+            args += ['-max_muxing_queue_size', '1000']
+        # conversion output
+        args += [self.path + self.filename_tmp]
+
+
+        
+        try:
+            if "-verbose" in sys.argv:
+                subprocess.call(args)
+            else:
+                txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
+        except subprocess.CalledProcessError as e:
+            self.filename_tmp = ""
+            print(f"{BColors.FAIL}Conversion failed {e}{BColors.ENDC}")
+            return False
+        else:
+            self.filename_new = self.filename_tmp
+            self.filename_tmp = ""
+
+            #newsize = get_size(newfilename)
+            #oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
+            #newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
+            #print(f"{BColors.OKGREEN}Converted {oldfilename}{BColors.OKCYAN}({oldsize}mb){BColors.OKGREEN} to {newfilename}{BColors.OKCYAN}({newsize}mb){BColors.OKGREEN} successfully{BColors.ENDC}")
+            return True
+        
 
     def __init__(self, filepath, useful = True):
         '''
@@ -35,7 +88,7 @@ class Video():
         self.useful             = useful
 
         #Gathering information on the video
-        self.filesize_origin    = self.detect_filesize(filepath)
+        self.filesize    = self.detect_filesize(filepath)
         self.error              = self.detect_fferror(filepath)
         self.codec              = self.detect_codec(filepath)
         try:
@@ -68,10 +121,10 @@ class Video():
         text += f"    Codec:          {self.codec}\n"
 
         # Return the size in mb or gb if more than 1024 mb
-        if self.filesize_origin >= 1024:
-            text += f"    size:           {self.filesize_origin / 1024 :.2f} gb"
+        if self.filesize >= 1024:
+            text += f"    size:           {self.filesize / 1024 :.2f} gb"
         else:
-            text += f"    size:           {self.filesize_origin} mb"
+            text += f"    size:           {self.filesize} mb"
 
         if self.error:
             text += f"{BColors.FAIL}\n    Errors:         {', '.join(map(str, self.error))}{BColors.ENDC}"
@@ -81,6 +134,12 @@ class Video():
 
 
     __repr__ = __str__
+
+
+
+
+
+
 
     @staticmethod
     def detect_codec(filepath):
@@ -147,37 +206,3 @@ class Video():
         except subprocess.CalledProcessError:
             return False
         return size
-
-    # @staticmethod
-    # def convert(oldfilename, newfilename, codec = "x265"):
-    #     oldsize = get_size(oldfilename)
-    #     print(f"{BColors.OKGREEN}Starting conversion of {oldfilename}{BColors.OKCYAN}({oldsize}mb)({get_print_resolution(oldfilename)}){BColors.OKGREEN} from {BColors.OKCYAN}{get_codec(oldfilename)}{BColors.OKGREEN} to {BColors.OKCYAN}{codec}{BColors.OKGREEN}...{BColors.ENDC}")
-
-    #     # Preparing ffmpeg command and input file
-    #     args = ['ffmpeg', '-i', oldfilename]
-
-    #     # conversion options
-    #     if codec == "av1":
-    #         args += ['-c:v', 'libaom-av1', '-strict', 'experimental']
-    #     else:
-    #         args += ['-c:v', 'libx265']
-    #         args += ['-max_muxing_queue_size', '1000']
-
-    #     # conversion output
-    #     args += [newfilename]
-
-    #     #args = ['ffmpeg', '-i', oldfilename, newfilename]
-    #     try:
-    #         if "-verbose" in sys.argv:
-    #             subprocess.call(args)
-    #         else:
-    #             txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
-    #     except subprocess.CalledProcessError as e:
-    #         print(f"{BColors.FAIL}Conversion failed {e}{BColors.ENDC}")
-    #         return False
-    #     else:
-    #         newsize = get_size(newfilename)
-    #         oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
-    #         newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-    #         print(f"{BColors.OKGREEN}Converted {oldfilename}{BColors.OKCYAN}({oldsize}mb){BColors.OKGREEN} to {newfilename}{BColors.OKCYAN}({newsize}mb){BColors.OKGREEN} successfully{BColors.ENDC}")
-    #         return True
