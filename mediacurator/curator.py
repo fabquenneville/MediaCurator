@@ -78,7 +78,11 @@ def main():
         
     elif sys.argv[1] == "convert":
         counter = 0
+
+        # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
         keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist.sort()
+
         for filepath in keylist:
             counter += 1
             # Setting required variables
@@ -103,9 +107,10 @@ def main():
                 medialibrary.videos[newfpath] = Video(newfpath)
 
                 # Vervose
-                print(f"{BColors.OKGREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to '{medialibrary.videos[newfpath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[newfpath].filesize}mb){BColors.OKGREEN} , {BColors.OKCYAN}new file:{BColors.ENDC}")
+                print(f"{BColors.OKGREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to '{medialibrary.videos[newfpath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[newfpath].filesize}mb){BColors.OKGREEN}, {BColors.OKCYAN}new file:{BColors.ENDC}")
                 print(medialibrary.videos[newfpath])
 
+                # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
                     medialibrary.unwatch(filepath, delete = True)
 
