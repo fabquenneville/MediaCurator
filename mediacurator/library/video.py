@@ -2,6 +2,7 @@
 '''Its a video!'''
 
 from .bcolors import BColors
+from .tools import deletefile
 import subprocess
 import os
 import sys
@@ -62,17 +63,18 @@ class Video():
             else:
                 txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
         except subprocess.CalledProcessError as e:
+            deletefile(self.path + self.filename_tmp)
             self.filename_tmp = ""
             print(f"{BColors.FAIL}Conversion failed {e}{BColors.ENDC}")
             return False
+        except KeyboardInterrupt:
+            print(f"{BColors.WARNING}Conversion cancelled, cleaning up...{BColors.ENDC}")
+            deletefile(self.path + self.filename_tmp)
+            self.filename_tmp = ""
+            exit()
         else:
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
-
-            #newsize = get_size(newfilename)
-            #oldfilename = str(oldfilename)[str(oldfilename).rindex("/") + 1:]
-            #newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
-            #print(f"{BColors.OKGREEN}Converted {oldfilename}{BColors.OKCYAN}({oldsize}mb){BColors.OKGREEN} to {newfilename}{BColors.OKCYAN}({newsize}mb){BColors.OKGREEN} successfully{BColors.ENDC}")
             return True
         
 

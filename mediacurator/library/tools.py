@@ -31,5 +31,5 @@ def deletefile(filename):
         print(f"{BColors.FAIL}Error deleting {filename}{BColors.ENDC}")
         return False
 
-    print(f"{BColors.OKGREEN}Deleted {filename}{BColors.ENDC}")
+    print(f"{BColors.OKGREEN}Successfully deleted {filename}{BColors.ENDC}")
     return True

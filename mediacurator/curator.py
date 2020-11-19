@@ -78,29 +78,38 @@ def main():
         
     elif sys.argv[1] == "convert":
         counter = 0
-        nbuseful = len([filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful])
-        for filepath in medialibrary.videos:
-            if medialibrary.videos[filepath].useful:
-                counter += 1
-                # Setting required variables
-                if "av1" in outputs:
-                    vcodec = "av1"
-                else:
-                    vcodec = "x265"
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        for filepath in keylist:
+            counter += 1
+            # Setting required variables
+            if "av1" in outputs:
+                vcodec = "av1"
+            else:
+                vcodec = "x265"
 
-                # Verbosing
-                print(f"{BColors.OKCYAN}******  Starting conversion {counter} of {nbuseful}: '{BColors.OKGREEN}{medialibrary.videos[filepath].filename_origin}{BColors.OKCYAN}' from {BColors.OKGREEN}{medialibrary.videos[filepath].codec}{BColors.OKCYAN} to {BColors.OKGREEN}{vcodec}{BColors.OKCYAN}...{BColors.ENDC}")
-                print(f"{BColors.OKGREEN}Original file:{BColors.ENDC}")
-                print(medialibrary.videos[filepath])
-                print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}")
+            # Verbosing
+            print(f"{BColors.OKGREEN}******  Starting conversion {counter} of {len(keylist)}: '{BColors.OKCYAN}{medialibrary.videos[filepath].filename_origin}{BColors.OKGREEN}' from {BColors.OKCYAN}{medialibrary.videos[filepath].codec}{BColors.OKGREEN} to {BColors.OKCYAN}{vcodec}{BColors.OKGREEN}...{BColors.ENDC}")
+            print(f"{BColors.OKCYAN}Original file:{BColors.ENDC}")
+            print(medialibrary.videos[filepath])
+            print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}")
 
-                # Converting
-                if medialibrary.videos[filepath].convert():
-                    newvid = Video(medialibrary.videos[filepath].path + medialibrary.videos[filepath].filename_new)
-                    print(f"{BColors.OKGREEN}Converted {medialibrary.videos[filepath].filename_origin}{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to {newvid.filename_origin}{BColors.OKCYAN}({newvid.filesize}mb){BColors.OKGREEN} successfully, new file:{BColors.ENDC}")
-                    print(newvid)
+            # Converting
+            if medialibrary.videos[filepath].convert():
+                # Mark the job as done
+                medialibrary.videos[filepath].useful = False
 
-            # TODO delete file when -del
+                # Scan the new video
+                newfpath = medialibrary.videos[filepath].path + medialibrary.videos[filepath].filename_new
+                medialibrary.videos[newfpath] = Video(newfpath)
+
+                # Vervose
+                print(f"{BColors.OKGREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to '{medialibrary.videos[newfpath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[newfpath].filesize}mb){BColors.OKGREEN} , {BColors.OKCYAN}new file:{BColors.ENDC}")
+                print(medialibrary.videos[newfpath])
+
+                if "-del" in sys.argv:
+                    medialibrary.unwatch(filepath, delete = True)
+
+
         
 
 
