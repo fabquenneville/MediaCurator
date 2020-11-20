@@ -30,7 +30,7 @@ def main():
     if not ffmpeg_version:
         print(f"{BColors.FAIL}No ffmpeg version detected{BColors.ENDC}")
         exit()
-    print(f"{BColors.OKBLUE}ffmpeg detected: {ffmpeg_version}{BColors.ENDC}")
+    print(f"{BColors.OKBLUE}ffmpeg version detected: {ffmpeg_version}{BColors.ENDC}")
 
     # Get/load command parameters
     directories = []

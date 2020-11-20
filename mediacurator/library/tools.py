@@ -9,13 +9,18 @@ from .bcolors import BColors
 
 
 def detect_ffmpeg():
+    '''Returns the version of ffmpeg that is installed or false'''
     try:
         txt = subprocess.check_output(['ffmpeg', '-version'], stderr=subprocess.STDOUT).decode()
-        return txt.partition('\n')[0]
+        if "ffmpeg version" in txt:
+            # Strip the useless text and 
+            return txt.split(' ')[2]
     except:
-        return False
+        pass
+    return False
     
 def user_confirm(question):
+    '''Returns the user answer to a yes or no question'''
     answer = input(question)
     if answer.lower() in ["y","yes"]:
         return True
@@ -25,6 +30,7 @@ def user_confirm(question):
     return user_confirm(question)
 
 def deletefile(filename):
+    '''Delete a file, Returns a boolean'''
     try:
         os.remove(filename)
     except OSError:
