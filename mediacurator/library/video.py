@@ -178,20 +178,6 @@ class Video():
 
 
     @staticmethod
-    def detect_codec(filepath):
-        try:
-            args = ["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filepath)]
-            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-            
-            # decoding from binary, stripping whitespace, keep only last line
-            # in case ffmprobe added error messages over the requested information
-            output = output.decode().strip().splitlines()[-1]
-        except (subprocess.CalledProcessError, IndexError):
-            return False
-        return output
-
-
-    @staticmethod
     def detect_fferror(filepath):
         try:
             args = ["ffprobe","-v","error",str(filepath)]
@@ -205,14 +191,28 @@ class Video():
 
 
     @staticmethod
-    def detect_resolution(filepath):
+    def detect_codec(filepath):
         try:
-            args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
+            args = ["ffprobe", "-v", "quiet", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
             
             # decoding from binary, stripping whitespace, keep only last line
             # in case ffmprobe added error messages over the requested information
-            output = output.decode().strip().splitlines()[-1]
+            output = output.decode().strip()
+        except (subprocess.CalledProcessError, IndexError):
+            return False
+        return output
+
+
+    @staticmethod
+    def detect_resolution(filepath):
+        try:
+            args = ["ffprobe","-v","quiet","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
+            output = subprocess.check_output(args, stderr=subprocess.STDOUT)
+            
+            # decoding from binary, stripping whitespace, keep only last line
+            # in case ffmprobe added error messages over the requested information
+            output = output.decode().strip()
 
             # See if we got convertable data
             output = [int(output.split("x")[0]), int(output.split("x")[1])]
