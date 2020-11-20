@@ -8,27 +8,24 @@ import os
 import sys
 
 class Video():
-    '''
-        Contains the information and methods of a video file.
-    '''
+    '''Contains the information and methods of a video file.'''
 
-    path = ""
-    filename_origin = ""
-    filesize = ""
-    filename_new = ""
-    filename_tmp = ""
-    useful = True
-    codec= ""
-    error = ""
-    definition = ""
+    path = str()
+    filename_origin = str()
+    filesize = int()
+    filename_new = str()
+    filename_tmp = str()
+    useful = bool()
+    codec= str()
+    error = str()
+    definition = str()
     width = int()
     height = int()
 
         
 
     def __init__(self, filepath, useful = True, verbose = False):
-        '''
-        '''
+        ''' creates and analyse a video file '''
 
         #Breaking down the full path in its components
         self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
@@ -55,9 +52,8 @@ class Video():
             print(f"{BColors.FAIL}    {self.error}{BColors.ENDC}")
 
     def __str__(self):
-        '''
-            Building and returning formated information about the video file
-        '''
+        '''Returns a short formated string about the video'''
+
         text = f"{self.codec} - "
 
         # If the first character of the definition is not a number (ie UHD and not 720p) upper it
@@ -87,9 +83,7 @@ class Video():
     __repr__ = __str__
 
     def fprint(self):
-        '''
-            Building and returning formated information about the video file
-        '''
+        '''Returns a long formated string about the video '''
 
         text = f"{self.path + self.filename_origin}\n"
         #text += f"    Useful:         {self.useful}\n"
@@ -120,8 +114,8 @@ class Video():
     def convert(self, vcodec = "x265", acodec = False, extension = "mkv", verbose = False):
         '''
             Convert to original file to the requested format / codec
+            verbose will print ffmpeg's output
         '''
-
 
         # Setting new filename
         if "mp4" in extension:
@@ -179,6 +173,7 @@ class Video():
 
     @staticmethod
     def detect_fferror(filepath):
+        '''Returns a string with the detected errors'''
         try:
             args = ["ffprobe","-v","error",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -192,6 +187,7 @@ class Video():
 
     @staticmethod
     def detect_codec(filepath):
+        '''Returns a string with the detected codec'''
         try:
             args = ["ffprobe", "-v", "quiet", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -206,6 +202,7 @@ class Video():
 
     @staticmethod
     def detect_resolution(filepath):
+        '''Returns a list with the detected width(0) and height(1)'''
         try:
             args = ["ffprobe","-v","quiet","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -222,6 +219,7 @@ class Video():
 
     @staticmethod
     def detect_definition(filepath = False, width = False, height = False):
+        '''Returns a string with the detected definition corrected for dead space'''
         if filepath:
             width, height = Video.detect_resolution(filepath)
         if not width and not height:
@@ -237,6 +235,7 @@ class Video():
 
     @staticmethod
     def detect_filesize(filepath):
+        '''Returns an integer with size in mb'''
         try:
             size = int(os.path.getsize(filepath) / 1024 / 1024)
         except subprocess.CalledProcessError:
