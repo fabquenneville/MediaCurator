@@ -21,13 +21,13 @@ class MediaLibrary():
     inputs = []
     filters = []
 
-    def __init__(self, files = False, directories = False, inputs = ["any"], filters = []):
+    def __init__(self, files = False, directories = False, inputs = ["any"], filters = [], verbose = False):
         '''
             This is the library object who holds the information about the workspace and all the videos in it.
         '''
         if files:
             for filepath in files:
-                self.videos[filepath] = Video(filepath)
+                self.videos[filepath] = Video(filepath, verbose = verbose)
 
         elif directories:
             self.directories    = directories
@@ -37,7 +37,7 @@ class MediaLibrary():
         self.inputs             = inputs
         self.filters            = filters
         
-        self.load_videos()
+        self.load_videos(verbose = verbose)
 
         self.filter_videos()
 
@@ -54,7 +54,7 @@ class MediaLibrary():
 
         return text
 
-    def load_videos(self):
+    def load_videos(self, verbose = False):
         '''
             Scan folders for video files respecting the inputs requested by the user
             Save them to the videos dictionary
@@ -93,7 +93,8 @@ class MediaLibrary():
             if "-verbose" in sys.argv:
                 iteration += 1
                 print(f'{int((iteration / len(videolist )* 100))}% complete', end='\r')
-            self.videos[video] = Video(video)
+            
+            self.videos[video] = Video(video, verbose = verbose)
 
     def filter_videos(self):
         '''

@@ -24,7 +24,100 @@ class Video():
     width = int()
     height = int()
 
-    def convert(self, vcodec = "x265", acodec = False, extension = "mkv"):
+        
+
+    def __init__(self, filepath, useful = True, verbose = False):
+        '''
+        '''
+
+        #Breaking down the full path in its components
+        self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
+        self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
+
+        # Marking useful is user manually set it.
+        self.useful             = useful
+
+        #Gathering information on the video
+        self.filesize    = self.detect_filesize(filepath)
+        self.error              = self.detect_fferror(filepath)
+        self.codec              = self.detect_codec(filepath)
+        try:
+            self.width, self.height = self.detect_resolution(filepath)
+            self.definition         = self.detect_definition(
+                                            width = self.width, 
+                                            height = self.height )
+        except:
+            self.width, self.height = False, False
+            self.definition         = False
+        
+        if self.error and verbose:
+            print(f"{BColors.FAIL}There seams to be an error with \"{filepath}\"{BColors.ENDC}")
+            print(f"{BColors.FAIL}    {self.error}{BColors.ENDC}")
+
+    def __str__(self):
+        '''
+            Building and returning formated information about the video file
+        '''
+        text = f"{self.codec} - "
+
+        # If the first character of the definition is not a number (ie UHD and not 720p) upper it
+        if self.definition[0] and not self.definition[0].isnumeric():
+            text += f"{self.definition.upper()}: ({self.width}x{self.height}) - "
+        else:
+            text += f"{self.definition}: ({self.width}x{self.height}) - "
+
+        # Return the size in mb or gb if more than 1024 mb
+        if self.filesize >= 1024:
+            text += f"{self.filesize / 1024 :.2f} gb - "
+        else:
+            text += f"{self.filesize} mb - "
+        
+        text += f"'{self.path + self.filename_origin}'"
+
+
+        if self.error:
+            text += f"{BColors.FAIL}\nErrors:{BColors.ENDC}"
+            for err in self.error.splitlines():
+                text += f"{BColors.FAIL}\n    {err}{BColors.ENDC}"
+        
+
+        return text
+
+
+    __repr__ = __str__
+
+    def fprint(self):
+        '''
+            Building and returning formated information about the video file
+        '''
+
+        text = f"{self.path + self.filename_origin}\n"
+        #text += f"    Useful:         {self.useful}\n"
+
+        # If the first character of the definition is not a number (ie UHD and not 720p) upper it
+        if self.definition[0] and not self.definition[0].isnumeric():
+            text += f"    Definition:     {self.definition.upper()}: ({self.width}x{self.height})\n"
+        else:
+            text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
+
+        text += f"    Codec:          {self.codec}\n"
+
+        # Return the size in mb or gb if more than 1024 mb
+        if self.filesize >= 1024:
+            text += f"    size:           {self.filesize / 1024 :.2f} gb"
+        else:
+            text += f"    size:           {self.filesize} mb"
+
+        if self.error:
+            text += f"{BColors.FAIL}\n    Errors:{BColors.ENDC}"
+            for err in self.error.splitlines():
+                text += f"{BColors.FAIL}\n        {err}{BColors.ENDC}"
+        
+
+        return text
+
+
+    def convert(self, vcodec = "x265", acodec = False, extension = "mkv", verbose = False):
         '''
             Convert to original file to the requested format / codec
         '''
@@ -58,7 +151,7 @@ class Video():
 
         
         try:
-            if "-verbose" in sys.argv:
+            if verbose:
                 subprocess.call(args)
             else:
                 txt = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -77,66 +170,6 @@ class Video():
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True
-        
-
-    def __init__(self, filepath, useful = True):
-        '''
-        '''
-
-        #Breaking down the full path in its components
-        self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
-        self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
-
-        # Marking useful is user manually set it.
-        self.useful             = useful
-
-        #Gathering information on the video
-        self.filesize    = self.detect_filesize(filepath)
-        self.error              = self.detect_fferror(filepath)
-        self.codec              = self.detect_codec(filepath)
-        try:
-            self.width, self.height = self.detect_resolution(filepath)
-            self.definition         = self.detect_definition(
-                                            width = self.width, 
-                                            height = self.height )
-        except:
-            self.width, self.height = False, False
-            self.definition         = False
-        
-        if self.error and "-verbose" in sys.argv:
-            print(f"{BColors.FAIL}There seams to be an error with \"{filepath}\"{BColors.ENDC}")
-            print(f"{BColors.FAIL}    {self.error}{BColors.ENDC}")
-
-    def __str__(self):
-        '''
-            Building and returning formated information about the video file
-        '''
-
-        text = f"{self.path + self.filename_origin}\n"
-        text += f"    Useful:         {self.useful}\n"
-
-        # If the first character of the definition is not a number (ie UHD and not 720p) upper it
-        if self.definition[0] and not self.definition[0].isnumeric():
-            text += f"    Definition:     {self.definition.upper()}: ({self.width}x{self.height})\n"
-        else:
-            text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
-
-        text += f"    Codec:          {self.codec}\n"
-
-        # Return the size in mb or gb if more than 1024 mb
-        if self.filesize >= 1024:
-            text += f"    size:           {self.filesize / 1024 :.2f} gb"
-        else:
-            text += f"    size:           {self.filesize} mb"
-
-        if self.error:
-            text += f"{BColors.FAIL}\n    Errors:         {', '.join(map(str, self.error))}{BColors.ENDC}"
-        
-
-        return text
-
-
-    __repr__ = __str__
 
 
 
@@ -161,11 +194,11 @@ class Video():
     @staticmethod
     def detect_fferror(filepath):
         try:
-            args = ["ffprobe","-v","error","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
+            args = ["ffprobe","-v","error",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
-            output = output.decode().strip().splitlines()
-            if len(output) > 1:
-                return output[0:-1]
+            output = output.decode().strip()
+            if len(output) > 0:
+                return output
         except (subprocess.CalledProcessError, IndexError):
             return f'{BColors.FAIL}There seams to be a "subprocess.CalledProcessError" error with \"{filepath}\"{BColors.ENDC}'
         return False

@@ -6,7 +6,7 @@
     ex:
     ./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
     ./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
-    ./converter.py convert -del -verbose -in:avi,mpg -dir:/mnt/media/
+    ./converter.py convert -del  -in:avi,mpg -dir:/mnt/media/
 '''
 
 import sys
@@ -38,6 +38,7 @@ def main():
     inputs = []
     filters = []
     outputs = []
+    printop = []
 
     for arg in sys.argv:
         # Confirm with the user that he selected to delete found files
@@ -52,6 +53,8 @@ def main():
             filters += arg[9:].split(",")
         elif "-out:" in arg:
             outputs += arg[5:].split(",")
+        elif "-print:" in arg:
+            printop += arg[7:].split(",")
         elif "-files:" in arg:
             files += arg[7:].split(",,")
         elif "-dir:" in arg:
@@ -63,14 +66,23 @@ def main():
     elif len(directories) > 0:
         medialibrary = MediaLibrary(directories = directories, inputs = inputs, filters = filters)
     else:
-        print(f"{BColors.FAIL}ERROR: No files or directories selected.{BColors.FAIL}")
+        print(f"{BColors.FAIL}ERROR: No files or directories selected.{BColors.ENDC}")
         
 
     # Actions
     if sys.argv[1] == "list":
         for filepath in medialibrary.videos:
             if medialibrary.videos[filepath].useful:
-                print(medialibrary.videos[filepath])
+                if "formated" in printop or "verbose" in printop:
+                    if medialibrary.videos[filepath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[filepath].fprint()}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[filepath].fprint())
+                else:
+                    if medialibrary.videos[filepath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[filepath]}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[filepath])
             # TODO delete file when -del
     elif sys.argv[1] == "test":
         print(medialibrary)
@@ -94,21 +106,37 @@ def main():
             # Verbosing
             print(f"{BColors.OKGREEN}******  Starting conversion {counter} of {len(keylist)}: '{BColors.OKCYAN}{medialibrary.videos[filepath].filename_origin}{BColors.OKGREEN}' from {BColors.OKCYAN}{medialibrary.videos[filepath].codec}{BColors.OKGREEN} to {BColors.OKCYAN}{vcodec}{BColors.OKGREEN}...{BColors.ENDC}")
             print(f"{BColors.OKCYAN}Original file:{BColors.ENDC}")
-            print(medialibrary.videos[filepath])
-            print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}")
+            if "formated" in printop or "verbose" in printop:
+                print(medialibrary.videos[filepath].fprint())
+            else:
+                print(medialibrary.videos[filepath])
+
+            print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}", end="\r")
 
             # Converting
-            if medialibrary.videos[filepath].convert():
+            if medialibrary.videos[filepath].convert(verbose = "verbose" in printop):
                 # Mark the job as done
                 medialibrary.videos[filepath].useful = False
 
                 # Scan the new video
                 newfpath = medialibrary.videos[filepath].path + medialibrary.videos[filepath].filename_new
-                medialibrary.videos[newfpath] = Video(newfpath)
+                
+                medialibrary.videos[newfpath] = Video(newfpath, verbose = "verbose" in printop)
 
-                # Vervose
+                # Verbose
                 print(f"{BColors.OKGREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to '{medialibrary.videos[newfpath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[newfpath].filesize}mb){BColors.OKGREEN}, {BColors.OKCYAN}new file:{BColors.ENDC}")
-                print(medialibrary.videos[newfpath])
+
+
+                if "formated" in printop or "verbose" in printop:
+                    if medialibrary.videos[newfpath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[newfpath].fprint()}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[newfpath].fprint())
+                else:
+                    if medialibrary.videos[newfpath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[newfpath]}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[newfpath])
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
