@@ -9,8 +9,9 @@ Welcome to MediaCurator's documentation!
 
 MediaCurator is a Python command line tool to manage a media database.
 
-* List all the video's and their codecs with or without filters
-* Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs ...
+* List all the video's and their information with or without filters
+* Batch find and repair/convert videos with encoding errors
+* Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs, resolutions ...
 
 The source code can be found on `GitHub <https://github.com/fabquenneville/MediaCurator>`_
 
@@ -22,8 +23,6 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
    usage/quickstart
    usage/use_cases
    usage/errors
-
-
 
 .. Indices and tables
 .. ==================
