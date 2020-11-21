@@ -71,7 +71,12 @@ def main():
 
     # Actions
     if sys.argv[1] == "list":
-        for filepath in medialibrary.videos:
+
+        # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist.sort()
+
+        for filepath in keylist:
             if medialibrary.videos[filepath].useful:
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[filepath].error:
