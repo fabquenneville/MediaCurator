@@ -42,6 +42,11 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:lowres  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
+<p>To delete all substandard videos in a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:subsd  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Screenshot-delete.png"><img alt="Deleting videos" src="../_images/Screenshot-delete.png" style="width: 600px;" /></a>
 <p>To delete all videos in a folder with encoding errors:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:fferror  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>

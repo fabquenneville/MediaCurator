@@ -12,6 +12,16 @@ To delete all non-hd videos in a folder:
 
     ./curator.py list -del -filters:lowres  -dir/-files:"/mnt/media/"
 
+To delete all substandard videos in a folder:
+
+.. code-block:: bash
+
+    ./curator.py list -del -filters:subsd  -dir/-files:"/mnt/media/"
+
+.. image:: ../_static/Screenshot-delete.png
+    :width: 600
+    :alt: Deleting videos
+
 To delete all videos in a folder with encoding errors:
 
 .. code-block:: bash
