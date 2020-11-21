@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Errors &#8212; MediaCurator  documentation</title>
+    <title>Warnings &#8212; MediaCurator  documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -16,7 +16,8 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Use cases" href="use_cases.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to MediaCurator’s documentation!" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,37 +34,10 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="errors">
-<h1>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h1>
-<p>FFmpeg can detect quite a few errors in the encoding of your source video’s encoding. It can also be used to repair errors.</p>
-<div class="section" id="repairable-encoding-errors">
-<h2>Repairable encoding errors<a class="headerlink" href="#repairable-encoding-errors" title="Permalink to this headline">¶</a></h2>
-<p>Here are some example errors that mediacurator will print and can possibly repair by re-encoding:</p>
-<ul class="simple">
-<li><p>“Referenced QT chapter track not found”</p></li>
-<li><p>“Error, header damaged or not MPEG-4 header”</p></li>
-<li><p>“Header missing”</p></li>
-<li><p>“SEI type”</p></li>
-<li><p>“no frame!”</p></li>
-<li><p>“Error while decoding MPEG audio frame.”</p></li>
-<li><p>“big_values too big”</p></li>
-<li><p>…</p></li>
-</ul>
-</div>
-<div class="section" id="ffmpeg-issues">
-<h2>FFmpeg issues<a class="headerlink" href="#ffmpeg-issues" title="Permalink to this headline">¶</a></h2>
-<p>While using FFmpeg depending on your version you may also face other errors like segfaults. MediaCurator will also print information when that occurs and move on to the next video after cleaning up after failure.</p>
-<p>If that happens there are a few steps you can take:</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://ffmpeg.org/download.html">Update FFmpeg</a> to its latest version as it is a very active project and most distributions serve old versions in their repositories</p></li>
-<li><p>Run MediaCurator with the verbose print option wich will print the raw FFmpeg output</p></li>
-<li><p>Try again: In my experience some errors don’t necessarly recur…</p></li>
-</ul>
-</div>
-<div class="section" id="other-bugs">
-<h2>Other bugs<a class="headerlink" href="#other-bugs" title="Permalink to this headline">¶</a></h2>
-<p>If you face other bugs, issues or want to suggest features feel free to open a bug report on <a class="reference external" href="https://github.com/fabquenneville/MediaCurator/issues">GitHub</a></p>
-</div>
+  <div class="section" id="warnings">
+<h1>Warnings<a class="headerlink" href="#warnings" title="Permalink to this headline">¶</a></h1>
+<p>Before using the delete feature please run a few dry runs to get acquainted with MediaCurator as you it can irrirreparably damage your media library when not used properly.</p>
+<p>When using the -del flag here is the expected behavior:</p>
 </div>
 
 
@@ -88,24 +62,20 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="warnings.html">Warnings</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Errors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#repairable-encoding-errors">Repairable encoding errors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ffmpeg-issues">FFmpeg issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#other-bugs">Other bugs</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="use_cases.html" title="previous chapter">Use cases</a></li>
+      <li>Previous: <a href="../index.html" title="previous chapter">Welcome to MediaCurator’s documentation!</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation</a></li>
   </ul></li>
 </ul>
 </div>
@@ -139,7 +109,7 @@
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/usage/errors.rst.txt"
+      <a href="../_sources/usage/warnings.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

@@ -231,7 +231,9 @@ class Video():
             return "1080p"
         elif width >= 1280 or height >= 720:
             return "720p"
-        return "sd"
+        elif height >= 480:
+            return "sd"
+        return "subsd"
 
     @staticmethod
     def detect_filesize(filepath):

@@ -117,18 +117,22 @@ class MediaLibrary():
                 self.videos[filepath].useful = useful
 
             # keep video if useful and user wants to also filter by selected resolutions
-            if self.videos[filepath].useful and len([filtr for filtr in self.filters if filtr in ["lowres", "hd", "720p", "1080p", "uhd"]]) > 0:
+            if self.videos[filepath].useful and len([filtr for filtr in self.filters if filtr in ["lowres", "subsd", "hd", "sd", "720p", "1080p", "uhd"]]) > 0:
                 useful = False
 
-                if "lowres" in self.filters and self.videos[filepath].definition in ["sd"]:
+                if "subsd" in self.filters and self.videos[filepath].definition in ["subsd"]:
                     useful = True
-                if "hd" in self.filters and self.videos[filepath].definition in ["720p", "1080p", "uhd"]:
+                if "sd" in self.filters and self.videos[filepath].definition in ["sd"]:
                     useful = True
                 if "720p" in self.filters and self.videos[filepath].definition in ["720p"]:
                     useful = True
                 if "1080p" in self.filters and self.videos[filepath].definition in ["1080p"]:
                     useful = True
                 if "uhd" in self.filters and self.videos[filepath].definition in ["uhd"]:
+                    useful = True
+                if "lowres" in self.filters and self.videos[filepath].definition in ["subsd", "sd"]:
+                    useful = True
+                if "hd" in self.filters and self.videos[filepath].definition in ["720p", "1080p", "uhd"]:
                     useful = True
                 self.videos[filepath].useful = useful
 

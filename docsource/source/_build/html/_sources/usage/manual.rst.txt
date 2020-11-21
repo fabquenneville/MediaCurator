@@ -1,6 +1,6 @@
-==========
-Quickstart
-==========
+======
+Manual
+======
 
 .. code-block:: bash
 
