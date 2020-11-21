@@ -91,10 +91,30 @@ def main():
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
-                    medialibrary.unwatch(filepath, delete = True)
+                    #medialibrary.unwatch(filepath, delete = True)
+                    pass
     elif sys.argv[1] == "test":
-        print(medialibrary)
-        exit()
+
+        # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist.sort()
+
+        for filepath in keylist:
+            if medialibrary.videos[filepath].useful:
+                if "formated" in printop or "verbose" in printop:
+                    if medialibrary.videos[filepath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[filepath].fprint()}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[filepath].fprint())
+                else:
+                    if medialibrary.videos[filepath].error:
+                        print(f"{BColors.FAIL}{medialibrary.videos[filepath]}{BColors.ENDC}")
+                    else:
+                        print(medialibrary.videos[filepath])
+
+                # if marked for deletion delete and unwatch the video
+                if "-del" in sys.argv:
+                    medialibrary.unwatch(filepath, delete = True)
         
     elif sys.argv[1] == "convert":
         counter = 0
@@ -148,7 +168,8 @@ def main():
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
-                    medialibrary.unwatch(filepath, delete = True)
+                    #medialibrary.unwatch(filepath, delete = True)
+                    pass
 
 
         
