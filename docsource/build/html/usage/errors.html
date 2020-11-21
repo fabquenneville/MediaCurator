@@ -35,13 +35,35 @@
             
   <div class="section" id="errors">
 <h1>Errors<a class="headerlink" href="#errors" title="Permalink to this headline">¶</a></h1>
-<p>“Referenced QT chapter track not found”,
-“Error, header damaged or not MPEG-4 header”,
-“Header missing”,
-“SEI type”,
-“no frame!”,
-“Error while decoding MPEG audio frame.”,
-“big_values too big”</p>
+<p>FFmpeg can detect quite a few errors in the encoding of your source video’s encoding. It can also be used to repair errors.</p>
+<div class="section" id="repairable-encoding-errors">
+<h2>Repairable encoding errors<a class="headerlink" href="#repairable-encoding-errors" title="Permalink to this headline">¶</a></h2>
+<p>Here are some example errors that mediacurator will print and can possibly repair by re-encoding:</p>
+<ul class="simple">
+<li><p>“Referenced QT chapter track not found”</p></li>
+<li><p>“Error, header damaged or not MPEG-4 header”</p></li>
+<li><p>“Header missing”</p></li>
+<li><p>“SEI type”</p></li>
+<li><p>“no frame!”</p></li>
+<li><p>“Error while decoding MPEG audio frame.”</p></li>
+<li><p>“big_values too big”</p></li>
+<li><p>…</p></li>
+</ul>
+</div>
+<div class="section" id="ffmpeg-issues">
+<h2>FFmpeg issues<a class="headerlink" href="#ffmpeg-issues" title="Permalink to this headline">¶</a></h2>
+<p>While using FFmpeg depending on your version you may also face other errors like segfaults. MediaCurator will also print information when that occurs and move on to the next video after cleaning up after failure.</p>
+<p>If that happens there are a few steps you can take:</p>
+<ul class="simple">
+<li><p>Update FFmpeg to its latest version as it is a very active project and most distributions serve old versions in their repositories</p></li>
+<li><p>Run MediaCurator with the verbose print option wich will print the raw FFmpeg output</p></li>
+<li><p>Try again: In my experience some errors don’t necessarly recur…</p></li>
+</ul>
+</div>
+<div class="section" id="other-bugs">
+<h2>Other bugs<a class="headerlink" href="#other-bugs" title="Permalink to this headline">¶</a></h2>
+<p>If you face other bugs, issues or want to suggest features feel free to open a bug report on <a class="reference external" href="https://github.com/fabquenneville/MediaCurator/issues">GitHub</a></p>
+</div>
 </div>
 
 
@@ -69,7 +91,12 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Errors</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Errors</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#repairable-encoding-errors">Repairable encoding errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ffmpeg-issues">FFmpeg issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#other-bugs">Other bugs</a></li>
+</ul>
+</li>
 </ul>
 
 <div class="relations">
