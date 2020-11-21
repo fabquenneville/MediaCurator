@@ -10,6 +10,11 @@ Welcome to MediaCurator's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   usage/installation
+   usage/quickstart
+   usage/use_cases
+   usage/errors
+
 
 
 Indices and tables
