@@ -19,6 +19,7 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
    :maxdepth: 2
    :caption: Contents:
 
+   usage/warnings
    usage/installation
    usage/quickstart
    usage/manual

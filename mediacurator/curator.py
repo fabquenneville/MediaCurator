@@ -83,7 +83,10 @@ def main():
                         print(f"{BColors.FAIL}{medialibrary.videos[filepath]}{BColors.ENDC}")
                     else:
                         print(medialibrary.videos[filepath])
-            # TODO delete file when -del
+
+                # if marked for deletion delete and unwatch the video
+                if "-del" in sys.argv:
+                    medialibrary.unwatch(filepath, delete = True)
     elif sys.argv[1] == "test":
         print(medialibrary)
         exit()
