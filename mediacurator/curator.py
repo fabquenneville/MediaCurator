@@ -91,8 +91,7 @@ def main():
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
-                    #medialibrary.unwatch(filepath, delete = True)
-                    pass
+                    medialibrary.unwatch(filepath, delete = True)
     elif sys.argv[1] == "test":
 
         # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
@@ -168,8 +167,7 @@ def main():
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
-                    #medialibrary.unwatch(filepath, delete = True)
-                    pass
+                    medialibrary.unwatch(filepath, delete = True)
 
 
         
