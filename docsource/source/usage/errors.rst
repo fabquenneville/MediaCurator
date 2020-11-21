@@ -26,7 +26,8 @@ While using FFmpeg depending on your version you may also face other errors like
 
 If that happens there are a few steps you can take:
 
-* Update FFmpeg to its latest version as it is a very active project and most distributions serve old versions in their repositories
+
+* `Update FFmpeg <https://ffmpeg.org/download.html>`_ to its latest version as it is a very active project and most distributions serve old versions in their repositories
 * Run MediaCurator with the verbose print option wich will print the raw FFmpeg output
 * Try again: In my experience some errors don't necessarly recur...
 

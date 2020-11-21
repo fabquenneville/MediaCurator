@@ -21,6 +21,7 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
 
    usage/installation
    usage/quickstart
+   usage/manual
    usage/use_cases
    usage/errors
 
