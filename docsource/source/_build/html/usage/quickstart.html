@@ -53,11 +53,14 @@
 </pre></div>
 </div>
 <p>Examples:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
+./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+<span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
 ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
 </pre></div>
 </div>
+<p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>
 </div>
 
 

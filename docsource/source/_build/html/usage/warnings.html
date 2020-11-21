@@ -38,6 +38,29 @@
 <h1>Warnings<a class="headerlink" href="#warnings" title="Permalink to this headline">¶</a></h1>
 <p>Before using the delete feature please run a few dry runs to get acquainted with MediaCurator as you it can irrirreparably damage your media library when not used properly.</p>
 <p>When using the -del flag here is the expected behavior:</p>
+<p>To delete all non-hd videos in a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:lowres  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<p>To delete all substandard videos in a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:subsd  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/Screenshot-delete.png"><img alt="Deleting videos" src="../_images/Screenshot-delete.png" style="width: 600px;" /></a>
+<p>To delete all videos in a folder with encoding errors:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:fferror  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<p>To convert (repair) then delete all videos in a folder with encoding errors:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py convert -del -filters:fferror  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<p>To delete all videos in a folder:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -del -filters:lowres  -dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+</pre></div>
+</div>
+<p>All these commands can have valuable use but are irrecoverable if done unintended.</p>
+<p>Again, please run a few dry runs until you are acquainted with MediaCurator.</p>
 </div>
 
 

@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Use cases" href="use_cases.html" />
+    <link rel="next" title="Manual" href="manual.html" />
     <link rel="prev" title="Installation" href="installation.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -53,11 +53,14 @@
 </pre></div>
 </div>
 <p>Examples:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
+./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+<span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
 ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
 </pre></div>
 </div>
+<p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>
 </div>
 
 
@@ -82,8 +85,10 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="warnings.html">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 </ul>
@@ -93,7 +98,7 @@
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="installation.html" title="previous chapter">Installation</a></li>
-      <li>Next: <a href="use_cases.html" title="next chapter">Use cases</a></li>
+      <li>Next: <a href="manual.html" title="next chapter">Manual</a></li>
   </ul></li>
 </ul>
 </div>
