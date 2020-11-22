@@ -12,7 +12,7 @@ class Video():
 
     path = str()
     filename_origin = str()
-    filesize = int()
+    filesize = int(0)
     filename_new = str()
     filename_tmp = str()
     useful = bool()
@@ -26,26 +26,31 @@ class Video():
 
     def __init__(self, filepath, useful = True, verbose = False):
         ''' creates and analyse a video file '''
-
+        
         #Breaking down the full path in its components
         self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
         self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
 
-        # Marking useful is user manually set it.
-        self.useful             = useful
+        if not os.path.exists(filepath):
+            self.error              = f"FileNotFoundError: [Errno 2] No such file or directory: '{filepath}'"
+            self.useful             = useful
 
-        #Gathering information on the video
-        self.filesize    = self.detect_filesize(filepath)
-        self.error              = self.detect_fferror(filepath)
-        self.codec              = self.detect_codec(filepath)
-        try:
-            self.width, self.height = self.detect_resolution(filepath)
-            self.definition         = self.detect_definition(
-                                            width = self.width, 
-                                            height = self.height )
-        except:
-            self.width, self.height = False, False
-            self.definition         = False
+        else:
+            # Marking useful is user manually set it.
+            self.useful             = useful
+
+            #Gathering information on the video
+            self.filesize    = self.detect_filesize(filepath)
+            self.error              = self.detect_fferror(filepath)
+            self.codec              = self.detect_codec(filepath)
+            try:
+                self.width, self.height = self.detect_resolution(filepath)
+                self.definition         = self.detect_definition(
+                                                width = self.width, 
+                                                height = self.height )
+            except:
+                self.width, self.height = False, False
+                self.definition         = False
         
         if self.error and verbose:
             print(f"{BColors.FAIL}There seams to be an error with \"{filepath}\"{BColors.ENDC}")
@@ -54,10 +59,13 @@ class Video():
     def __str__(self):
         '''Returns a short formated string about the video'''
 
+        if type(self.error) is str and "FileNotFoundError" in self.error:
+            return self.error
+        
         text = f"{self.codec} - "
 
         # If the first character of the definition is not a number (ie UHD and not 720p) upper it
-        if self.definition[0] and not self.definition[0].isnumeric():
+        if self.definition and self.definition[0] and not self.definition[0].isnumeric():
             text += f"{self.definition.upper()}: ({self.width}x{self.height}) - "
         else:
             text += f"{self.definition}: ({self.width}x{self.height}) - "
@@ -85,11 +93,15 @@ class Video():
     def fprint(self):
         '''Returns a long formated string about the video '''
 
+
+        if type(self.error) is str and "FileNotFoundError" in self.error:
+            return self.error
+        
         text = f"{self.path + self.filename_origin}\n"
         #text += f"    Useful:         {self.useful}\n"
 
         # If the first character of the definition is not a number (ie UHD and not 720p) upper it
-        if self.definition[0] and not self.definition[0].isnumeric():
+        if self.definition and self.definition[0] and not self.definition[0].isnumeric():
             text += f"    Definition:     {self.definition.upper()}: ({self.width}x{self.height})\n"
         else:
             text += f"    Definition:     {self.definition}: ({self.width}x{self.height})\n"
