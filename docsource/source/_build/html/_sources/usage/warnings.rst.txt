@@ -2,7 +2,7 @@
 Warnings
 ========
 
-Before using the delete feature please try a few dry runs to get acquainted with MediaCurator as you it can irreparably damage your media library when not used properly.
+Before using the delete feature please try a few dry runs to get acquainted with MediaCurator as it can irreparably damage your media library when not used properly.
 
 When using the -del flag here is the expected behavior:
 
@@ -42,4 +42,4 @@ To delete all videos in a folder:
 
 All these commands can have valuable use but are irrecoverable if done unintended.
 
-Again, please run a few dry runs until you are acquainted with MediaCurator.
+Again, please try a few dry runs without -del until you are acquainted with MediaCurator.

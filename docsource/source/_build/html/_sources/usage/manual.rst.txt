@@ -107,7 +107,7 @@ Select the outputs for the video conversions
     :width: 400
     :alt: Deleting videos
 
-* formated: Print the FFmpeg output during the video conversions
+* verbose: Print the FFmpeg output during the video conversions
 
 -dir:
 =====
