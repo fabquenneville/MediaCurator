@@ -5,7 +5,7 @@ Manual
 Name
 ----
 
-    MediaCurator
+MediaCurator
 
 Synopsis
 --------
@@ -22,34 +22,67 @@ Synopsis
 Description
 -----------
 
+MediaCurator is a Python command line tool to manage a media database.
+
+* List all the video's and their information with or without filters
+* Batch find and repair/convert videos with encoding errors
+* Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs, resolutions ...
+
 Options
 -------
 
 list
+====
+    Print information 
 
 convert
+=======
 
 -del:
+=====
 
 -in:
+====
     [any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]
+
 -filters:
+=========
     [fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]
+
 -out:
+=====
     [mkv/mp4,x265/av1]
+
 -print:
+=======
     [list,formated,verbose]
+
 -dir:
+=====
     ["/mnt/media/",,"/mnt/media2/"]
+
 -files:
+=======
     ["/mnt/media/video.avi",,"/mnt/media2/video2.mp4"]
 
 Examples
 --------
 
+.. code-block:: bash
+
+    # List all videos with old codec in formated format
+    ./curator.py list -filters:old -print:formated -dir:/mnt/media/ >> ../medlist.txt
+    # Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals
+    ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:"/mnt/media/Movies/"
+    # Convert any video with avi or mpg extensions, print formated text including ffmpeg's output and then delete the originals
+    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
+
+More examples in :doc:`use_cases`
 
 See Also
 --------
+
+`FFmpeg <https://ffmpeg.org/>`_
 
 Author
 ------

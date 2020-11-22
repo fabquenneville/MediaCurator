@@ -38,9 +38,7 @@
 <h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="name">
 <h2>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>MediaCurator</p>
-</div></blockquote>
+<p>MediaCurator</p>
 </div>
 <div class="section" id="synopsis">
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
@@ -55,32 +53,79 @@
 </div>
 <div class="section" id="description">
 <h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+<p>MediaCurator is a Python command line tool to manage a media database.</p>
+<ul class="simple">
+<li><p>List all the video’s and their information with or without filters</p></li>
+<li><p>Batch find and repair/convert videos with encoding errors</p></li>
+<li><p>Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs, resolutions …</p></li>
+</ul>
 </div>
 <div class="section" id="options">
 <h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
-<p>list</p>
-<p>convert</p>
-<p>-del:</p>
-<dl class="simple">
-<dt>-in:</dt><dd><p>[any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]</p>
-</dd>
-<dt>-filters:</dt><dd><p>[fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]</p>
-</dd>
-<dt>-out:</dt><dd><p>[mkv/mp4,x265/av1]</p>
-</dd>
-<dt>-print:</dt><dd><p>[list,formated,verbose]</p>
-</dd>
-<dt>-dir:</dt><dd><p>[“/mnt/media/”,,”/mnt/media2/”]</p>
-</dd>
-<dt>-files:</dt><dd><p>[“/mnt/media/video.avi”,,”/mnt/media2/video2.mp4”]</p>
-</dd>
-</dl>
+<div class="section" id="list">
+<h3>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>Print information</p>
+</div></blockquote>
+</div>
+<div class="section" id="convert">
+<h3>convert<a class="headerlink" href="#convert" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="del">
+<h3>-del:<a class="headerlink" href="#del" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="in">
+<h3>-in:<a class="headerlink" href="#in" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]</p>
+</div></blockquote>
+</div>
+<div class="section" id="filters">
+<h3>-filters:<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]</p>
+</div></blockquote>
+</div>
+<div class="section" id="out">
+<h3>-out:<a class="headerlink" href="#out" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[mkv/mp4,x265/av1]</p>
+</div></blockquote>
+</div>
+<div class="section" id="print">
+<h3>-print:<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[list,formated,verbose]</p>
+</div></blockquote>
+</div>
+<div class="section" id="dir">
+<h3>-dir:<a class="headerlink" href="#dir" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[“/mnt/media/”,,”/mnt/media2/”]</p>
+</div></blockquote>
+</div>
+<div class="section" id="files">
+<h3>-files:<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>[“/mnt/media/video.avi”,,”/mnt/media2/video2.mp4”]</p>
+</div></blockquote>
+</div>
 </div>
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
+./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+<span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
+./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+<span class="c1"># Convert any video with avi or mpg extensions, print formated text including ffmpeg&#39;s output and then delete the originals</span>
+./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
+</pre></div>
+</div>
+<p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>
 </div>
 <div class="section" id="see-also">
 <h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://ffmpeg.org/">FFmpeg</a></p>
 </div>
 <div class="section" id="author">
 <h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>

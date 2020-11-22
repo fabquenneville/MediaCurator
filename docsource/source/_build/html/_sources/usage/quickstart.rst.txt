@@ -30,6 +30,7 @@ Examples:
     ./curator.py list -filters:old -print:formated -dir:/mnt/media/ >> ../medlist.txt
     # Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals
     ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:"/mnt/media/Movies/"
+    # Convert any video with avi or mpg extensions, print formated text including ffmpeg's output and then delete the originals
     ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
 
 More examples in :doc:`use_cases`
