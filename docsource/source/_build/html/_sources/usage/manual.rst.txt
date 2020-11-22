@@ -101,7 +101,7 @@ Select the outputs for the video conversions
     :width: 600
     :alt: Deleting videos
 
-* formated: Print the information 
+* formated: Print the information in an aerated format
 
 .. image:: ../_static/Screenshot-print_formated-single.png
     :width: 400

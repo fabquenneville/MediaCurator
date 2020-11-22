@@ -2,7 +2,7 @@
 Warnings
 ========
 
-Before using the delete feature please run a few dry runs to get acquainted with MediaCurator as you it can irrirreparably damage your media library when not used properly.
+Before using the delete feature please try a few dry runs to get acquainted with MediaCurator as you it can irreparably damage your media library when not used properly.
 
 When using the -del flag here is the expected behavior:
 
