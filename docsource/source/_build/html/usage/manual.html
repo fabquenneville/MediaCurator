@@ -72,51 +72,71 @@
 <h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="list">
 <h3>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>Print information</p>
-</div></blockquote>
+<p>Search and list videos filtered by the parameters passed by the user.</p>
 </div>
 <div class="section" id="convert">
 <h3>convert<a class="headerlink" href="#convert" title="Permalink to this headline">¶</a></h3>
+<p>Search and convert all videos filtered by the parameters passed by the user.</p>
 </div>
 <div class="section" id="del">
 <h3>-del:<a class="headerlink" href="#del" title="Permalink to this headline">¶</a></h3>
+<p>Delete all original videos once selected operations have been done succefully.</p>
+<p>See <a class="reference internal" href="warnings.html"><span class="doc">Warnings</span></a></p>
 </div>
 <div class="section" id="in">
 <h3>-in:<a class="headerlink" href="#in" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]</p>
-</div></blockquote>
+<p>[<strong>any</strong>,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]</p>
+<p>Search all videos of the selected container <strong>extensions</strong> in the directories. By default it will include any file format.</p>
 </div>
 <div class="section" id="filters">
 <h3>-filters:<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]</p>
-</div></blockquote>
+<p>[fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]</p>
+<p>Filter the selected videos for parameters:</p>
+<ul class="simple">
+<li><p>fferror: Select all videos with encoding errors (See <a class="reference internal" href="errors.html"><span class="doc">Errors</span></a>)</p></li>
+<li><p>old: Select all videos using old codecs (Everything except hevc or av1)</p></li>
+<li><p>hd: 720p, 1080p, uhd</p></li>
+<li><p>lowres: Everything not hd</p></li>
+<li><p>uhd: if width &gt;= 2160 or height &gt;= 2160</p></li>
+<li><p>1080p: if less than uhd and width &gt;= 1440 or height &gt;= 1080</p></li>
+<li><p>720p: if less than 1080p and width &gt;= 1280 or height &gt;= 720:</p></li>
+<li><p>sd: if less than 720p and if height &gt;= 480</p></li>
+<li><p>subsd: Substandard definitions: Everything under 480p</p></li>
+<li><p>mpeg,mpeg4,x264,wmv3,wmv: Filter for videos encoded in the requested video codec</p></li>
+</ul>
 </div>
 <div class="section" id="out">
 <h3>-out:<a class="headerlink" href="#out" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[mkv/mp4,x265/av1]</p>
-</div></blockquote>
+<p>[<strong>mkv</strong>/mp4,x265/av1]</p>
+<p>Select the outputs for the video conversions</p>
+<ul class="simple">
+<li><p>mkv: (<strong>Default</strong>) Package the resulting video in a <a class="reference external" href="https://en.wikipedia.org/wiki/Matroska">Matroska</a> container.</p></li>
+<li><p>mp4: Package the resulting video in a  container.</p></li>
+<li><p>x265/hevc: (<strong>Default</strong>) Encode the video using the <a class="reference external" href="https://en.wikipedia.org/wiki/X265">x265</a> compression format.</p></li>
+<li><p>av1: Encode the video using the <a class="reference external" href="https://en.wikipedia.org/wiki/AV1">AOMedia Video 1</a> compression format. This will be used as default once the developpers at FFmpeg move it out of <a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/AV1">experimental</a> .</p></li>
+</ul>
 </div>
 <div class="section" id="print">
 <h3>-print:<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[list,formated,verbose]</p>
-</div></blockquote>
+<p>[<strong>list</strong>,formated,verbose]</p>
+<ul class="simple">
+<li><p>list: (<strong>Default</strong>) Print the information about the videos on a single line</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/Screenshot-print_list-single.png"><img alt="Deleting videos" src="../_images/Screenshot-print_list-single.png" style="width: 600px;" /></a>
+<ul class="simple">
+<li><p>formated: Print the information</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/Screenshot-print_formated-single.png"><img alt="Deleting videos" src="../_images/Screenshot-print_formated-single.png" style="width: 400px;" /></a>
 </div>
 <div class="section" id="dir">
 <h3>-dir:<a class="headerlink" href="#dir" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[“/mnt/media/”,,”/mnt/media2/”]</p>
-</div></blockquote>
+<p>[“/mnt/media/”,,”/mnt/media2/”]</p>
+<p>The directories to scan as a <strong>double comma</strong> separated values list.</p>
 </div>
 <div class="section" id="files">
 <h3>-files:<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
-<blockquote>
-<div><p>[“/mnt/media/video.avi”,,”/mnt/media2/video2.mp4”]</p>
-</div></blockquote>
+<p>[“/mnt/media/video.avi”,,”/mnt/media2/video2.mp4”]</p>
+<p>Specific videos to include as a <strong>double comma</strong> separated values list.</p>
 </div>
 </div>
 <div class="section" id="examples">
