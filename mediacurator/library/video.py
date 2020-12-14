@@ -5,6 +5,8 @@ from .tools import deletefile, findfreename
 import subprocess
 import os
 import sys
+import re
+
 
 import colorama
 colorama.init()
@@ -140,15 +142,20 @@ class Video():
             newfilename = self.filename_origin[:-4] + ".mp4"
             if os.path.exists(self.path + newfilename):
                 newfilename = findfreename(self.path + newfilename)
+                if os.name == 'nt':
+                    newfilename = str(newfilename)[str(newfilename).rindex("\\") + 1:]
+                else:
+                    newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
         else:
             newfilename = self.filename_origin[:-4] + ".mkv"
             if os.path.exists(self.path + newfilename):
                 newfilename = findfreename(self.path + newfilename)
-        print(newfilename)
-        exit()
-        self.filename_tmp = newfilename
+                if os.name == 'nt':
+                    newfilename = str(newfilename)[str(newfilename).rindex("\\") + 1:]
+                else:
+                    newfilename = str(newfilename)[str(newfilename).rindex("/") + 1:]
 
-
+        self.filename_tmp =  newfilename
 
         # Settting ffmpeg
         args = ['ffmpeg', '-i', self.path + self.filename_origin]
@@ -178,8 +185,7 @@ class Video():
             self.filename_tmp = ""
             exit()
         else:
-            print(self.path + self.filename_tmp)
-            os.chmod(self.path + self.filename_tmp, 777)
+            os.chmod(f"{self.path}{self.filename_tmp}", 777)
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True
