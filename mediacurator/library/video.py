@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 '''Its a video!'''
 
-from .tools import deletefile
+from .tools import deletefile, findfreename
 import subprocess
 import os
 import sys
@@ -138,12 +138,14 @@ class Video():
         # Setting new filename
         if "mp4" in extension:
             newfilename = self.filename_origin[:-4] + ".mp4"
-            if self.filename_origin == newfilename:
-                newfilename = self.filename_origin[:-4] + "[HEVC]" + ".mp4"
+            if os.path.exists(self.path + newfilename):
+                newfilename = findfreename(self.path + newfilename)
         else:
             newfilename = self.filename_origin[:-4] + ".mkv"
-            if self.filename_origin == newfilename:
-                newfilename = self.filename_origin[:-4] + "[HEVC]" + ".mkv"
+            if os.path.exists(self.path + newfilename):
+                newfilename = findfreename(self.path + newfilename)
+        print(newfilename)
+        exit()
         self.filename_tmp = newfilename
 
 
@@ -159,8 +161,6 @@ class Video():
             args += ['-max_muxing_queue_size', '1000']
         # conversion output
         args += [self.path + self.filename_tmp]
-
-
         
         try:
             if verbose:
@@ -173,12 +173,13 @@ class Video():
             print(f"{colorama.Fore.RED}Conversion failed {e}{colorama.Fore.RESET}")
             return False
         except KeyboardInterrupt:
-            print(f"{colorama.Style.YELLOW}Conversion cancelled, cleaning up...{colorama.Fore.RESET}")
+            print(f"{colorama.Fore.YELLOW}Conversion cancelled, cleaning up...{colorama.Fore.RESET}")
             deletefile(self.path + self.filename_tmp)
             self.filename_tmp = ""
             exit()
         else:
-            subprocess.call(['chmod', '777', self.path + self.filename_tmp])
+            print(self.path + self.filename_tmp)
+            os.chmod(self.path + self.filename_tmp, 777)
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True

@@ -17,7 +17,7 @@ Synopsis
         [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]
         [-out:mkv/mp4,x265/av1]
         [-print:list,formated,verbose]
-        [-dir/-files:"/mnt/media/",,"/mnt/media2/"]
+        [-dirs/-files:"/mnt/media/",,"/mnt/media2/"]
 
 
 **for multiple files or filenames use double comma separated values ",,"**
@@ -109,7 +109,7 @@ Select the outputs for the video conversions
 
 * verbose: Print the FFmpeg output during the video conversions
 
--dir:
+-dirs:
 =====
 ["/mnt/media/",,"/mnt/media2/"]
 
@@ -128,11 +128,11 @@ Examples
 .. code-block:: bash
 
     # List all videos with old codec in formated format
-    ./curator.py list -filters:old -print:formated -dir:/mnt/media/ >> ../medlist.txt
+    ./curator.py list -filters:old -print:formated -dirs:/mnt/media/ >> ../medlist.txt
     # Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals
-    ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:"/mnt/media/Movies/"
+    ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dirs:"/mnt/media/Movies/"
     # Convert any video with avi or mpg extensions, print formated text including ffmpeg's output and then delete the originals
-    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
+    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 
 More examples in :doc:`use_cases`
 

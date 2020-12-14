@@ -25,7 +25,7 @@ def user_confirm(question, color=False):
     '''Returns the user answer to a yes or no question'''
     if color == "yellow":
         print(colorama.Fore.YELLOW, end = '')
-        answer = input(question)
+        answer = input(f"{question} ")
         print(colorama.Fore.RESET)
     else:
         answer = input(question)
@@ -46,3 +46,22 @@ def deletefile(filename):
 
     print(f"{colorama.Fore.GREEN}Successfully deleted {filename}{colorama.Fore.RESET}")
     return True
+
+def findfreename(filepath, attempt = 0):
+    '''Delete a file, Returns a boolean'''
+    
+    attempt += 1
+    
+    filename = str(filepath)[:str(filepath).rindex(".")]
+    extension = str(filepath)[str(filepath).rindex("."):]
+    
+    hevcpath = filename + "[HEVC]" + extension
+    copynumpath = filename + f"[HEVC]({attempt})" + extension
+
+    if not os.path.exists(filepath):
+        return filepath
+    elif not os.path.exists(hevcpath):
+        return hevcpath
+    elif not os.path.exists(copynumpath):
+        return copynumpath
+    return findfreename(filepath, attempt)

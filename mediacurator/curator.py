@@ -4,9 +4,9 @@
         * List all the video's and their codecs with or without filters
         * Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs ...
     ex:
-    ./converter.py list -in:any -filters:old -dir:/mnt/media/ >> ../medlist.txt
-    ./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dir:"/mnt/media/Movies/"
-    ./converter.py convert -del  -in:avi,mpg -dir:/mnt/media/
+    ./converter.py list -in:any -filters:old -dirs:/mnt/media/ >> ../medlist.txt
+    ./converter.py convert -del -in:any -filters:mpeg4 -out:x265,mkv -dirs:"/mnt/media/Movies/"
+    ./converter.py convert -del  -in:avi,mpg -dirs:/mnt/media/
 '''
 
 import sys
@@ -25,14 +25,14 @@ def main():
 
     # confirm that the command has enough parameters
     if len(sys.argv) < 2:
-        print(f"{colorama.Fore.RED}ERROR: Command not understood, please see documentation.{colorama.Style.RESET_ALL}")
+        print(f"{colorama.Fore.RED}ERROR: Command not understood, please see documentation.{colorama.Fore.RESET}")
 
     # confirm that ffmpeg in indeed installed
     ffmpeg_version = detect_ffmpeg()
     if not ffmpeg_version:
-        print(f"{colorama.Fore.RED}No ffmpeg version detected{colorama.Style.RESET_ALL}")
+        print(f"{colorama.Fore.RED}No ffmpeg version detected{colorama.Fore.RESET}")
         exit()
-    print(f"{colorama.Fore.BLUE}ffmpeg version detected: {ffmpeg_version}{colorama.Style.RESET_ALL}")
+    print(f"{colorama.Fore.BLUE}ffmpeg version detected: {ffmpeg_version}{colorama.Fore.RESET}")
 
     # Get/load command parameters
     directories = []
@@ -45,9 +45,9 @@ def main():
     for arg in sys.argv:
         # Confirm with the user that he selected to delete found files
         if "-del" in arg:
-            print(f"{colorama.Fore.YELLOW}WARNING: Delete option selected!{colorama.Style.RESET_ALL}")
+            print(f"{colorama.Fore.YELLOW}WARNING: Delete option selected!{colorama.Fore.RESET}")
             if not user_confirm(f"Are you sure you wish to delete all found results after selected operations are succesfull ? [Y/N] ?", color="yellow"):
-                print(f"{colorama.Fore.GREEN}Exiting!{colorama.Style.RESET_ALL}")
+                print(f"{colorama.Fore.GREEN}Exiting!{colorama.Fore.RESET}")
                 exit()
         elif "-in:" in arg:
             inputs += arg[4:].split(",")
@@ -59,8 +59,8 @@ def main():
             printop += arg[7:].split(",")
         elif "-files:" in arg:
             files += arg[7:].split(",,")
-        elif "-dir:" in arg:
-            directories += arg[5:].split(",,")
+        elif "-dirs:" in arg:
+            directories += arg[6:].split(",,")
 
     # Loading the media library
     if len(files) > 0:
@@ -68,7 +68,8 @@ def main():
     elif len(directories) > 0:
         medialibrary = MediaLibrary(directories = directories, inputs = inputs, filters = filters)
     else:
-        print(f"{colorama.Fore.RED}ERROR: No files or directories selected.{colorama.Style.RESET_ALL}")
+        print(f"{colorama.Fore.RED}ERROR: No files or directories selected.{colorama.Fore.RESET}")
+        return
         
 
     # Actions
@@ -82,12 +83,12 @@ def main():
             if medialibrary.videos[filepath].useful:
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -104,12 +105,12 @@ def main():
             if medialibrary.videos[filepath].useful:
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -133,14 +134,14 @@ def main():
                 vcodec = "x265"
 
             # Verbosing
-            print(f"{colorama.Fore.GREEN}******  Starting conversion {counter} of {len(keylist)}: '{colorama.Fore.CYAN}{medialibrary.videos[filepath].filename_origin}{colorama.Fore.GREEN}' from {colorama.Fore.CYAN}{medialibrary.videos[filepath].codec}{colorama.Fore.GREEN} to {colorama.Fore.CYAN}{vcodec}{colorama.Fore.GREEN}...{colorama.Style.RESET_ALL}")
-            print(f"{colorama.Fore.CYAN}Original file:{colorama.Style.RESET_ALL}")
+            print(f"{colorama.Fore.GREEN}******  Starting conversion {counter} of {len(keylist)}: '{colorama.Fore.CYAN}{medialibrary.videos[filepath].filename_origin}{colorama.Fore.GREEN}' from {colorama.Fore.CYAN}{medialibrary.videos[filepath].codec}{colorama.Fore.GREEN} to {colorama.Fore.CYAN}{vcodec}{colorama.Fore.GREEN}...{colorama.Fore.RESET}")
+            print(f"{colorama.Fore.CYAN}Original file:{colorama.Fore.RESET}")
             if "formated" in printop or "verbose" in printop:
                 print(medialibrary.videos[filepath].fprint())
             else:
                 print(medialibrary.videos[filepath])
 
-            print(f"{colorama.Fore.GREEN}Converting please wait...{colorama.Style.RESET_ALL}", end="\r")
+            print(f"{colorama.Fore.GREEN}Converting please wait...{colorama.Fore.RESET}", end="\r")
 
             # Converting
             if medialibrary.videos[filepath].convert(verbose = "verbose" in printop):
@@ -153,17 +154,17 @@ def main():
                 medialibrary.videos[newfpath] = Video(newfpath, verbose = "verbose" in printop)
 
                 # Verbose
-                print(f"{colorama.Fore.GREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[filepath].filesize}mb){colorama.Fore.GREEN} to '{medialibrary.videos[newfpath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[newfpath].filesize}mb){colorama.Fore.GREEN}, {colorama.Fore.CYAN}new file:{colorama.Style.RESET_ALL}")
+                print(f"{colorama.Fore.GREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[filepath].filesize}mb){colorama.Fore.GREEN} to '{medialibrary.videos[newfpath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[newfpath].filesize}mb){colorama.Fore.GREEN}, {colorama.Fore.CYAN}new file:{colorama.Fore.RESET}")
 
 
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath].fprint()}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath].fprint()}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[newfpath].fprint())
                 else:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath]}{colorama.Style.RESET_ALL}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath]}{colorama.Fore.RESET}")
                     else:
                         print(medialibrary.videos[newfpath])
 
