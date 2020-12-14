@@ -11,10 +11,12 @@
 
 import sys
 
-from library.bcolors import BColors
 from library.video import Video
 from library.medialibrary import MediaLibrary
 from library.tools import detect_ffmpeg, user_confirm
+
+import colorama
+colorama.init()
 
 def main():
     '''
@@ -23,14 +25,14 @@ def main():
 
     # confirm that the command has enough parameters
     if len(sys.argv) < 2:
-        print(f"{BColors.FAIL}ERROR: Command not understood, please see documentation.{BColors.ENDC}")
+        print(f"{colorama.Fore.RED}ERROR: Command not understood, please see documentation.{colorama.Style.RESET_ALL}")
 
     # confirm that ffmpeg in indeed installed
     ffmpeg_version = detect_ffmpeg()
     if not ffmpeg_version:
-        print(f"{BColors.FAIL}No ffmpeg version detected{BColors.ENDC}")
+        print(f"{colorama.Fore.RED}No ffmpeg version detected{colorama.Style.RESET_ALL}")
         exit()
-    print(f"{BColors.OKBLUE}ffmpeg version detected: {ffmpeg_version}{BColors.ENDC}")
+    print(f"{colorama.Fore.BLUE}ffmpeg version detected: {ffmpeg_version}{colorama.Style.RESET_ALL}")
 
     # Get/load command parameters
     directories = []
@@ -43,9 +45,9 @@ def main():
     for arg in sys.argv:
         # Confirm with the user that he selected to delete found files
         if "-del" in arg:
-            print(f"{BColors.WARNING}WARNING: Delete option selected!{BColors.ENDC}")
-            if not user_confirm(f"{BColors.WARNING}Are you sure you wish to delete all found results after selected operations are succesfull ? [Y/N] ?{BColors.ENDC}"):
-                print(f"{BColors.OKGREEN}Exiting!{BColors.ENDC}")
+            print(f"{colorama.Fore.YELLOW}WARNING: Delete option selected!{colorama.Style.RESET_ALL}")
+            if not user_confirm(f"Are you sure you wish to delete all found results after selected operations are succesfull ? [Y/N] ?", color="yellow"):
+                print(f"{colorama.Fore.GREEN}Exiting!{colorama.Style.RESET_ALL}")
                 exit()
         elif "-in:" in arg:
             inputs += arg[4:].split(",")
@@ -66,7 +68,7 @@ def main():
     elif len(directories) > 0:
         medialibrary = MediaLibrary(directories = directories, inputs = inputs, filters = filters)
     else:
-        print(f"{BColors.FAIL}ERROR: No files or directories selected.{BColors.ENDC}")
+        print(f"{colorama.Fore.RED}ERROR: No files or directories selected.{colorama.Style.RESET_ALL}")
         
 
     # Actions
@@ -80,12 +82,12 @@ def main():
             if medialibrary.videos[filepath].useful:
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[filepath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[filepath].fprint()}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[filepath]}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -102,12 +104,12 @@ def main():
             if medialibrary.videos[filepath].useful:
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[filepath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[filepath].fprint()}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[filepath]}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -131,14 +133,14 @@ def main():
                 vcodec = "x265"
 
             # Verbosing
-            print(f"{BColors.OKGREEN}******  Starting conversion {counter} of {len(keylist)}: '{BColors.OKCYAN}{medialibrary.videos[filepath].filename_origin}{BColors.OKGREEN}' from {BColors.OKCYAN}{medialibrary.videos[filepath].codec}{BColors.OKGREEN} to {BColors.OKCYAN}{vcodec}{BColors.OKGREEN}...{BColors.ENDC}")
-            print(f"{BColors.OKCYAN}Original file:{BColors.ENDC}")
+            print(f"{colorama.Fore.GREEN}******  Starting conversion {counter} of {len(keylist)}: '{colorama.Fore.CYAN}{medialibrary.videos[filepath].filename_origin}{colorama.Fore.GREEN}' from {colorama.Fore.CYAN}{medialibrary.videos[filepath].codec}{colorama.Fore.GREEN} to {colorama.Fore.CYAN}{vcodec}{colorama.Fore.GREEN}...{colorama.Style.RESET_ALL}")
+            print(f"{colorama.Fore.CYAN}Original file:{colorama.Style.RESET_ALL}")
             if "formated" in printop or "verbose" in printop:
                 print(medialibrary.videos[filepath].fprint())
             else:
                 print(medialibrary.videos[filepath])
 
-            print(f"{BColors.OKGREEN}Converting please wait...{BColors.ENDC}", end="\r")
+            print(f"{colorama.Fore.GREEN}Converting please wait...{colorama.Style.RESET_ALL}", end="\r")
 
             # Converting
             if medialibrary.videos[filepath].convert(verbose = "verbose" in printop):
@@ -151,17 +153,17 @@ def main():
                 medialibrary.videos[newfpath] = Video(newfpath, verbose = "verbose" in printop)
 
                 # Verbose
-                print(f"{BColors.OKGREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[filepath].filesize}mb){BColors.OKGREEN} to '{medialibrary.videos[newfpath].filename_origin}'{BColors.OKCYAN}({medialibrary.videos[newfpath].filesize}mb){BColors.OKGREEN}, {BColors.OKCYAN}new file:{BColors.ENDC}")
+                print(f"{colorama.Fore.GREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[filepath].filesize}mb){colorama.Fore.GREEN} to '{medialibrary.videos[newfpath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[newfpath].filesize}mb){colorama.Fore.GREEN}, {colorama.Fore.CYAN}new file:{colorama.Style.RESET_ALL}")
 
 
                 if "formated" in printop or "verbose" in printop:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[newfpath].fprint()}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath].fprint()}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[newfpath].fprint())
                 else:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{BColors.FAIL}{medialibrary.videos[newfpath]}{BColors.ENDC}")
+                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath]}{colorama.Style.RESET_ALL}")
                     else:
                         print(medialibrary.videos[newfpath])
 

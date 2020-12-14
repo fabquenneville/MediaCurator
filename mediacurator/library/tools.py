@@ -5,7 +5,9 @@
 
 import subprocess
 import os
-from .bcolors import BColors
+
+import colorama
+colorama.init()
 
 
 def detect_ffmpeg():
@@ -19,9 +21,14 @@ def detect_ffmpeg():
         pass
     return False
     
-def user_confirm(question):
+def user_confirm(question, color=False):
     '''Returns the user answer to a yes or no question'''
-    answer = input(question)
+    if color == "yellow":
+        print(colorama.Fore.YELLOW, end = '')
+        answer = input(question)
+        print(colorama.Fore.RESET)
+    else:
+        answer = input(question)
     if answer.lower() in ["y","yes"]:
         return True
     elif answer.lower() in ["n","no"]:
@@ -34,8 +41,8 @@ def deletefile(filename):
     try:
         os.remove(filename)
     except OSError:
-        print(f"{BColors.FAIL}Error deleting {filename}{BColors.ENDC}")
+        print(f"{colorama.Fore.RED}Error deleting {filename}{colorama.Fore.RESET}")
         return False
 
-    print(f"{BColors.OKGREEN}Successfully deleted {filename}{BColors.ENDC}")
+    print(f"{colorama.Fore.GREEN}Successfully deleted {filename}{colorama.Fore.RESET}")
     return True

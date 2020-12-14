@@ -6,9 +6,11 @@
 from pathlib import Path
 import sys
 
-from .bcolors import BColors
 from .video import Video
 from .tools import deletefile
+
+import colorama
+colorama.init()
 
 class MediaLibrary():
     '''
@@ -55,7 +57,7 @@ class MediaLibrary():
             Save them to the videos dictionary
         '''
 
-        print(f"{BColors.OKGREEN}Scanning files in {', '.join(map(str, self.directories))} for videos{BColors.ENDC}")
+        print(f"{colorama.Fore.GREEN}Scanning files in {', '.join(map(str, self.directories))} for videos{colorama.Fore.RESET}")
         videolist = []
         
         for directory in self.directories:
@@ -83,7 +85,7 @@ class MediaLibrary():
         videolist = [video for video in videolist_tmp if video.is_file()]
 
         # Map it all to the videos dictionary as initiated Video objects
-        print(f"{BColors.OKGREEN}Analazing {len(videolist)} videos in {', '.join(map(str, self.directories))}{BColors.ENDC}")
+        print(f"{colorama.Fore.GREEN}Analazing {len(videolist)} videos in {', '.join(map(str, self.directories))}{colorama.Fore.RESET}")
         iteration = 0
         for video in videolist:
             if verbose:
@@ -95,7 +97,7 @@ class MediaLibrary():
     def filter_videos(self, verbose = False):
         ''' Mark useless videos in the videos dictionary (default is useful) '''
 
-        print(f"{BColors.OKGREEN}Filtering {len(self.videos)} videos for the requested parameters{BColors.ENDC}")
+        print(f"{colorama.Fore.GREEN}Filtering {len(self.videos)} videos for the requested parameters{colorama.Fore.RESET}")
 
         for filepath in self.videos:
 
@@ -146,7 +148,7 @@ class MediaLibrary():
                 self.videos[filepath].useful = useful
 
             
-        print(f"{BColors.OKGREEN}Found {len([filepath for filepath in self.videos if self.videos[filepath].useful])} videos for the requested parameters{BColors.ENDC}")
+        print(f"{colorama.Fore.GREEN}Found {len([filepath for filepath in self.videos if self.videos[filepath].useful])} videos for the requested parameters{colorama.Fore.RESET}")
 
     def unwatch(self, filepath, delete = False):
         ''' remove a video from the index and delete it if requested'''

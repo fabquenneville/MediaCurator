@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 '''Its a video!'''
 
-from .bcolors import BColors
 from .tools import deletefile
 import subprocess
 import os
 import sys
+
+import colorama
+colorama.init()
 
 class Video():
     '''Contains the information and methods of a video file.'''
@@ -28,8 +30,12 @@ class Video():
         ''' creates and analyse a video file '''
         
         #Breaking down the full path in its components
-        self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
-        self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
+        if os.name == 'nt':
+            self.path               = str(filepath)[:str(filepath).rindex("\\") + 1]
+            self.filename_origin    = str(filepath)[str(filepath).rindex("\\") + 1:]
+        else:
+            self.path               = str(filepath)[:str(filepath).rindex("/") + 1]
+            self.filename_origin    = str(filepath)[str(filepath).rindex("/") + 1:]
 
         if not os.path.exists(filepath):
             self.error              = f"FileNotFoundError: [Errno 2] No such file or directory: '{filepath}'"
@@ -53,8 +59,8 @@ class Video():
                 self.definition         = False
         
         if self.error and verbose:
-            print(f"{BColors.FAIL}There seams to be an error with \"{filepath}\"{BColors.ENDC}")
-            print(f"{BColors.FAIL}    {self.error}{BColors.ENDC}")
+            print(f"{colorama.Fore.RED}There seams to be an error with \"{filepath}\"{colorama.Fore.RESET}")
+            print(f"{colorama.Fore.RED}    {self.error}{colorama.Fore.RESET}")
 
     def __str__(self):
         '''Returns a short formated string about the video'''
@@ -80,9 +86,9 @@ class Video():
 
 
         if self.error:
-            text += f"{BColors.FAIL}\nErrors:{BColors.ENDC}"
+            text += f"{colorama.Fore.RED}\nErrors:{colorama.Fore.RESET}"
             for err in self.error.splitlines():
-                text += f"{BColors.FAIL}\n    {err}{BColors.ENDC}"
+                text += f"{colorama.Fore.RED}\n    {err}{colorama.Fore.RESET}"
         
 
         return text
@@ -115,9 +121,9 @@ class Video():
             text += f"    size:           {self.filesize} mb"
 
         if self.error:
-            text += f"{BColors.FAIL}\n    Errors:{BColors.ENDC}"
+            text += f"{colorama.Fore.RED}\n    Errors:{colorama.Fore.RESET}"
             for err in self.error.splitlines():
-                text += f"{BColors.FAIL}\n        {err}{BColors.ENDC}"
+                text += f"{colorama.Fore.RED}\n        {err}{colorama.Fore.RESET}"
         
 
         return text
@@ -164,10 +170,10 @@ class Video():
         except subprocess.CalledProcessError as e:
             deletefile(self.path + self.filename_tmp)
             self.filename_tmp = ""
-            print(f"{BColors.FAIL}Conversion failed {e}{BColors.ENDC}")
+            print(f"{colorama.Fore.RED}Conversion failed {e}{colorama.Fore.RESET}")
             return False
         except KeyboardInterrupt:
-            print(f"{BColors.WARNING}Conversion cancelled, cleaning up...{BColors.ENDC}")
+            print(f"{colorama.Style.YELLOW}Conversion cancelled, cleaning up...{colorama.Fore.RESET}")
             deletefile(self.path + self.filename_tmp)
             self.filename_tmp = ""
             exit()
@@ -193,7 +199,7 @@ class Video():
             if len(output) > 0:
                 return output
         except (subprocess.CalledProcessError, IndexError):
-            return f'{BColors.FAIL}There seams to be a "subprocess.CalledProcessError" error with \"{filepath}\"{BColors.ENDC}'
+            return f'{colorama.Fore.RED}There seams to be a "subprocess.CalledProcessError" error with \"{filepath}\"{colorama.Fore.RESET}'
         return False
 
 
