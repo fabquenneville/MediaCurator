@@ -27,6 +27,10 @@ def user_confirm(question, color=False):
         print(colorama.Fore.YELLOW, end = '')
         answer = input(f"{question} ")
         print(colorama.Fore.RESET)
+    elif color == "red":
+        print(colorama.Fore.RED, end = '')
+        answer = input(f"{question} ")
+        print(colorama.Fore.RESET)
     else:
         answer = input(question)
     if answer.lower() in ["y","yes"]:

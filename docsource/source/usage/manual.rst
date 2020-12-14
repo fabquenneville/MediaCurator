@@ -110,7 +110,7 @@ Select the outputs for the video conversions
 * verbose: Print the FFmpeg output during the video conversions
 
 -dirs:
-=====
+======
 ["/mnt/media/",,"/mnt/media2/"]
 
 The directories to scan as a **double comma** separated values list.

@@ -23,6 +23,8 @@ def main():
         MediaCurator's main function
     '''
 
+    print(f"{colorama.Style.BRIGHT}")
+
     # confirm that the command has enough parameters
     if len(sys.argv) < 2:
         print(f"{colorama.Fore.RED}ERROR: Command not understood, please see documentation.{colorama.Fore.RESET}")

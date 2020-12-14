@@ -47,7 +47,7 @@
     <span class="o">[</span>-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv<span class="o">]</span>
     <span class="o">[</span>-out:mkv/mp4,x265/av1<span class="o">]</span>
     <span class="o">[</span>-print:list,formated,verbose<span class="o">]</span>
-    <span class="o">[</span>-dir/-files:<span class="s2">&quot;/mnt/media/&quot;</span>,,<span class="s2">&quot;/mnt/media2/&quot;</span><span class="o">]</span>
+    <span class="o">[</span>-dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>,,<span class="s2">&quot;/mnt/media2/&quot;</span><span class="o">]</span>
 </pre></div>
 </div>
 <p><strong>for multiple files or filenames use double comma separated values “,,”</strong></p>
@@ -131,8 +131,8 @@
 <li><p>verbose: Print the FFmpeg output during the video conversions</p></li>
 </ul>
 </div>
-<div class="section" id="dir">
-<h3>-dir:<a class="headerlink" href="#dir" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="dirs">
+<h3>-dirs:<a class="headerlink" href="#dirs" title="Permalink to this headline">¶</a></h3>
 <p>[“/mnt/media/”,,”/mnt/media2/”]</p>
 <p>The directories to scan as a <strong>double comma</strong> separated values list.</p>
 </div>
@@ -145,11 +145,11 @@
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
-./curator.py list -filters:old -print:formated -dir:/mnt/media/ &gt;&gt; ../medlist.txt
+./curator.py list -filters:old -print:formated -dirs:/mnt/media/ &gt;&gt; ../medlist.txt
 <span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
-./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dir:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 <span class="c1"># Convert any video with avi or mpg extensions, print formated text including ffmpeg&#39;s output and then delete the originals</span>
-./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
+./curator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>

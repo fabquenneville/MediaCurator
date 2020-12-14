@@ -21,13 +21,13 @@ List all videos with old codec in formated format
 
 .. code-block:: bash
 
-    ./curator.py list -filters:old -dir:/mnt/media/
+    ./curator.py list -filters:old -dirs:/mnt/media/
 
 List all videos with substandard definitions with a formated output
 
 .. code-block:: bash
 
-    ./curator.py list -filters:subsd -print:formated -dir:/mnt/media/
+    ./curator.py list -filters:subsd -print:formated -dirs:/mnt/media/
 
 
 .. _purge:
@@ -41,19 +41,19 @@ List and delete all videos using the `Windows Media Video <https://en.wikipedia.
 
 .. code-block:: bash
 
-    ./curator.py list -del -filters:wmv -dir:/mnt/media/
+    ./curator.py list -del -filters:wmv -dirs:/mnt/media/
 
 List and delete all videos using an `Audio Video Interleave <https://en.wikipedia.org/wiki/Audio_Video_Interleave>`_
 
 .. code-block:: bash
 
-    ./curator.py list -del -in:avi -dir:/mnt/media/
+    ./curator.py list -del -in:avi -dirs:/mnt/media/
 
 List and delete any videos with encoding errors
 
 .. code-block:: bash
 
-    ./curator.py list -del -filters:fferror -dir:/mnt/media/
+    ./curator.py list -del -filters:fferror -dirs:/mnt/media/
 
 
 
@@ -66,19 +66,19 @@ List all videos with encoding errors
 
 .. code-block:: bash
 
-    ./curator.py list -filters:fferror -dir:/mnt/media/
+    ./curator.py list -filters:fferror -dirs:/mnt/media/
 
 List and delete any videos with encoding errors
 
 .. code-block:: bash
 
-    ./curator.py list -del -filters:fferror -dir:/mnt/media/
+    ./curator.py list -del -filters:fferror -dirs:/mnt/media/
     
 Convert all videos with encoding errors to `High Efficiency Video Coding <https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding>`_ and the delete the originals
 
 .. code-block:: bash
 
-    ./curator.py convert -del -filters:fferror -dir:"/mnt/media/Movies/"
+    ./curator.py convert -del -filters:fferror -dirs:"/mnt/media/Movies/"
 
 
 .. _convert:
@@ -90,16 +90,16 @@ Convert all videos with old codecs to `High Efficiency Video Coding <https://en.
 
 .. code-block:: bash
 
-    ./curator.py convert -del -filters:old -dir:"/mnt/media/Movies/"
+    ./curator.py convert -del -filters:old -dirs:"/mnt/media/Movies/"
     
 Convert all videos with the codec mpeg4 to an mkv container using the av1 video codec
 
 .. code-block:: bash
 
-    ./curator.py convert -filters:mpeg4 -out:av1,mkv -dir:"/mnt/media/Movies/"
+    ./curator.py convert -filters:mpeg4 -out:av1,mkv -dirs:"/mnt/media/Movies/"
     
 Convert any video with avi or mpg extensions, print formated text including ffmpeg's output and then delete the originals
 
 .. code-block:: bash
 
-    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dir:/mnt/media/
+    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
