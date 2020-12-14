@@ -2,7 +2,7 @@
 Installation
 ============
 
-This package (For now) will only work on GNU/Linux and requires FFMPEG installed. For now it will be distributed on `GitHub <https://github.com/fabquenneville/MediaCurator.git>`_
+This package has only been tested on GNU/Linux & Windows and requires FFMPEG installed. For now it will be distributed on `GitHub <https://github.com/fabquenneville/MediaCurator.git>`_
 
 Install FFmpeg
 --------------
