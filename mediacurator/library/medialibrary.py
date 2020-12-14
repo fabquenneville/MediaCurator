@@ -42,6 +42,7 @@ class MediaLibrary():
 
     def __str__(self):
         ''' print '''
+
         if self.directories:
             text = f"MediaCurator is watching the following directories: "
             text += '\n    '.join(map(str, self.directories)) + '\n'
@@ -93,6 +94,7 @@ class MediaLibrary():
 
     def filter_videos(self, verbose = False):
         ''' Mark useless videos in the videos dictionary (default is useful) '''
+
         print(f"{BColors.OKGREEN}Filtering {len(self.videos)} videos for the requested parameters{BColors.ENDC}")
 
         for filepath in self.videos:
@@ -148,7 +150,7 @@ class MediaLibrary():
 
     def unwatch(self, filepath, delete = False):
         ''' remove a video from the index and delete it if requested'''
-        # If the user wanted to delete the film and 
+        
         if delete:
             deletefile(filepath)
         try:

@@ -12,7 +12,7 @@ class Video():
 
     path = str()
     filename_origin = str()
-    filesize = int(0)
+    filesize = int()
     filename_new = str()
     filename_tmp = str()
     useful = bool()
