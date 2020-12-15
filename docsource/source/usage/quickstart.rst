@@ -4,7 +4,7 @@ Quickstart
 
 .. code-block:: bash
 
-    ./curator.py [list,convert] [-del]
+    ./mediacurator.py [list,convert] [-del]
         [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]
         [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]
         [-out:mkv/mp4,x265/av1]
@@ -27,10 +27,10 @@ Examples:
 .. code-block:: bash
 
     # List all videos with old codec in formated format
-    ./curator.py list -filters:old -print:formated -dirs:/mnt/media/ >> ../medlist.txt
+    ./mediacurator.py list -filters:old -print:formated -dirs:/mnt/media/ >> ../medlist.txt
     # Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals
-    ./curator.py convert -del -filters:mpeg4 -out:av1,mp4 -dirs:"/mnt/media/Movies/"
+    ./mediacurator.py convert -del -filters:mpeg4 -out:av1,mp4 -dirs:"/mnt/media/Movies/"
     # Convert any video with avi or mpg extensions, print formated text including ffmpeg's output and then delete the originals
-    ./curator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
+    ./mediacurator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 
 More examples in :doc:`use_cases`
