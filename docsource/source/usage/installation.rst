@@ -15,6 +15,4 @@ Install from GitHub
 .. code-block:: bash
    :linenos:
 
-    git clone https://github.com/fabquenneville/MediaCurator.git
-    cd MediaCurator
-    pip install -r requirements.txt 
+   pip install mediacurator
