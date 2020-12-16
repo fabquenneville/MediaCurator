@@ -2,6 +2,7 @@
 test.sh
 renamelist.txt
 .vscode
+/build
 
 # Docs build data
 /docsource/build/

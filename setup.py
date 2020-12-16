@@ -11,10 +11,15 @@ setuptools.setup(
     author="Fabrice Quenneville",
     author_email="fab@fabq.ca",
     url="https://github.com/fabquenneville/MediaCurator",
+    download_url="https://pypi.python.org/pypi/MediaCurator",
+    project_urls={
+        "Bug Tracker": "https://github.com/fabquenneville/MediaCurator/issues",
+        "Documentation": "https://fabquenneville.github.io/MediaCurator/",
+        "Source Code": "https://github.com/fabquenneville/MediaCurator",
+    },
     description="MediaCurator is a Python command line tool to manage a media database.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    download_url="TBD",
     packages=setuptools.find_packages(),
     classifiers=[
         "Topic :: Multimedia :: Video :: Conversion",
