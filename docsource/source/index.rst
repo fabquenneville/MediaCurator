@@ -17,7 +17,7 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Usage:
 
    usage/warnings
    usage/installation
@@ -25,6 +25,12 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
    usage/manual
    usage/use_cases
    usage/errors
+   
+.. toctree::
+   :maxdepth: 1
+   :caption: Release Notes:
+
+   releasenotes/0.0.1-changelog
 
 .. Indices and tables
 .. ==================

@@ -39,24 +39,24 @@
 <p>Before using the delete feature please try a few dry runs to get acquainted with MediaCurator as it can irreparably damage your media library when not used properly.</p>
 <p>When using the -del flag here is the expected behavior:</p>
 <p>To delete all non-hd videos in a folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:lowres  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:lowres  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
 <p>To delete all substandard videos in a folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:subsd  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:subsd  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/Screenshot-delete.png"><img alt="Deleting videos" src="../_images/Screenshot-delete.png" style="width: 600px;" /></a>
 <p>To delete all videos in a folder with encoding errors:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:fferror  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:fferror  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
 <p>To convert (repair) then delete all videos in a folder with encoding errors:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py convert -del -filters:fferror  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator convert -del -filters:fferror  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
 <p>To delete all videos in a folder:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:lowres  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:lowres  -dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>
 </pre></div>
 </div>
 <p>All these commands can have valuable use but are irrecoverable if done unintended.</p>
@@ -83,7 +83,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Usage:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -91,6 +91,10 @@
 <li class="toctree-l1"><a class="reference internal" href="manual.html">Manual</a></li>
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Release Notes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.1-changelog.html">mediacurator 0.0.1 Release Notes</a></li>
 </ul>
 
 <div class="relations">

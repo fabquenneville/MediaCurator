@@ -1,0 +1,57 @@
+================================
+MediaCurator 0.0.1 Release Notes
+================================
+
+This release has been tested on Python 3.7 - 3.9
+
+
+Highlights
+==========
+
+First release, implemented the following features:
+* List all the video’s and their information with or without filters
+* Batch find and repair/convert videos with encoding errors
+* Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs, resolutions …
+
+Dropped Support
+===============
+
+
+Future Changes
+==============
+
+* More filters
+* Test AV1 Support
+* Prepare API for GUI
+
+Compatibility notes
+===================
+
+
+FFMPEG Support
+--------------
+
+Mediacurator has been tested to work with FFMPEG versions ranging from 4.1.6 to 4.3.1
+
+
+OS Support
+----------
+
+Mediacurator has been tested to work on various GNU/Linux distribution as well as Windows
+
+New Features
+============
+
+
+
+Improvements
+============
+
+
+Changes
+=======
+
+
+
+Deprecations
+============

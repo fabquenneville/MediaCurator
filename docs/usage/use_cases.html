@@ -54,11 +54,11 @@
 <div class="section" id="print-information">
 <span id="list-cmd"></span><h2>Print information<a class="headerlink" href="#print-information" title="Permalink to this headline">¶</a></h2>
 <p>List all videos with old codec in formated format</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -filters:old -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -filters:old -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>List all videos with substandard definitions with a formated output</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -filters:subsd -print:formated -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -filters:subsd -print:formated -dirs:/mnt/media/
 </pre></div>
 </div>
 </div>
@@ -66,45 +66,45 @@
 <span id="id1"></span><h2>Purge<a class="headerlink" href="#purge" title="Permalink to this headline">¶</a></h2>
 <p>Please see <a class="reference internal" href="warnings.html"><span class="doc">Warnings</span></a></p>
 <p>List and delete all videos using the <a class="reference external" href="https://en.wikipedia.org/wiki/Windows_Media_Video">Windows Media Video</a> codecs</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:wmv -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:wmv -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>List and delete all videos using an <a class="reference external" href="https://en.wikipedia.org/wiki/Audio_Video_Interleave">Audio Video Interleave</a></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -in:avi -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -in:avi -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>List and delete any videos with encoding errors</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:fferror -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:fferror -dirs:/mnt/media/
 </pre></div>
 </div>
 </div>
 <div class="section" id="batch-repair-encoding-errors">
 <span id="fferror"></span><h2>Batch repair encoding errors<a class="headerlink" href="#batch-repair-encoding-errors" title="Permalink to this headline">¶</a></h2>
 <p>List all videos with encoding errors</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -filters:fferror -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -filters:fferror -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>List and delete any videos with encoding errors</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py list -del -filters:fferror -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator list -del -filters:fferror -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>Convert all videos with encoding errors to <a class="reference external" href="https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding">High Efficiency Video Coding</a> and the delete the originals</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py convert -del -filters:fferror -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator convert -del -filters:fferror -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="batch-re-encode">
 <span id="convert"></span><h2>Batch re-encode<a class="headerlink" href="#batch-re-encode" title="Permalink to this headline">¶</a></h2>
 <p>Convert all videos with old codecs to <a class="reference external" href="https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding">High Efficiency Video Coding</a> to save space and delete the originals</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py convert -del -filters:old -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator convert -del -filters:old -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 </pre></div>
 </div>
 <p>Convert all videos with the codec mpeg4 to an mkv container using the av1 video codec</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py convert -filters:mpeg4 -out:av1,mkv -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator convert -filters:mpeg4 -out:av1,mkv -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 </pre></div>
 </div>
 <p>Convert any video with avi or mpg extensions, print formated text including ffmpeg’s output and then delete the originals</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 </pre></div>
 </div>
 </div>
@@ -130,7 +130,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Usage:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="warnings.html">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -144,6 +144,10 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Release Notes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.1-changelog.html">mediacurator 0.0.1 Release Notes</a></li>
 </ul>
 
 <div class="relations">

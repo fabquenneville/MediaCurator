@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="mediacurator",
+    name="MediaCurator",
     version="0.0.1",
     author="Fabrice Quenneville",
     author_email="fab@fabq.ca",
@@ -15,12 +15,19 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     download_url="TBD",
-    packages=setuptools.find_packages(exclude=("mediacurator.library",)),
+    packages=setuptools.find_packages(),
     classifiers=[
+        "Topic :: Multimedia :: Video :: Conversion",
+        "Development Status :: 5 - Production/Stable",
+        "Natural Language :: English",
         "Programming Language :: Python :: 3",
-        "License :: GPL-3.0",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
+        "Environment :: Console",
     ],
+    entry_points = {
+        'console_scripts': ['mediacurator=mediacurator.mediacurator:main'],
+    },
     keywords=[
         "codecs", "filters", "video", "x265", "av1", "media-database", "python-command", "hevc"
     ],
@@ -29,4 +36,7 @@ setuptools.setup(
     ],
     license='GPL-3.0',
     python_requires='>=3.6',
+    test_suite='nose.collector',
+    tests_require=['nose'],
+    zip_safe=True,
 )

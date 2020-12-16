@@ -42,7 +42,7 @@
 </div>
 <div class="section" id="synopsis">
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./mediacurator.py <span class="o">[</span>list,convert<span class="o">]</span> <span class="o">[</span>-del<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator <span class="o">[</span>list,convert<span class="o">]</span> <span class="o">[</span>-del<span class="o">]</span>
     <span class="o">[</span>-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid<span class="o">]</span>
     <span class="o">[</span>-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv<span class="o">]</span>
     <span class="o">[</span>-out:mkv/mp4,x265/av1<span class="o">]</span>
@@ -145,11 +145,11 @@
 <div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
-./mediacurator.py list -filters:old -print:formated -dirs:/mnt/media/ &gt;&gt; ../medlist.txt
+mediacurator list -filters:old -print:formated -dirs:/mnt/media/ &gt;&gt; ../medlist.txt
 <span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
-./mediacurator.py convert -del -filters:mpeg4 -out:av1,mp4 -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
+mediacurator convert -del -filters:mpeg4 -out:av1,mp4 -dirs:<span class="s2">&quot;/mnt/media/Movies/&quot;</span>
 <span class="c1"># Convert any video with avi or mpg extensions, print formated text including ffmpeg&#39;s output and then delete the originals</span>
-./mediacurator.py convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
+mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>
@@ -184,7 +184,7 @@
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Contents:</span></p>
+<p class="caption"><span class="caption-text">Usage:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="warnings.html">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -201,6 +201,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Release Notes:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.1-changelog.html">mediacurator 0.0.1 Release Notes</a></li>
 </ul>
 
 <div class="relations">
