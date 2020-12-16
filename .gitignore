@@ -5,7 +5,7 @@ renamelist.txt
 
 # Docs build data
 /docsource/build/
-/docsource/source/_*
+/docsource/source/_build
 
 # Compiled python modules.
 *.pyc
