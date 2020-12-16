@@ -1,1 +1,1 @@
-__all__ = ['curator']
+__all__ = ['mediacurator']
