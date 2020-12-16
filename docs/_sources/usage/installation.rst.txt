@@ -15,4 +15,4 @@ Install from GitHub
 .. code-block:: bash
    :linenos:
 
-   pip install mediacurator
+   pip install MediaCurator
