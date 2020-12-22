@@ -185,7 +185,7 @@ class Video():
             self.filename_tmp = ""
             exit()
         else:
-            os.chmod(f"{self.path}{self.filename_tmp}", 777)
+            os.chmod(f"{self.path}{self.filename_tmp}", 0o777)
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True
