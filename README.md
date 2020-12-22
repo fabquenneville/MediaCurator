@@ -9,6 +9,10 @@ MediaCurator is a Python command line tool to manage a media database.
 
 The documentation is available on the following [link](https://fabquenneville.github.io/MediaCurator/)
 
+## Releases
+
+MediaCurator is released on PyPi [link](https://pypi.org/project/MediaCurator/)
+
 ## Usage
 mediacurator [list,convert] [-del] [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid] [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv] [-out:mkv/mp4,x265/av1]  [-print:list,formated,verbose] [-dirs/-files:"/mnt/media/",,"/mnt/media2/"]
 

@@ -1,0 +1,57 @@
+================================
+MediaCurator 0.0.1 Release Notes
+================================
+
+
+
+Highlights
+==========
+
+Bugs fixes:
+* Fixed bug with permissions not being applied correctly after conversion
+
+Dropped Support
+===============
+
+
+Future Changes
+==============
+
+* More filters
+* Test AV1 Support
+* Prepare API for GUI
+
+Compatibility notes
+===================
+
+Python Support
+--------------
+
+Mediacurator has been tested on Python 3.7 - 3.9
+
+FFMPEG Support
+--------------
+
+Mediacurator has been tested to work with FFMPEG versions ranging from 4.1.6 to 4.3.1
+
+OS Support
+----------
+
+Mediacurator has been tested to work on various GNU/Linux distribution as well as Windows
+
+New Features
+============
+
+
+
+Improvements
+============
+
+
+Changes
+=======
+
+
+
+Deprecations
+============
