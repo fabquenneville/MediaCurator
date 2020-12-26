@@ -24,15 +24,13 @@ def detect_ffmpeg():
 def user_confirm(question, color=False):
     '''Returns the user answer to a yes or no question'''
     if color == "yellow":
-        print(colorama.Fore.YELLOW, end = '')
-        answer = input(f"{question} ")
-        print(colorama.Fore.RESET)
+        print(f"{colorama.Fore.YELLOW}{question} {colorama.Fore.RESET}", end = '')
+        answer = input()
     elif color == "red":
-        print(colorama.Fore.RED, end = '')
-        answer = input(f"{question} ")
-        print(colorama.Fore.RESET)
+        print(f"{colorama.Fore.RED}{question} {colorama.Fore.RESET}", end = '')
+        answer = input()
     else:
-        answer = input(question)
+        answer = input(f"{question} ")
     if answer.lower() in ["y","yes"]:
         return True
     elif answer.lower() in ["n","no"]:

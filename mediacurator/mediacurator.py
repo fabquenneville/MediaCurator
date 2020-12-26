@@ -11,9 +11,17 @@
 
 import sys
 
-from mediacurator.library.video import Video
-from mediacurator.library.medialibrary import MediaLibrary
-from mediacurator.library.tools import detect_ffmpeg, user_confirm
+# Normal import
+try:
+    from mediacurator.library.video import Video
+    from mediacurator.library.medialibrary import MediaLibrary
+    from mediacurator.library.tools import detect_ffmpeg, user_confirm
+# Allow local import for development purposes
+except ModuleNotFoundError:
+    from library.video import Video
+    from library.medialibrary import MediaLibrary
+    from library.tools import detect_ffmpeg, user_confirm
+
 
 import colorama
 colorama.init()

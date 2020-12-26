@@ -185,16 +185,13 @@ class Video():
             self.filename_tmp = ""
             exit()
         else:
-            os.chmod(f"{self.path}{self.filename_tmp}", 0o777)
+            try:
+                os.chmod(f"{self.path}{self.filename_tmp}", 0o777)
+            except PermissionError:
+                print(f"{colorama.Fore.RED}PermissionError on: '{self.path}{self.filename_tmp}'{colorama.Fore.RESET}")
             self.filename_new = self.filename_tmp
             self.filename_tmp = ""
             return True
-
-
-
-
-
-
 
     @staticmethod
     def detect_fferror(filepath):
