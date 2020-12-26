@@ -9,8 +9,8 @@ Install FFmpeg
 
 `Download FFmpeg <https://ffmpeg.org/download.html>`_
 
-Install from GitHub
--------------------
+Install from PyPi
+-----------------
 
 .. code-block:: bash
    :linenos:
