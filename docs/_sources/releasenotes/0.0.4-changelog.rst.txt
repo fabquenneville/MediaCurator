@@ -1,5 +1,5 @@
 ================================
-MediaCurator 0.0.1 Release Notes
+MediaCurator 0.0.4 Release Notes
 ================================
 
 
