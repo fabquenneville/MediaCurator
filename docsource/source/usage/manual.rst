@@ -14,7 +14,7 @@ Synopsis
 
     mediacurator [list,convert] [-del]
         [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid]
-        [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]
+        [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv,vob]
         [-out:mkv/mp4,x265/av1]
         [-print:list,formated,verbose]
         [-dirs/-files:"/mnt/media/",,"/mnt/media2/"]
@@ -78,7 +78,7 @@ Filter the selected videos for parameters:
 * 720p: if less than 1080p and width >= 1280 or height >= 720:
 * sd: if less than 720p and if height >= 480
 * subsd: Substandard definitions: Everything under 480p
-* mpeg,mpeg4,x264,wmv3,wmv: Filter for videos encoded in the requested video codec
+* mpeg,mpeg4,x264,wmv3,wmv,vob: Filter for videos encoded in the requested video codec
 
 -out:
 =====

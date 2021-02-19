@@ -14,18 +14,19 @@ colorama.init()
 class Video():
     '''Contains the information and methods of a video file.'''
 
-    path = str()
-    filename_origin = str()
-    filesize = int()
-    filename_new = str()
-    filename_tmp = str()
-    useful = bool()
-    codec= str()
-    error = str()
-    definition = str()
-    width = int()
-    height = int()
-
+    '''
+        path = str()
+        filename_origin = str()
+        filesize = int()
+        filename_new = str()
+        filename_tmp = str()
+        useful = bool()
+        codec= str()
+        error = str()
+        definition = str()
+        width = int()
+        height = int()
+    '''
         
 
     def __init__(self, filepath, useful = True, verbose = False):

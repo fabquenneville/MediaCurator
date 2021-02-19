@@ -17,17 +17,23 @@ class MediaLibrary():
         Contains the information and methods of a video file.
     '''
 
+    '''
     # User options
     directories = list()
     inputs = list()
     filters = list()
     # The videos variable holds a dictionary of all videos in Video objects
     videos = dict()
-
+    '''
+    
     def __init__(self, files = False, directories = False, inputs = ["any"], filters = [], verbose = False):
         '''
             This is the library object who holds the information about the workspace and all the videos in it.
         '''
+        
+        if not hasattr(self, "videos"):
+            self.videos = dict()
+        
         if files:
             for filepath in files:
                 self.videos[filepath] = Video(filepath, verbose = verbose)
@@ -79,6 +85,8 @@ class MediaLibrary():
                 videolist += list(path.rglob("*.[mM][pP][gG]"))
             if "vid" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
                 videolist += list(path.rglob("*.[vV][iI][dD]"))
+            if "vob" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[vV][oO][bB]"))
         
         # Remove folders
         videolist_tmp = videolist
