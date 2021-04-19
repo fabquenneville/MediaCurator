@@ -29,6 +29,10 @@ colorama.init()
 def main():
     '''
         MediaCurator's main function
+
+    Args:
+
+    Returns:
     '''
 
     print(f"{colorama.Style.BRIGHT}")
