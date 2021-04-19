@@ -112,6 +112,10 @@ class MediaLibrary():
             # filter for filetypes
             if len([filtr for filtr in self.filters if filtr in ["old", "mpeg4", "mpeg", "wmv3", "wmv", "h264", "hevc", "x265", "av1"]]) > 0:
                 useful = False
+                if not self.videos[filepath].hasattr("codec"):
+                    print(filepath)
+                    exit()
+                    # ERT1
                 if "old" in self.filters and self.videos[filepath].codec not in ["hevc", "av1"]:
                     useful = True
                 if ("mpeg4" in self.filters or "mpeg" in self.filters) and self.videos[filepath].codec in ["mpeg4", "msmpeg4v3"]:

@@ -10,6 +10,39 @@ import colorama
 colorama.init()
 
 
+def load_arguments():
+    arguments = {
+        "directories":list(),
+        "files":list(),
+        "inputs":list(),
+        "filters":list(),
+        "outputs":list(),
+        "printop":list(),
+    }
+
+    for arg in sys.argv:
+        # Confirm with the user that he selected to delete found files
+        if "-del" in arg:
+            print(f"{colorama.Fore.YELLOW}WARNING: Delete option selected!{colorama.Fore.RESET}")
+            if not user_confirm(f"Are you sure you wish to delete all found results after selected operations are succesfull ? [Y/N] ?", color="yellow"):
+                print(f"{colorama.Fore.GREEN}Exiting!{colorama.Fore.RESET}")
+                exit()
+        elif "-in:" in arg:
+            arguments["inputs"] += arg[4:].split(",")
+        elif "-filters:" in arg:
+            arguments["filters"] += arg[9:].split(",")
+        elif "-out:" in arg:
+            arguments["outputs"] += arg[5:].split(",")
+        elif "-print:" in arg:
+            arguments["printop"] += arg[7:].split(",")
+        elif "-files:" in arg:
+            arguments["files"] += arg[7:].split(",,")
+        elif "-dirs:" in arg:
+            arguments["directories"] += arg[6:].split(",,")
+
+    return arguments
+
+
 def detect_ffmpeg():
     '''Returns the version of ffmpeg that is installed or false'''
     try:

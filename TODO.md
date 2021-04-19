@@ -12,6 +12,7 @@ Project
 * Add service
 * Make proper raises
 * Document usable modules / imports
+* Filelist option
 
 Modules
 -------
