@@ -18,11 +18,11 @@ class Video():
         '''Contains the information and methods of a video file.
 
         Args:
-            filepath    :   A string containing the full filepath
-            useful      :   
-            verbose     :   
+            filepath            :   A string containing the full filepath
+            useful              :   A boolean marking if the video is to be operated on
+            verbose = False     : A list of print options
+
         Returns:
-                    :   
         '''
         self.path = None
         self.filename_origin = None
@@ -70,7 +70,13 @@ class Video():
             print(f"{colorama.Fore.RED}    {self.error}{colorama.Fore.RESET}")
 
     def __str__(self):
-        '''Returns a short formated string about the video'''
+        '''Returns a short formated string about the video
+
+        Args:
+
+        Returns:
+            String      :   A short formated string about the video
+        '''
 
         if type(self.error) is str and "FileNotFoundError" in self.error:
             return self.error
@@ -104,7 +110,13 @@ class Video():
     __repr__ = __str__
 
     def fprint(self):
-        '''Returns a long formated string about the video '''
+        '''Returns a long formated string about the video
+
+        Args:
+
+        Returns:
+            String      :   A long formated string about the video
+        '''
 
 
         if type(self.error) is str and "FileNotFoundError" in self.error:
@@ -140,6 +152,15 @@ class Video():
         '''
             Convert to original file to the requested format / codec
             verbose will print ffmpeg's output
+
+        Args:
+            vcodec = "x265"     :   The new video codec, supports av1 or x265
+            acodec = False      :   Currently not enabled, will be for audio codecs
+            extension = "mkv"   :   A string containing the new video container format and file extention
+            verbose = False     :   A boolean enabling verbosity
+        
+        Returns:
+            boolean             :   Operation success
         '''
 
         # Setting new filename
@@ -200,7 +221,15 @@ class Video():
 
     @staticmethod
     def detect_fferror(filepath):
-        '''Returns a string with the detected errors'''
+        '''Returns a string with the detected errors
+
+        Args:
+            filepath    :   A string containing the full filepath
+        
+        Returns:
+            String      :   The errors that have been found / happened
+            False       :   The lack of errors
+        '''
         try:
             args = ["ffprobe","-v","error",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -214,7 +243,15 @@ class Video():
 
     @staticmethod
     def detect_codec(filepath):
-        '''Returns a string with the detected codec'''
+        '''Returns a string with the detected codec
+
+        Args:
+            filepath    :   A string containing the full filepath
+        Returns:
+            String      :   The codec that has been detected
+            False       :   An error in the codec fetching process
+        '''
+        output = False
         try:
             args = ["ffprobe", "-v", "quiet", "-select_streams", "v:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -229,7 +266,14 @@ class Video():
 
     @staticmethod
     def detect_resolution(filepath):
-        '''Returns a list with the detected width(0) and height(1)'''
+        '''Returns a list with the detected width(0) and height(1)
+
+        Args:
+            filepath    :   A string containing the full filepath
+        Returns:
+            List        :   the detected width(0) and height(1)
+            False       :   An error in the codec fetching process
+        '''
         try:
             args = ["ffprobe","-v","quiet","-select_streams","v:0", "-show_entries","stream=width,height","-of","csv=s=x:p=0",str(filepath)]
             output = subprocess.check_output(args, stderr=subprocess.STDOUT)
@@ -246,7 +290,14 @@ class Video():
 
     @staticmethod
     def detect_definition(filepath = False, width = False, height = False):
-        '''Returns a string with the detected definition corrected for dead space'''
+        '''Returns a string with the detected definition corrected for dead space
+
+        Args:
+            filepath    :   A string containing the full filepath
+        Returns:
+            List        :   The classified definition in width(0) and height(1)
+            False       :   An error in the process
+        '''
         if filepath:
             width, height = Video.detect_resolution(filepath)
         if not width and not height:
@@ -264,7 +315,14 @@ class Video():
 
     @staticmethod
     def detect_filesize(filepath):
-        '''Returns an integer with size in mb'''
+        '''Returns an integer with size in mb
+
+        Args:
+            filepath    :   A string containing the full filepath
+        Returns:
+            Integer     :   The filesize in mb
+            False       :   An error in the process
+        '''
         try:
             size = int(os.path.getsize(filepath) / 1024 / 1024)
         except subprocess.CalledProcessError:
