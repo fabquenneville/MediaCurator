@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
-'''
-    This is the container for all the videos found in the folders passed by the user
-'''
+''' This is the library object who holds the information about the workspace and all the videos in it.'''
 
 from pathlib import Path
-import sys
 
 from .video import Video
 from .tools import deletefile
@@ -13,23 +10,24 @@ import colorama
 colorama.init()
 
 class MediaLibrary():
-    '''
-        Contains the information and methods of a video file.
-    '''
-
-    '''
-    # User options
-    directories = list()
-    inputs = list()
-    filters = list()
-    # The videos variable holds a dictionary of all videos in Video objects
-    videos = dict()
-    '''
+    ''' This is the library object who holds the information about the workspace and all the videos in it. '''
     
     def __init__(self, files = False, directories = False, inputs = ["any"], filters = [], verbose = False):
         '''
             This is the library object who holds the information about the workspace and all the videos in it.
+
+        Args:
+            files = False       : A list of video files
+            directories = False : A list of directories containing videos directly or in the subdirectories
+            inputs = ["any"]    : A list of filters on input FILES, defaults to keep any files
+            filters = []        : A list of filters to apply to the VIDEO
+            verbose = False     : A list of print options
+        Returns:
         '''
+        self.directories    = None
+        self.inputs         = None
+        self.filters        = None
+        self.videos         = None
         
         if not hasattr(self, "videos"):
             self.videos = dict()
@@ -43,13 +41,19 @@ class MediaLibrary():
         else:
             return
         
-        self.inputs             = inputs
-        self.filters            = filters
+        self.inputs     = inputs
+        self.filters    = filters
         self.load_videos(verbose = verbose)
         self.filter_videos(verbose = verbose)
 
     def __str__(self):
-        ''' print '''
+        ''' Returns a sting representations about the current instance of the MediaLibrary object
+
+        Args:
+
+        Returns:
+            String      :   Information about what the MediaLibrary is tracking
+        '''
 
         if self.directories:
             text = f"MediaCurator is watching the following directories: "
@@ -61,6 +65,11 @@ class MediaLibrary():
         '''
             Scan folders for video files respecting the inputs requested by the user
             Save them to the videos dictionary
+
+        Args:
+            verbose = False     : A list of print options
+        
+        Returns:
         '''
 
         print(f"{colorama.Fore.GREEN}Scanning files in {', '.join(map(str, self.directories))} for videos{colorama.Fore.RESET}")
@@ -103,7 +112,13 @@ class MediaLibrary():
             self.videos[video] = Video(video, verbose = verbose)
 
     def filter_videos(self, verbose = False):
-        ''' Mark useless videos in the videos dictionary (default is useful) '''
+        ''' Mark useless videos in the videos dictionary (default is useful)
+
+        Args:
+            verbose = False     : A list of print options
+        
+        Returns:
+        '''
 
         print(f"{colorama.Fore.GREEN}Filtering {len(self.videos)} videos for the requested parameters{colorama.Fore.RESET}")
 
@@ -112,10 +127,6 @@ class MediaLibrary():
             # filter for filetypes
             if len([filtr for filtr in self.filters if filtr in ["old", "mpeg4", "mpeg", "wmv3", "wmv", "h264", "hevc", "x265", "av1"]]) > 0:
                 useful = False
-                if not self.videos[filepath].hasattr("codec"):
-                    print(filepath)
-                    exit()
-                    # ERT1
                 if "old" in self.filters and self.videos[filepath].codec not in ["hevc", "av1"]:
                     useful = True
                 if ("mpeg4" in self.filters or "mpeg" in self.filters) and self.videos[filepath].codec in ["mpeg4", "msmpeg4v3"]:
@@ -163,7 +174,15 @@ class MediaLibrary():
         print(f"{colorama.Fore.GREEN}Found {len([filepath for filepath in self.videos if self.videos[filepath].useful])} videos for the requested parameters{colorama.Fore.RESET}")
 
     def unwatch(self, filepath, delete = False):
-        ''' remove a video from the index and delete it if requested'''
+        ''' remove a video from the index and delete it if requested
+
+        Args:
+            filepath            :    A string containing the full filepath
+            delete = False      :    Delete the file as well as removing it from the library
+        
+        Returns:
+            boolean             :   Operation success
+        '''
         
         if delete:
             deletefile(filepath)

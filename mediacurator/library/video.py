@@ -12,25 +12,29 @@ import colorama
 colorama.init()
 
 class Video():
-    '''Contains the information and methods of a video file.'''
-
-    '''
-        path = str()
-        filename_origin = str()
-        filesize = int()
-        filename_new = str()
-        filename_tmp = str()
-        useful = bool()
-        codec= str()
-        error = str()
-        definition = str()
-        width = int()
-        height = int()
-    '''
-        
+    '''Contains the information and methods of a video file.'''        
 
     def __init__(self, filepath, useful = True, verbose = False):
-        ''' creates and analyse a video file '''
+        '''Contains the information and methods of a video file.
+
+        Args:
+            filepath    :   A string containing the full filepath
+            useful      :   
+            verbose     :   
+        Returns:
+                    :   
+        '''
+        self.path = None
+        self.filename_origin = None
+        self.filesize = None
+        self.filename_new = None
+        self.filename_tmp = None
+        self.useful = None
+        self.codec = None
+        self.error = None
+        self.definition = None
+        self.width = None
+        self.height = None
         
         #Breaking down the full path in its components
         if os.name == 'nt':

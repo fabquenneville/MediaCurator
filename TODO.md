@@ -17,8 +17,4 @@ Project
 Modules
 -------
 
-* Add notes to every method/function/class
 * revisit all models for Instance, Class, and Staticness
-    * 
-    * 
-    * 
