@@ -25,7 +25,7 @@ class MediaLibrary():
         Returns:
         '''
 
-        if not files or directories:
+        if not files and not directories:
             return
         
         self.directories    = None

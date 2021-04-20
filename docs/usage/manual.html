@@ -44,7 +44,7 @@
 <h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator <span class="o">[</span>list,convert<span class="o">]</span> <span class="o">[</span>-del<span class="o">]</span>
     <span class="o">[</span>-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid<span class="o">]</span>
-    <span class="o">[</span>-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv<span class="o">]</span>
+    <span class="o">[</span>-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv,vob<span class="o">]</span>
     <span class="o">[</span>-out:mkv/mp4,x265/av1<span class="o">]</span>
     <span class="o">[</span>-print:list,formated,verbose<span class="o">]</span>
     <span class="o">[</span>-dirs/-files:<span class="s2">&quot;/mnt/media/&quot;</span>,,<span class="s2">&quot;/mnt/media2/&quot;</span><span class="o">]</span>
@@ -102,7 +102,7 @@
 <li><p>720p: if less than 1080p and width &gt;= 1280 or height &gt;= 720:</p></li>
 <li><p>sd: if less than 720p and if height &gt;= 480</p></li>
 <li><p>subsd: Substandard definitions: Everything under 480p</p></li>
-<li><p>mpeg,mpeg4,x264,wmv3,wmv: Filter for videos encoded in the requested video codec</p></li>
+<li><p>mpeg,mpeg4,x264,wmv3,wmv,vob: Filter for videos encoded in the requested video codec</p></li>
 </ul>
 </div>
 <div class="section" id="out">
@@ -204,7 +204,11 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 </ul>
 <p class="caption"><span class="caption-text">Release Notes:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.1-changelog.html">mediacurator 0.0.1 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.7-changelog.html">MediaCurator 0.0.7 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.6-changelog.html">MediaCurator 0.0.6 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.5-changelog.html">MediaCurator 0.0.5 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.4-changelog.html">MediaCurator 0.0.4 Release Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.1-changelog.html">MediaCurator 0.0.1 Release Notes</a></li>
 </ul>
 
 <div class="relations">

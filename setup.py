@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="MediaCurator",
-    version="0.0.5",
+    version="0.0.7",
     author="Fabrice Quenneville",
     author_email="fab@fabq.ca",
     url="https://github.com/fabquenneville/MediaCurator",
