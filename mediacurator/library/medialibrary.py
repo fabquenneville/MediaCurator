@@ -19,31 +19,28 @@ class MediaLibrary():
         Args:
             files = False       : A list of video files
             directories = False : A list of directories containing videos directly or in the subdirectories
-            inputs = ["any"]    : A list of filters on input FILES, defaults to keep any files
-            filters = []        : A list of filters to apply to the VIDEO
+            inputs = ["any"]    : A list of filters to keep when browsing the directories
+            filters = []        : A list of filters to apply to the videos
             verbose = False     : A list of print options
         Returns:
         '''
-        self.directories    = None
-        self.inputs         = None
-        self.filters        = None
-        self.videos         = None
+
+        if not files or directories:
+            return
         
-        if not hasattr(self, "videos"):
-            self.videos = dict()
+        self.directories    = None
+        self.inputs         = inputs
+        self.filters        = filters
+        self.videos         = dict()
         
         if files:
             for filepath in files:
                 self.videos[filepath] = Video(filepath, verbose = verbose)
 
-        elif directories:
+        if directories:
             self.directories    = directories
-        else:
-            return
+            self.load_directories(verbose = verbose)
         
-        self.inputs     = inputs
-        self.filters    = filters
-        self.load_videos(verbose = verbose)
         self.filter_videos(verbose = verbose)
 
     def __str__(self):
@@ -61,7 +58,7 @@ class MediaLibrary():
         text += f"MediaCurator is tracking {len(self.videos)} video files"
         return text
 
-    def load_videos(self, verbose = False):
+    def load_directories(self, verbose = False):
         '''
             Scan folders for video files respecting the inputs requested by the user
             Save them to the videos dictionary

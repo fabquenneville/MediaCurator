@@ -4,9 +4,6 @@
 from .tools import deletefile, findfreename
 import subprocess
 import os
-import sys
-import re
-
 
 import colorama
 colorama.init()
