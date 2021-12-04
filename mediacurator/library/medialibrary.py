@@ -93,6 +93,10 @@ class MediaLibrary():
                 videolist += list(path.rglob("*.[vV][iI][dD]"))
             if "vob" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
                 videolist += list(path.rglob("*.[vV][oO][bB]"))
+            if "divx" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[dD][iI][vV][xX]"))
+            if "ogm" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[oO][gG][mM]"))
         
         # Remove folders
         videolist_tmp = videolist

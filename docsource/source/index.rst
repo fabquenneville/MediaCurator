@@ -30,6 +30,7 @@ The source code can be found on `GitHub <https://github.com/fabquenneville/Media
    :maxdepth: 1
    :caption: Release Notes:
 
+   releasenotes/0.0.8-changelog
    releasenotes/0.0.7-changelog
    releasenotes/0.0.6-changelog
    releasenotes/0.0.5-changelog

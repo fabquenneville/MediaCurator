@@ -13,6 +13,7 @@ Project
 * Make proper raises
 * Document usable modules / imports
 * Filelist option
+* Add status during scans etc...
 
 Modules
 -------
