@@ -1,18 +1,19 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Manual &#8212; MediaCurator  documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -20,7 +21,6 @@
     <link rel="prev" title="Quickstart" href="quickstart.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
@@ -30,20 +30,18 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
-  <div class="section" id="manual">
-<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="name">
-<h2>Name<a class="headerlink" href="#name" title="Permalink to this headline">¶</a></h2>
+  <section id="manual">
+<h1>Manual<a class="headerlink" href="#manual" title="Permalink to this heading">¶</a></h1>
+<section id="name">
+<h2>Name<a class="headerlink" href="#name" title="Permalink to this heading">¶</a></h2>
 <p>MediaCurator</p>
-</div>
-<div class="section" id="synopsis">
-<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mediacurator <span class="o">[</span>list,convert<span class="o">]</span> <span class="o">[</span>-del<span class="o">]</span>
-    <span class="o">[</span>-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid,divx,ogm<span class="o">]</span>
+    <span class="o">[</span>-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid,divx,ogm,webm<span class="o">]</span>
     <span class="o">[</span>-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv,vob<span class="o">]</span>
     <span class="o">[</span>-out:mkv/mp4,x265/av1<span class="o">]</span>
     <span class="o">[</span>-print:list,formated,verbose<span class="o">]</span>
@@ -58,38 +56,38 @@
 -print:list
 </pre></div>
 </div>
-</div>
-<div class="section" id="description">
-<h2>Description<a class="headerlink" href="#description" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
 <p>MediaCurator is a Python command line tool to manage a media database.</p>
 <ul class="simple">
 <li><p>List all the video’s and their information with or without filters</p></li>
 <li><p>Batch find and repair/convert videos with encoding errors</p></li>
 <li><p>Batch recode videos to more modern codecs (x265 / AV1) based on filters: extentions, codecs, resolutions …</p></li>
 </ul>
-</div>
-<div class="section" id="options">
-<h2>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="list">
-<h3>list<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="options">
+<h2>Options<a class="headerlink" href="#options" title="Permalink to this heading">¶</a></h2>
+<section id="list">
+<h3>list<a class="headerlink" href="#list" title="Permalink to this heading">¶</a></h3>
 <p>Search and list videos filtered by the parameters passed by the user.</p>
-</div>
-<div class="section" id="convert">
-<h3>convert<a class="headerlink" href="#convert" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="convert">
+<h3>convert<a class="headerlink" href="#convert" title="Permalink to this heading">¶</a></h3>
 <p>Search and convert all videos filtered by the parameters passed by the user.</p>
-</div>
-<div class="section" id="del">
-<h3>-del:<a class="headerlink" href="#del" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="del">
+<h3>-del:<a class="headerlink" href="#del" title="Permalink to this heading">¶</a></h3>
 <p>Delete all original videos once selected operations have been done succefully.</p>
 <p>See <a class="reference internal" href="warnings.html"><span class="doc">Warnings</span></a></p>
-</div>
-<div class="section" id="in">
-<h3>-in:<a class="headerlink" href="#in" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="in">
+<h3>-in:<a class="headerlink" href="#in" title="Permalink to this heading">¶</a></h3>
 <p>[<strong>any</strong>,avi,mkv,wmv,mpg,mp4,m4v,flv,vid,divx,ogm]</p>
 <p>Search all videos of the selected container <strong>extensions</strong> in the directories. By default it will include any file format.</p>
-</div>
-<div class="section" id="filters">
-<h3>-filters:<a class="headerlink" href="#filters" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="filters">
+<h3>-filters:<a class="headerlink" href="#filters" title="Permalink to this heading">¶</a></h3>
 <p>[fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv]</p>
 <p>Filter the selected videos for parameters:</p>
 <ul class="simple">
@@ -104,9 +102,9 @@
 <li><p>subsd: Substandard definitions: Everything under 480p</p></li>
 <li><p>mpeg,mpeg4,x264,wmv3,wmv,vob: Filter for videos encoded in the requested video codec</p></li>
 </ul>
-</div>
-<div class="section" id="out">
-<h3>-out:<a class="headerlink" href="#out" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="out">
+<h3>-out:<a class="headerlink" href="#out" title="Permalink to this heading">¶</a></h3>
 <p>[<strong>mkv</strong>/mp4,x265/av1]</p>
 <p>Select the outputs for the video conversions</p>
 <ul class="simple">
@@ -115,9 +113,9 @@
 <li><p>x265/hevc: (<strong>Default</strong>) Encode the video using the <a class="reference external" href="https://en.wikipedia.org/wiki/X265">x265</a> compression format.</p></li>
 <li><p>av1: Encode the video using the <a class="reference external" href="https://en.wikipedia.org/wiki/AV1">AOMedia Video 1</a> compression format. This will be used as default once the developpers at FFmpeg move it out of <a class="reference external" href="https://trac.ffmpeg.org/wiki/Encode/AV1">experimental</a> .</p></li>
 </ul>
-</div>
-<div class="section" id="print">
-<h3>-print:<a class="headerlink" href="#print" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="print">
+<h3>-print:<a class="headerlink" href="#print" title="Permalink to this heading">¶</a></h3>
 <p>[<strong>list</strong>,formated,verbose]</p>
 <ul class="simple">
 <li><p>list: (<strong>Default</strong>) Print the information about the videos on a single line</p></li>
@@ -130,20 +128,20 @@
 <ul class="simple">
 <li><p>verbose: Print the FFmpeg output during the video conversions</p></li>
 </ul>
-</div>
-<div class="section" id="dirs">
-<h3>-dirs:<a class="headerlink" href="#dirs" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="dirs">
+<h3>-dirs:<a class="headerlink" href="#dirs" title="Permalink to this heading">¶</a></h3>
 <p>[“/mnt/media/”,,”/mnt/media2/”]</p>
 <p>The directories to scan as a <strong>double comma</strong> separated values list.</p>
-</div>
-<div class="section" id="files">
-<h3>-files:<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="files">
+<h3>-files:<a class="headerlink" href="#files" title="Permalink to this heading">¶</a></h3>
 <p>[“/mnt/media/video.avi”,,”/mnt/media2/video2.mp4”]</p>
 <p>Specific videos to include as a <strong>double comma</strong> separated values list.</p>
-</div>
-</div>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># List all videos with old codec in formated format</span>
 mediacurator list -filters:old -print:formated -dirs:/mnt/media/ &gt;&gt; ../medlist.txt
 <span class="c1"># Convert all videos with the codec mpeg4 in a mp4 using the av1 video codec and the delete the originals</span>
@@ -153,20 +151,19 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 </pre></div>
 </div>
 <p>More examples in <a class="reference internal" href="use_cases.html"><span class="doc">Use cases</span></a></p>
-</div>
-<div class="section" id="see-also">
-<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
 <p><a class="reference external" href="https://ffmpeg.org/">FFmpeg</a></p>
-</div>
-<div class="section" id="author">
-<h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="author">
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this heading">¶</a></h2>
 <p>Fabrice Quenneville</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -184,7 +181,7 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 
 
 <h3>Navigation</h3>
-<p class="caption"><span class="caption-text">Usage:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Usage:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="warnings.html">Warnings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
@@ -202,8 +199,9 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
 <li class="toctree-l1"><a class="reference internal" href="use_cases.html">Use cases</a></li>
 <li class="toctree-l1"><a class="reference internal" href="errors.html">Errors</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Release Notes:</span></p>
+<p class="caption" role="heading"><span class="caption-text">Release Notes:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.9-changelog.html">MediaCurator 0.0.8 Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.8-changelog.html">MediaCurator 0.0.8 Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.7-changelog.html">MediaCurator 0.0.7 Release Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../releasenotes/0.0.6-changelog.html">MediaCurator 0.0.6 Release Notes</a></li>
@@ -225,20 +223,12 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -247,8 +237,8 @@ mediacurator convert -del -in:avi,mpg -print:formated,verbose -dirs:/mnt/media/
       &copy;2020, Fabrice Quenneville.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
       
       |
       <a href="../_sources/usage/manual.rst.txt"

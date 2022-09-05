@@ -13,7 +13,7 @@ Synopsis
 .. code-block:: bash
 
     mediacurator [list,convert] [-del]
-        [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid,divx,ogm]
+        [-in:any,avi,mkv,wmv,mpg,mp4,m4v,flv,vid,divx,ogm,webm]
         [-filters:fferror,old,lowres,hd,720p,1080p,uhd,mpeg,mpeg4,x264,wmv3,wmv,vob]
         [-out:mkv/mp4,x265/av1]
         [-print:list,formated,verbose]

@@ -15,7 +15,8 @@ printf "${cyan}Prepping${nc} for release.\n"
 cp -r ./build/* ../docs/
 touch ../docs/.nojekyll
 printf "${cyan}Cleaning${nc} up and setting proper permissions\n"
-chmod -R 777 ../docs/
+find ../docs/ -type d -exec chmod 755 {} \;
+find ../docs/ -type f -exec chmod 644 {} \;
 find ./build -mindepth 1 -delete
 printf "Documentation ${cyan}ready for release${nc} in: ${red}${docs_path}${nc}\n"
 
