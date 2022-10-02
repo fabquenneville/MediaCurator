@@ -1,11 +1,11 @@
-================================
-MediaCurator 0.0.9 Release Notes
-================================
+=================================
+MediaCurator 0.0.10 Release Notes
+=================================
 
 Highlights
 ==========
 
-Added support to webm filetype.
+Added support to mpeg filetype.
 
 Dropped Support
 ===============
