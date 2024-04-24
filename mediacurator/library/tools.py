@@ -7,16 +7,18 @@ import subprocess
 import os
 import sys
 
+# Import colorama for colored output
 import colorama
 colorama.init()
 
+# Define color codes for colored output
 cgreen = colorama.Fore.GREEN
 cyellow = colorama.Fore.YELLOW
 cred = colorama.Fore.RED
 creset = colorama.Fore.RESET
 
 def load_arguments():
-    '''Get/load command parameters 
+    '''Get/load command parameters
 
     Returns:
         dict: A dictionary containing lists of options passed by the user

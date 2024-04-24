@@ -33,7 +33,7 @@ Mediacurator has been tested to work with FFMPEG versions ranging from 4.1.6 to 
 OS Support
 ----------
 
-Mediacurator has been tested to work on various GNU/Linux distribution as well as Windows
+Mediacurator has been tested to work on various GNU/Linux distributions as well as Windows
 
 New Features
 ============

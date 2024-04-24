@@ -20,7 +20,7 @@
 project = 'MediaCurator'
 copyright = '2020, Fabrice Quenneville'
 author = 'Fabrice Quenneville'
-version = '0.0.11'
+version = '0.0.12'
 
 # -- General configuration ---------------------------------------------------
 

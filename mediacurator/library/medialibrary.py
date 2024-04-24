@@ -6,9 +6,11 @@ from pathlib import Path
 from .video import Video
 from .tools import deletefile
 
+# Import colorama for colored output
 import colorama
 colorama.init()
 
+# Define color codes for colored output
 cgreen = colorama.Fore.GREEN
 creset = colorama.Fore.RESET
 
@@ -73,10 +75,33 @@ class MediaLibrary():
         
         for directory in self.directories:
             path = Path(directory)
-            # Get all video filetypes
-            for ext in ["wmv", "avi", "mkv", "mp4", "m4v", "flv", "mpg", "mpeg", "vid", "vob", "divx", "ogm", "webm"]:
-                if ext in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
-                    videolist += list(path.rglob(f"*.[{ext.upper()}{ext.lower()}]"))
+            # get all video filetypes
+            if "wmv" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[wW][mM][vV]"))
+            if "avi" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[aA][vV][iI]"))
+            if "mkv" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[mM][kK][vV]"))
+            if "mp4" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[mM][pP]4"))
+            if "m4v" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[mM]4[vV]"))
+            if "flv" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[fF][lL][vV]"))
+            if "mpg" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[mM][pP][gG]"))
+            if "mpeg" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[mM][pP][eE][gG]"))
+            if "vid" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[vV][iI][dD]"))
+            if "vob" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[vV][oO][bB]"))
+            if "divx" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[dD][iI][vV][xX]"))
+            if "ogm" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[oO][gG][mM]"))
+            if "webm" in self.inputs or "any" in self.inputs or len(self.inputs) < 1:
+                videolist += list(path.rglob("*.[wW][eE][bB][mM]"))
         
         # Remove folders
         videolist_tmp = videolist

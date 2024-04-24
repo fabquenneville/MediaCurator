@@ -37,8 +37,6 @@ def main():
     '''
     MediaCurator's main function
     
-    Args:
-    
     Returns:
     '''
 
@@ -66,7 +64,6 @@ def main():
     else:
         print(f"{cred}ERROR: No files or directories selected.{creset}")
         return
-    
 
     # Actions
     if sys.argv[1] == "list":

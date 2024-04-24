@@ -5,9 +5,11 @@ from .tools import deletefile, findfreename
 import subprocess
 import os
 
+# Import colorama for colored output
 import colorama
 colorama.init()
 
+# Define color codes for colored output
 cyellow = colorama.Fore.YELLOW
 cred = colorama.Fore.RED
 creset = colorama.Fore.RESET

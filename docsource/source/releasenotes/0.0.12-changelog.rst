@@ -34,10 +34,7 @@ New Features
 Improvements
 ============
 
-* Rectified a bug where MediaLibrary would encounter an error due to a missing directory.
-* Enhanced clarity by refining comments.
-* Improved code readability through cleanup and organization.
-* Ensured consistency and enhanced readability by adjusting variable names.
+* Rectified a bug where MediaLibrary would be unable to gather the videos to operate.
 
 Changes
 =======
