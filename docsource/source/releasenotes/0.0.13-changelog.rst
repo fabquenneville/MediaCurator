@@ -1,11 +1,11 @@
 ========================================
-MediaCurator 0.0.12 Release Notes
+MediaCurator 0.0.13 Release Notes
 ========================================
 
 Highlights
 ==========
 
-Code improvements.
+Added a line break for readability.
 
 Dropped Support
 ===============
@@ -34,7 +34,7 @@ New Features
 Improvements
 ============
 
-* Rectified a bug where MediaLibrary would be unable to gather the videos to operate.
+Added a line break for readability.
 
 Changes
 =======
