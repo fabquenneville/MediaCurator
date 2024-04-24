@@ -10,14 +10,16 @@ import sys
 import colorama
 colorama.init()
 
+cgreen = colorama.Fore.GREEN
+cyellow = colorama.Fore.YELLOW
+cred = colorama.Fore.RED
+creset = colorama.Fore.RESET
 
 def load_arguments():
     '''Get/load command parameters 
 
-    Args:
-
     Returns:
-        arguments: A dictionary of lists of the options passed by the user
+        dict: A dictionary containing lists of options passed by the user
     '''
     arguments = {
         "directories": list(),
@@ -29,12 +31,12 @@ def load_arguments():
     }
 
     for arg in sys.argv:
-        # Confirm with the user that he selected to delete found files
+        # Confirm with the user that they selected to delete found files
         if "-del" in arg:
             print(
-                f"{colorama.Fore.YELLOW}WARNING: Delete option selected!{colorama.Fore.RESET}")
-            if not user_confirm(f"Are you sure you wish to delete all found results after selected operations are succesfull ? [Y/N] ?", color="yellow"):
-                print(f"{colorama.Fore.GREEN}Exiting!{colorama.Fore.RESET}")
+                f"{cyellow}WARNING: Delete option selected!{creset}")
+            if not user_confirm(f"Are you sure you wish to delete all found results after selected operations are successful? [Y/N] ?", color="yellow"):
+                print(f"{cgreen}Exiting!{creset}")
                 exit()
         elif "-in:" in arg:
             arguments["inputs"] += arg[4:].split(",")
@@ -53,19 +55,17 @@ def load_arguments():
 
 
 def detect_ffmpeg():
-    '''Returns the version of ffmpeg that is installed or false
-
-    Args:
+    '''Returns the version of ffmpeg that is installed or False
 
     Returns:
-        String  :   The version number of the installed FFMPEG
-        False   :   The failure of retreiving the version number
+        str: The version number of the installed FFMPEG
+        False: If version retrieval failed
     '''
     try:
         txt = subprocess.check_output(
             ['ffmpeg', '-version'], stderr=subprocess.STDOUT).decode()
         if "ffmpeg version" in txt:
-            # Strip the useless text and
+            # Strip the useless text
             return txt.split(' ')[2]
     except:
         pass
@@ -73,19 +73,19 @@ def detect_ffmpeg():
 
 
 def user_confirm(question, color=False):
-    '''Returns the user answer to a yes or no question
+    '''Returns the user's answer to a yes or no question
 
     Args:
-        question    :   A String containing the user question
-        color       :   A String containing the prefered color for a question (reg/yellow)
+        question (str): The user question
+        color (str, optional): The preferred color for a question (red/yellow)
     Returns:
-        Bool        :   Positive or negative return to the user question
+        bool: True for a positive response, False otherwise
     '''
     if color == "yellow":
-        print(f"{colorama.Fore.YELLOW}{question} {colorama.Fore.RESET}", end='')
+        print(f"{cyellow}{question} {creset}", end='')
         answer = input()
     elif color == "red":
-        print(f"{colorama.Fore.RED}{question} {colorama.Fore.RESET}", end='')
+        print(f"{cred}{question} {creset}", end='')
         answer = input()
     else:
         answer = input(f"{question} ")
@@ -98,32 +98,31 @@ def user_confirm(question, color=False):
 
 
 def deletefile(filepath):
-    '''Delete a file, Returns a boolean
+    '''Delete a file and return a boolean indicating success
 
     Args:
-        filepath    :   A string containing the full filepath
+        filepath (str): The full filepath
     Returns:
-        Bool        :   The success of the operation
+        bool: True if successful, False otherwise
     '''
     try:
         os.remove(filepath)
     except OSError:
-        print(f"{colorama.Fore.RED}Error deleting {filepath}{colorama.Fore.RESET}")
+        print(f"{cred}Error deleting {filepath}{creset}")
         return False
 
-    print(f"{colorama.Fore.GREEN}Successfully deleted {filepath}{colorama.Fore.RESET}")
+    print(f"{cgreen}Successfully deleted {filepath}{creset}")
     return True
 
 
 def findfreename(filepath, attempt=0):
-    ''' Given a filepath it will try to find a free filename by appending to the name.
-    First trying as passed in argument, then adding [HEVC] to the end and if all fail [HEVC](#).
+    '''Find a free filename by appending [HEVC] or [HEVC](#) to the name if necessary
 
     Args:
-        filepath    :   A string containing the full filepath
-        attempt     :   The number of times we have already tryed
+        filepath (str): The full filepath
+        attempt (int, optional): The number of attempts made
     Returns:
-        filepath    :   The first free filepath we found
+        str: The first free filepath found
     '''
     attempt += 1
     filename = str(filepath)[:str(filepath).rindex(".")]

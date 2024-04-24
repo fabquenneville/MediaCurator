@@ -22,16 +22,23 @@ except ModuleNotFoundError:
     from library.medialibrary import MediaLibrary
     from library.tools import detect_ffmpeg, user_confirm, load_arguments
 
-
+# Import colorama for colored output
 import colorama
 colorama.init()
 
+# Define color codes for colored output
+ccyan = colorama.Fore.CYAN
+cblue = colorama.Fore.BLUE
+cgreen = colorama.Fore.GREEN
+cred = colorama.Fore.RED
+creset = colorama.Fore.RESET
+
 def main():
     '''
-        MediaCurator's main function
-
+    MediaCurator's main function
+    
     Args:
-
+    
     Returns:
     '''
 
@@ -39,14 +46,14 @@ def main():
 
     # confirm that the command has enough parameters
     if len(sys.argv) < 2:
-        print(f"{colorama.Fore.RED}ERROR: Command not understood, please see documentation.{colorama.Fore.RESET}")
+        print(f"{cred}ERROR: Command not understood, please see documentation.{creset}")
 
     # confirm that ffmpeg in indeed installed
     ffmpeg_version = detect_ffmpeg()
     if not ffmpeg_version:
-        print(f"{colorama.Fore.RED}No ffmpeg version detected{colorama.Fore.RESET}")
+        print(f"{cred}No ffmpeg version detected{creset}")
         exit()
-    print(f"{colorama.Fore.BLUE}ffmpeg version detected: {ffmpeg_version}{colorama.Fore.RESET}")
+    print(f"{cblue}ffmpeg version detected: {ffmpeg_version}{creset}")
 
     # Get/load command parameters
     arguments = load_arguments()
@@ -57,27 +64,26 @@ def main():
     elif len(arguments["directories"]) > 0:
         medialibrary = MediaLibrary(directories = arguments["directories"], inputs = arguments["inputs"], filters = arguments["filters"])
     else:
-        print(f"{colorama.Fore.RED}ERROR: No files or directories selected.{colorama.Fore.RESET}")
+        print(f"{cred}ERROR: No files or directories selected.{creset}")
         return
-        
+    
 
     # Actions
     if sys.argv[1] == "list":
-
         # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
-        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].operate]
         keylist.sort()
 
         for filepath in keylist:
-            if medialibrary.videos[filepath].useful:
+            if medialibrary.videos[filepath].operate:
                 if "formated" in arguments["printop"] or "verbose" in arguments["printop"]:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[filepath].fprint()}{creset}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[filepath]}{creset}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -85,21 +91,20 @@ def main():
                 if "-del" in sys.argv:
                     medialibrary.unwatch(filepath, delete = True)
     elif sys.argv[1] == "test":
-
         # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
-        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].operate]
         keylist.sort()
 
         for filepath in keylist:
-            if medialibrary.videos[filepath].useful:
+            if medialibrary.videos[filepath].operate:
                 if "formated" in arguments["printop"] or "verbose" in arguments["printop"]:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath].fprint()}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[filepath].fprint()}{creset}")
                     else:
                         print(medialibrary.videos[filepath].fprint())
                 else:
                     if medialibrary.videos[filepath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[filepath]}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[filepath]}{creset}")
                     else:
                         print(medialibrary.videos[filepath])
 
@@ -111,7 +116,7 @@ def main():
         counter = 0
 
         # Pulling list of marked videos / original keys for the medialibrary.videos dictionary
-        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].useful]
+        keylist = [filepath for filepath in medialibrary.videos if medialibrary.videos[filepath].operate]
         keylist.sort()
 
         for filepath in keylist:
@@ -123,19 +128,19 @@ def main():
                 vcodec = "x265"
 
             # Verbosing
-            print(f"{colorama.Fore.GREEN}******  Starting conversion {counter} of {len(keylist)}: '{colorama.Fore.CYAN}{medialibrary.videos[filepath].filename_origin}{colorama.Fore.GREEN}' from {colorama.Fore.CYAN}{medialibrary.videos[filepath].codec}{colorama.Fore.GREEN} to {colorama.Fore.CYAN}{vcodec}{colorama.Fore.GREEN}...{colorama.Fore.RESET}")
-            print(f"{colorama.Fore.CYAN}Original file:{colorama.Fore.RESET}")
+            print(f"{cgreen}******  Starting conversion {counter} of {len(keylist)}: '{ccyan}{medialibrary.videos[filepath].filename_origin}{cgreen}' from {ccyan}{medialibrary.videos[filepath].codec}{cgreen} to {ccyan}{vcodec}{cgreen}...{creset}")
+            print(f"{ccyan}Original file:{creset}")
             if "formated" in arguments["printop"] or "verbose" in arguments["printop"]:
                 print(medialibrary.videos[filepath].fprint())
             else:
                 print(medialibrary.videos[filepath])
 
-            print(f"{colorama.Fore.GREEN}Converting please wait...{colorama.Fore.RESET}", end="\r")
+            print(f"{cgreen}Converting please wait...{creset}", end="\r")
 
             # Converting
             if medialibrary.videos[filepath].convert(verbose = "verbose" in arguments["printop"]):
                 # Mark the job as done
-                medialibrary.videos[filepath].useful = False
+                medialibrary.videos[filepath].operate = False
 
                 # Scan the new video
                 newfpath = medialibrary.videos[filepath].path + medialibrary.videos[filepath].filename_new
@@ -143,27 +148,22 @@ def main():
                 medialibrary.videos[newfpath] = Video(newfpath, verbose = "verbose" in arguments["printop"])
 
                 # Verbose
-                print(f"{colorama.Fore.GREEN}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[filepath].filesize}mb){colorama.Fore.GREEN} to '{medialibrary.videos[newfpath].filename_origin}'{colorama.Fore.CYAN}({medialibrary.videos[newfpath].filesize}mb){colorama.Fore.GREEN}, {colorama.Fore.CYAN}new file:{colorama.Fore.RESET}")
-
+                print(f"{cgreen}Successfully converted '{medialibrary.videos[filepath].filename_origin}'{ccyan}({medialibrary.videos[filepath].filesize}mb){cgreen} to '{medialibrary.videos[newfpath].filename_origin}'{ccyan}({medialibrary.videos[newfpath].filesize}mb){cgreen}, {ccyan}new file:{creset}")
 
                 if "formated" in arguments["printop"] or "verbose" in arguments["printop"]:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath].fprint()}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[newfpath].fprint()}{creset}")
                     else:
                         print(medialibrary.videos[newfpath].fprint())
                 else:
                     if medialibrary.videos[newfpath].error:
-                        print(f"{colorama.Fore.RED}{medialibrary.videos[newfpath]}{colorama.Fore.RESET}")
+                        print(f"{cred}{medialibrary.videos[newfpath]}{creset}")
                     else:
                         print(medialibrary.videos[newfpath])
 
                 # if marked for deletion delete and unwatch the video
                 if "-del" in sys.argv:
                     medialibrary.unwatch(filepath, delete = True)
-
-
-        
-
 
 if __name__ == '__main__':
     main()
