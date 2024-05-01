@@ -10,14 +10,7 @@ Added support to mpeg filetype.
 Dropped Support
 ===============
 
-Future Changes
-==============
-
-* More filters
-* Test AV1 Support
-* Prepare API for GUI
-
-Compatibility notes
+Compatibility Notes
 ===================
 
 Python Support
@@ -33,12 +26,10 @@ Mediacurator has been tested to work with FFMPEG versions ranging from 4.1.6 to 
 OS Support
 ----------
 
-Mediacurator has been tested to work on various GNU/Linux distribution as well as Windows
+Mediacurator has been tested to work on various GNU/Linux distributions as well as Windows
 
 New Features
 ============
-
-
 
 Improvements
 ============
@@ -47,7 +38,12 @@ Improvements
 Changes
 =======
 
+Future Changes
+==============
 
+* More filters
+* Test AV1 Support
+* Prepare API for GUI
 
 Deprecations
 ============

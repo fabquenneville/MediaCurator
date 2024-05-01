@@ -1,0 +1,53 @@
+========================================
+MediaCurator 0.0.11 Release Notes
+========================================
+
+Highlights
+==========
+
+Code improvements.
+
+Dropped Support
+===============
+
+Compatibility Notes
+====================
+
+Python Support
+--------------
+
+MediaCurator has been tested on Python 3.7 - 3.9.7.
+
+FFMPEG Support
+--------------
+
+MediaCurator has been tested to work with FFMPEG versions ranging from 4.1.6 to 4.4.1.
+
+OS Support
+----------
+
+MediaCurator has been tested to work on various GNU/Linux distributions as well as Windows.
+
+New Features
+============
+
+Improvements
+============
+
+* Rectified a bug where MediaLibrary would encounter an error due to a missing directory.
+* Enhanced clarity by refining comments.
+* Improved code readability through cleanup and organization.
+* Ensured consistency and enhanced readability by adjusting variable names.
+
+Changes
+=======
+
+Deprecations
+============
+
+Future Changes
+==============
+
+* More filters
+* Test AV1 Support
+* Prepare API for GUI
